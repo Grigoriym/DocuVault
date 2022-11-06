@@ -1,0 +1,40 @@
+plugins {
+    id 'com.android.library'
+    id("org.jetbrains.kotlin.plugin.serialization")
+}
+
+apply from: "$rootProject.projectDir/androidLibraryCommon.gradle"
+
+android {
+    namespace 'com.grappim.docsofmine.data.db'
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":utils:dateTime"))
+    implementation(project(":common:async"))
+    implementation(project(":data:serialization"))
+
+    implementation "androidx.security:security-crypto:1.0.0"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+    implementation("androidx.room:room-runtime:${versions.android.room}")
+    kapt("androidx.room:room-compiler:${versions.android.room}")
+    implementation("androidx.room:room-ktx:${versions.android.room}")
+}

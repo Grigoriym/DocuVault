@@ -1,0 +1,21 @@
+plugins {
+    id 'com.android.library'
+    id("org.jetbrains.kotlin.plugin.serialization")
+}
+
+apply from: "$rootProject.projectDir/androidLibraryCommon.gradle"
+
+android {
+    namespace 'com.grappim.docsofmine.data.serialization'
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+}
+
+dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+}

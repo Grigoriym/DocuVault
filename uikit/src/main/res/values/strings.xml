@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DocsOfMine</string>
+
+    <string name="select_group">Please select a group</string>
+    <string name="add_file">Please add a file</string>
+    <string name="set_name">Please set a name for a document</string>
+
+    <string name="error_no_activity_to_view">Could not find an app to open the content with</string>
+    <string name="error_content_not_found">Content not found</string>
+    <string name="error_unknown">Unknown error</string>
+</resources>
