@@ -19,22 +19,28 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.grappim.docsofmine.uikit.R
 import com.grappim.docsofmine.utils.DomFileItem
-import com.grappim.domain.Document
-import com.grappim.domain.DocumentFileUri
+import com.grappim.docsofmine.utils.files.FileData
+import com.grappim.domain.model.document.Document
+import timber.log.Timber
 
 @Composable
 fun DocumentDetailsScreen(
     viewModel: DocumentDetailsViewModel = hiltViewModel()
 ) {
     val document by viewModel.document.collectAsState()
+    val files by viewModel.filesData.collectAsState(emptyList())
     if (document != null) {
-        DocumentDetailsScreenContent(document = document!!)
+        DocumentDetailsScreenContent(
+            document = document!!,
+            files = files
+        )
     }
 }
 
 @Composable
 private fun DocumentDetailsScreenContent(
-    document: Document
+    document: Document,
+    files: List<FileData>
 ) {
     val context = LocalContext.current
 
@@ -49,26 +55,29 @@ private fun DocumentDetailsScreenContent(
             bottom = 8.dp
         )
     ) {
-        items(document.filesUri) { item: DocumentFileUri ->
+        items(files) { item: FileData ->
             DomFileItem(
-                documentFileUri = item,
+                fileData = item,
                 onFileClicked = {
                     try {
                         context.startActivity(
                             Intent(Intent.ACTION_VIEW)
-                                .setDataAndType(it.fileUri, it.mimeType)
+                                .setDataAndType(it.uri, it.mimeType)
                                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         )
                     } catch (e: ActivityNotFoundException) {
+                        Timber.e(e)
                         Toast.makeText(
                             context,
                             R.string.error_no_activity_to_view,
                             Toast.LENGTH_LONG
                         ).show()
                     } catch (e: SecurityException) {
+                        Timber.e(e)
                         Toast.makeText(context, R.string.error_content_not_found, Toast.LENGTH_LONG)
                             .show()
                     } catch (e: Exception) {
+                        Timber.e(e)
                         Toast.makeText(context, R.string.error_unknown, Toast.LENGTH_LONG).show()
                     }
                 }

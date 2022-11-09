@@ -1,4 +1,4 @@
-package com.grappim.domain
+package com.grappim.domain.model.group
 
 data class Group(
     val id: Long,
@@ -17,9 +17,3 @@ data class Group(
             Group(id = 0, name = "Personal", fields = listOf(), color = "98D9C2")
     }
 }
-
-data class GroupToCreate(
-    val name: String,
-    val fields: List<GroupField>,
-    val color: String
-)

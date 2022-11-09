@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grappim.docsofmine.utils.states.CreateGroupStateViewModel
 import com.grappim.docsofmine.utils.states.CreateGroupStateViewModelImpl
-import com.grappim.domain.GroupToCreate
+import com.grappim.domain.model.group.GroupToCreate
 import com.grappim.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

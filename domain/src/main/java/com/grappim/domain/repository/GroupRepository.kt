@@ -1,7 +1,7 @@
 package com.grappim.domain.repository
 
-import com.grappim.domain.Group
-import com.grappim.domain.GroupToCreate
+import com.grappim.domain.model.group.Group
+import com.grappim.domain.model.group.GroupToCreate
 import kotlinx.coroutines.flow.Flow
 
 interface GroupRepository {

@@ -1,4 +1,4 @@
-package com.grappim.domain
+package com.grappim.domain.model.document
 
 import java.time.OffsetDateTime
 

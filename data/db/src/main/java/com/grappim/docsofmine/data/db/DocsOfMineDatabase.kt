@@ -5,17 +5,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.grappim.docsofmine.data.db.converters.BaseListsConverter
 import com.grappim.docsofmine.data.db.converters.DateTimeConverter
-import com.grappim.docsofmine.data.db.converters.DocumentFileUriConverter
 import com.grappim.docsofmine.data.db.converters.GroupFieldConverter
 import com.grappim.docsofmine.data.db.dao.DocumentsDao
 import com.grappim.docsofmine.data.db.dao.GroupsDao
-import com.grappim.docsofmine.data.db.model.DocumentEntity
-import com.grappim.docsofmine.data.db.model.GroupEntity
+import com.grappim.docsofmine.data.db.model.document.DocumentEntity
+import com.grappim.docsofmine.data.db.model.document.DocumentFileDataEntity
+import com.grappim.docsofmine.data.db.model.group.GroupEntity
 
 @[Database(
     entities = [
         GroupEntity::class,
-        DocumentEntity::class
+        DocumentEntity::class,
+        DocumentFileDataEntity::class
     ],
     version = 1,
     exportSchema = true
@@ -23,7 +24,6 @@ import com.grappim.docsofmine.data.db.model.GroupEntity
 TypeConverters(
     GroupFieldConverter::class,
     BaseListsConverter::class,
-    DocumentFileUriConverter::class,
     DateTimeConverter::class
 )]
 abstract class DocsOfMineDatabase : RoomDatabase() {

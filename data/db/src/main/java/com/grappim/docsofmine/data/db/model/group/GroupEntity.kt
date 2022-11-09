@@ -1,4 +1,4 @@
-package com.grappim.docsofmine.data.db.model
+package com.grappim.docsofmine.data.db.model.group
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

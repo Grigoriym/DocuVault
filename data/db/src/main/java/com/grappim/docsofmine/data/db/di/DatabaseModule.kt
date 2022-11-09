@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.grappim.docsofmine.data.db.BuildConfig
 import com.grappim.docsofmine.data.db.DocsOfMineDatabase
 import com.grappim.docsofmine.data.db.converters.DateTimeConverter
-import com.grappim.docsofmine.data.db.converters.DocumentFileUriConverter
 import com.grappim.docsofmine.data.db.converters.GroupFieldConverter
 import com.grappim.docsofmine.data.db.dao.DocumentsDao
 import com.grappim.docsofmine.data.db.dao.GroupsDao
@@ -23,7 +22,6 @@ class DatabaseModule {
     fun provideRoomDatabase(
         @ApplicationContext context: Context,
         groupFieldConverter: GroupFieldConverter,
-        documentFileUriConverter: DocumentFileUriConverter,
         dateTimeConverter: DateTimeConverter
     ): DocsOfMineDatabase =
         Room.databaseBuilder(
@@ -32,7 +30,6 @@ class DatabaseModule {
             "docsofmine_${BuildConfig.BUILD_TYPE}.db"
         )
             .addTypeConverter(groupFieldConverter)
-            .addTypeConverter(documentFileUriConverter)
             .addTypeConverter(dateTimeConverter)
             .createFromAsset("db/docsofmine_prepoluate_${BuildConfig.BUILD_TYPE}.db")
             .build()

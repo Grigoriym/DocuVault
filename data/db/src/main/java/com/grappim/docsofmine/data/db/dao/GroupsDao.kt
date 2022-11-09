@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.grappim.docsofmine.data.db.model.GroupEntity
+import com.grappim.docsofmine.data.db.model.group.GroupEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.grappim.domain
+package com.grappim.domain.model.group
 
 data class GroupField(
     val name: String,

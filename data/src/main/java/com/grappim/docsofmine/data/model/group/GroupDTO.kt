@@ -1,4 +1,4 @@
-package com.grappim.docsofmine.data.model
+package com.grappim.docsofmine.data.model.group
 
 @kotlinx.serialization.Serializable
 data class GroupDTO(

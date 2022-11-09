@@ -19,16 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import com.grappim.domain.Document
+import com.grappim.docsofmine.model.document.DocumentListUI
 import com.grappim.docsofmine.uikit.theme.DefaultArrangement
 import com.grappim.docsofmine.uikit.theme.DefaultHorizontalPadding
 import com.grappim.docsofmine.uikit.theme.DocsOfMineTheme
-import com.grappim.docsofmine.uikit.utils.toColor
 
 @Composable
 fun DocsScreen(
     viewModel: DocsViewModel = hiltViewModel(),
-    onDocumentClick: (Document) -> Unit
+    onDocumentClick: (id: String) -> Unit
 ) {
     val documents by viewModel.documents.collectAsState()
     DocsScreenContent(
@@ -39,8 +38,8 @@ fun DocsScreen(
 
 @Composable
 private fun DocsScreenContent(
-    documents: List<Document>,
-    onDocumentClick: (Document) -> Unit
+    documents: List<DocumentListUI>,
+    onDocumentClick: (id: String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -53,9 +52,9 @@ private fun DocsScreenContent(
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
-                backgroundColor = document.group.color.toColor(),
+                backgroundColor = document.groupColor,
                 onClick = {
-                    onDocumentClick(document)
+                    onDocumentClick(document.id)
                 }
             ) {
                 Column(
@@ -69,7 +68,7 @@ private fun DocsScreenContent(
                                 top = 8.dp
                             )
                     )
-                    Text(text = document.createdDateString)
+                    Text(text = document.createdDate)
 
                     Card(
                         modifier = Modifier
@@ -80,7 +79,7 @@ private fun DocsScreenContent(
                             .size(100.dp)
                     ) {
                         Image(
-                            painter = rememberAsyncImagePainter(document.filesUri.first().string),
+                            painter = rememberAsyncImagePainter(document.preview),
                             contentDescription = ""
                         )
                     }
@@ -97,9 +96,7 @@ private fun DocsScreenContent(
 private fun FilesScreenContentPreview() {
     DocsOfMineTheme {
         DocsScreenContent(
-            documents = listOf(
-                Document.getForPreview()
-            ),
+            documents = emptyList(),
             onDocumentClick = {}
         )
     }

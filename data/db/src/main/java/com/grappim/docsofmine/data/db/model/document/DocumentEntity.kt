@@ -1,8 +1,9 @@
-package com.grappim.docsofmine.data.db.model
+package com.grappim.docsofmine.data.db.model.document
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.grappim.docsofmine.data.db.model.group.GroupEntity
 import java.time.OffsetDateTime
 
 @Entity(
@@ -10,13 +11,12 @@ import java.time.OffsetDateTime
 )
 data class DocumentEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val documentId: Long = 0,
     val name: String,
     @Embedded(
         prefix = "group"
     )
     val group: GroupEntity?,
-    val filesUri: List<DocumentFileUriDTO>,
     val createdDate: OffsetDateTime,
     val isSynced: Boolean = false
 )

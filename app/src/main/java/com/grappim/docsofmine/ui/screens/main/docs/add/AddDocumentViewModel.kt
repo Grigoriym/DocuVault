@@ -4,22 +4,28 @@ import android.net.Uri
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.grappim.docsofmine.data.DataCleaner
+import com.grappim.docsofmine.uikit.MimeTypeImageHelper
 import com.grappim.docsofmine.uikit.R
 import com.grappim.docsofmine.utils.NativeText
-import com.grappim.docsofmine.utils.files.FileUris
+import com.grappim.docsofmine.utils.files.FileData
 import com.grappim.docsofmine.utils.files.FileUtils
+import com.grappim.docsofmine.utils.files.mime.MimeTypes
 import com.grappim.docsofmine.utils.states.SnackbarStateViewModel
 import com.grappim.docsofmine.utils.states.SnackbarStateViewModelImpl
-import com.grappim.domain.CreateDocument
-import com.grappim.domain.DocumentFileUri
-import com.grappim.domain.DraftDocument
-import com.grappim.domain.Group
+import com.grappim.domain.model.document.CreateDocument
+import com.grappim.domain.model.document.DocumentFileData
+import com.grappim.domain.model.document.DraftDocument
+import com.grappim.domain.model.group.Group
 import com.grappim.domain.repository.DocumentRepository
 import com.grappim.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +33,9 @@ import javax.inject.Inject
 class AddDocumentViewModel @Inject constructor(
     private val groupRepository: GroupRepository,
     private val documentRepository: DocumentRepository,
-    private val fileUtils: FileUtils
+    private val fileUtils: FileUtils,
+    private val mimeTypeImageHelper: MimeTypeImageHelper,
+    private val dataCleaner: DataCleaner
 ) : ViewModel(),
     SnackbarStateViewModel by SnackbarStateViewModelImpl() {
 
@@ -47,13 +55,13 @@ class AddDocumentViewModel @Inject constructor(
     val selectedGroup: StateFlow<Group?>
         get() = _selectedGroup.asStateFlow()
 
-    private val _filesUris = mutableStateListOf<FileUris>()
+    private val _filesUris = mutableStateListOf<FileData>()
     val filesUris
         get() = _filesUris
 
     private val _draftDocument = MutableStateFlow<DraftDocument?>(null)
-    val draftDocument: StateFlow<DraftDocument?>
-        get() = _draftDocument.asStateFlow()
+    private val draftDocument: Flow<DraftDocument>
+        get() = _draftDocument.filterNotNull()
 
     init {
         getGroups()
@@ -85,35 +93,45 @@ class AddDocumentViewModel @Inject constructor(
     }
 
     fun addDocumentsFromGallery(uris: List<Uri>) {
-        val result = uris.map {
-            fileUtils.getFileUrisFromGalleryUri(
-                uri = it,
-                draftDocument = _draftDocument.value!!
-            )
+        viewModelScope.launch {
+            val result = uris.map {
+                fileUtils.getFileUrisFromGalleryUri(
+                    uri = it,
+                    draftDocument = draftDocument.first()
+                )
+            }
+            _filesUris.addAll(result)
         }
-        _filesUris.addAll(result)
     }
 
     fun addDocuments(uris: List<Uri>) {
-        val result = uris.map {
-            fileUtils.getFileUrisFromUri(
-                uri = it,
-                draftDocument = _draftDocument.value!!
-            )
+        viewModelScope.launch {
+            val result = uris.map {
+                val fileData = fileUtils.getFileUrisFromUri(
+                    uri = it,
+                    draftDocument = draftDocument.first()
+                )
+                if (fileData.preview == null) {
+                    fileData.preview = mimeTypeImageHelper
+                        .getImageByMimeType(fileData.mimeType)
+                }
+                fileData
+            }
+            _filesUris.addAll(result)
         }
-        _filesUris.addAll(result)
     }
 
-    fun addPicture(cameraImageUri: Uri) {
-        val result = fileUtils.getFileUrisFromUriPicture(
-            uri = cameraImageUri,
-            draftDocument = _draftDocument.value!!
-        )
-        _filesUris.add(result)
+    fun addCameraPicture(cameraImageUri: Uri) {
+        viewModelScope.launch {
+            val result = fileUtils.getFileDataFromCameraPicture(
+                uri = cameraImageUri
+            )
+            _filesUris.add(result)
+        }
     }
 
     fun getCameraImageFileUri(): Uri {
-        return fileUtils.getTmpFileUri(_draftDocument.value!!)
+        return fileUtils.getFileUriForTakePicture(_draftDocument.value!!.folderName)
     }
 
     fun saveData() {
@@ -124,34 +142,42 @@ class AddDocumentViewModel @Inject constructor(
 
     fun removeData() {
         viewModelScope.launch {
-            fileUtils.deleteFolder(_draftDocument.value!!)
-            documentRepository.removeDocumentById(_draftDocument.value?.id!!)
+            val draftDoc = draftDocument.first()
+            dataCleaner.clearDocumentData(draftDoc)
         }
     }
 
     private fun saveDocument() {
         viewModelScope.launch {
-            val name = if (documentName.value.isEmpty()) {
-                _draftDocument.value?.folderName!!
-            } else {
-                documentName.value
+            val name = documentName.value.ifEmpty {
+                draftDocument.first().folderName
             }
 
             documentRepository.addDocument(
                 CreateDocument(
-                    id = _draftDocument.value?.id!!,
+                    id = draftDocument.first().id,
                     name = name,
                     group = requireNotNull(selectedGroup.value),
                     filesUri = filesUris.toList().map {
-                        DocumentFileUri(
-                            fileName = it.fileName,
+                        val previewUri: Uri? = if (it.mimeType in MimeTypes.images ||
+                            it.mimeType == MimeTypes.Application.PDF
+                        ) {
+                            it.preview as? Uri
+                        } else {
+                            null
+                        }
+
+                        DocumentFileData(
+                            name = it.name,
                             mimeType = it.mimeType,
-                            path = it.fileUri.path ?: "",
-                            string = it.fileUri.toString(),
-                            size = it.fileSize
+                            uriPath = it.uri.path ?: "",
+                            uriString = it.uri.toString(),
+                            size = it.size,
+                            previewUriString = previewUri?.toString(),
+                            previewUriPath = previewUri?.path
                         )
                     },
-                    createdDate = _draftDocument.value?.date!!
+                    createdDate = draftDocument.first().date
                 )
             )
             _documentCreated.value = true
@@ -174,9 +200,9 @@ class AddDocumentViewModel @Inject constructor(
         }
     }
 
-    fun removeFile(fileUris: FileUris) {
-        if (fileUtils.removeFile(fileUris)) {
-            _filesUris.remove(fileUris)
+    fun removeFile(fileData: FileData) {
+        if (fileUtils.removeFile(fileData)) {
+            _filesUris.remove(fileData)
         }
     }
 }

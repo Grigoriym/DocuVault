@@ -134,10 +134,10 @@ private fun MainScreenContent(
             }
             composable(MainNavDestinations.Docs.route) {
                 DocsScreen(
-                    onDocumentClick = {
+                    onDocumentClick = { id ->
                         navController.navigate(
                             DocumentsNavDestinations.Details
-                                .createRoute(it.id.toString())
+                                .createRoute(id)
                         )
                     }
                 )

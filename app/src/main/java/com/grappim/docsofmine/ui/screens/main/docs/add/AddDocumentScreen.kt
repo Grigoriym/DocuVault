@@ -60,10 +60,9 @@ import com.grappim.docsofmine.utils.DomFileItem
 import com.grappim.docsofmine.utils.LaunchedEffectResult
 import com.grappim.docsofmine.utils.NativeText
 import com.grappim.docsofmine.utils.asString
-import com.grappim.docsofmine.utils.files.FileUris
-import com.grappim.docsofmine.utils.files.mimeTypesForDocumentPicker
-import com.grappim.domain.DraftDocument
-import com.grappim.domain.Group
+import com.grappim.docsofmine.utils.files.FileData
+import com.grappim.docsofmine.utils.files.mime.MimeTypes
+import com.grappim.domain.model.group.Group
 
 @Composable
 fun AddDocumentScreen(
@@ -110,7 +109,7 @@ fun AddDocumentScreen(
         ActivityResultContracts.TakePicture()
     ) { isSuccess: Boolean ->
         if (isSuccess) {
-            viewModel.addPicture(cameraImageUri)
+            viewModel.addCameraPicture(cameraImageUri)
         }
     }
 
@@ -136,7 +135,6 @@ fun AddDocumentScreen(
     val documentName by viewModel.documentName.collectAsState()
     val selectedGroup by viewModel.selectedGroup.collectAsState()
     val documentCreated by viewModel.documentCreated.collectAsState()
-    val draftDocument by viewModel.draftDocument.collectAsState()
 
     if (documentCreated) {
         onDocumentCreated()
@@ -208,7 +206,7 @@ fun AddDocumentScreen(
         },
         filesUris = files,
         onFilesClick = {
-            filesLauncher.launch(mimeTypesForDocumentPicker)
+            filesLauncher.launch(MimeTypes.mimeTypesForDocumentPicker)
         },
         onGroupClick = {
             viewModel.setGroup(it)
@@ -217,8 +215,7 @@ fun AddDocumentScreen(
         scaffoldState = scaffoldState,
         onFileRemoved = {
             viewModel.removeFile(it)
-        },
-        draftDocument = draftDocument
+        }
     )
 }
 
@@ -230,13 +227,12 @@ private fun AddDocumentScreenContent(
     onCameraClick: () -> Unit,
     groups: List<Group>,
     onCreateClick: () -> Unit,
-    filesUris: List<FileUris>,
+    filesUris: List<FileData>,
     onFilesClick: () -> Unit,
     onGroupClick: (Group) -> Unit,
     selectedGroup: Group?,
     scaffoldState: ScaffoldState,
-    onFileRemoved: (FileUris) -> Unit,
-    draftDocument: DraftDocument?
+    onFileRemoved: (FileData) -> Unit
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
@@ -307,7 +303,7 @@ private fun AddDocumentScreenContent(
 
 @Composable
 private fun FilesInfoContent(
-    filesUris: List<FileUris>,
+    filesUris: List<FileData>,
 ) {
     Row(
         modifier = Modifier
@@ -348,8 +344,8 @@ private fun GroupsContent(
 
 @Composable
 private fun AddedFilesContent(
-    filesUris: List<FileUris>,
-    onFileRemoved: (FileUris) -> Unit
+    filesUris: List<FileData>,
+    onFileRemoved: (FileData) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -363,7 +359,7 @@ private fun AddedFilesContent(
     ) {
         items(items = filesUris,
             key = { uris ->
-                uris.fileUri
+                uris.uri
             }
         ) { uri ->
             val dismissState = rememberDismissState()
@@ -403,7 +399,7 @@ private fun AddedFilesContent(
                 }
             ) {
                 DomFileItem(
-                    uri = uri,
+                    fileData = uri,
                     onFileClicked = {
 
                     }
@@ -469,8 +465,7 @@ private fun AddDocumentScreenContentPreview() {
             onGroupClick = {},
             selectedGroup = Group.getGroupForPreview(),
             scaffoldState = rememberScaffoldState(),
-            onFileRemoved = {},
-            draftDocument = null
+            onFileRemoved = {}
         )
     }
 }

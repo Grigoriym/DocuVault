@@ -1,6 +1,6 @@
-package com.grappim.docsofmine.data.model
+package com.grappim.docsofmine.data.model.document
 
-import com.grappim.docsofmine.data.db.model.DocumentFileUriDTO
+import com.grappim.docsofmine.data.model.group.GroupDTO
 import com.grappim.docsofmine.data.serializers.OffsetDateTimeSerializer
 import java.time.OffsetDateTime
 

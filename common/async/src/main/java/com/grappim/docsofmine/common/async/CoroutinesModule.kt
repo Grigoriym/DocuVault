@@ -29,7 +29,7 @@ annotation class MainImmediateDispatcher
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
-annotation class ApplicationScope
+annotation class ApplicationCoroutineScope
 
 @[Module InstallIn(SingletonComponent::class)]
 class CoroutinesModule {
@@ -46,7 +46,7 @@ class CoroutinesModule {
     @[Provides MainImmediateDispatcher]
     fun providesMainImmediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 
-    @[Provides Singleton ApplicationScope]
+    @[Provides Singleton ApplicationCoroutineScope]
     fun provideApplicationScope(
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
     ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)

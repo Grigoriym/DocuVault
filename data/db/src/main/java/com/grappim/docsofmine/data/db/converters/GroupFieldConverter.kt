@@ -2,7 +2,7 @@ package com.grappim.docsofmine.data.db.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.grappim.docsofmine.data.db.model.GroupFieldEntity
+import com.grappim.docsofmine.data.db.model.group.GroupFieldEntity
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

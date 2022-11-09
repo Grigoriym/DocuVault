@@ -8,9 +8,10 @@ import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.grappim.docsofmine.utils.datetime.DateTimeUtils
-import com.grappim.domain.Document
-import com.grappim.domain.DocumentFileUri
-import com.grappim.domain.DraftDocument
+import com.grappim.docsofmine.utils.files.mime.MimeTypes
+import com.grappim.domain.model.document.Document
+import com.grappim.domain.model.document.DocumentFileData
+import com.grappim.domain.model.document.DraftDocument
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
@@ -29,9 +30,14 @@ class FileUtils @Inject constructor(
     private val dateTimeUtils: DateTimeUtils
 ) {
 
-    fun removeFile(fileUris: FileUris): Boolean {
-        val file = File(fileUris.fileUri.path)
-        fileUris.filePreviewUri?.path?.let { File(it).delete() }
+    fun getDocumentFolderName(
+        id: String,
+        gDriveFormattedDate: String
+    ): String = "${id}_${gDriveFormattedDate}"
+
+    fun removeFile(fileData: FileData): Boolean {
+        val file = File(fileData.uri.path)
+        (fileData.preview as? Uri)?.path?.let { File(it).delete() }
         return file.delete()
     }
 
@@ -41,32 +47,15 @@ class FileUtils @Inject constructor(
     }
 
     fun formatFileSize(
-        fileSize: Int
+        fileSize: Long
     ): String =
-        android.text.format.Formatter.formatShortFileSize(context, fileSize.toLong())
-
-    fun getFileUrisFromGalleryUri(
-        uri: Uri,
-        draftDocument: DraftDocument
-    ): FileUris {
-        Timber.d("getFileUrisFromGalleryUri, $uri")
-        val newFile = createFileLocally(uri, draftDocument)
-        val newUri = Uri.fromFile(newFile)
-        val nameAndSize = getFileNameAndSize(newUri)
-        return FileUris(
-            fileUri = newUri,
-            fileName = nameAndSize.first,
-            fileSize = formatFileSize(nameAndSize.second),
-            mimeType = getMimeType(newUri)
-        )
-    }
+        android.text.format.Formatter.formatShortFileSize(context, fileSize)
 
     private fun createFileLocally(
         uri: Uri,
-        draftDocument: DraftDocument
+        folderName: String
     ): File {
-        val nameAndSize = getFileNameAndSize(uri)
-        val localFile = File(getFolder(draftDocument.folderName), nameAndSize.first)
+        val localFile = File(getFolder(folderName), getUriFileName(uri))
         writeDataToFile(uri, localFile)
         Timber.d("createFileLocally, $localFile")
         return localFile
@@ -92,42 +81,73 @@ class FileUtils @Inject constructor(
         }
     }
 
-    fun getFileUrisFromUriPicture(
+    fun getFileUrisFromGalleryUri(
         uri: Uri,
         draftDocument: DraftDocument
-    ): FileUris {
+    ): FileData {
+        Timber.d("getFileUrisFromGalleryUri, $uri")
+        val newFile = createFileLocally(uri, draftDocument.folderName)
+        val newUri = getFileUri(newFile)
+        val fileSize = getUriFileSize(newUri)
+        val mimeType = getMimeType(uri)
+        return FileData(
+            uri = newUri,
+            name = getUriFileName(newUri),
+            size = fileSize,
+            sizeToDemonstrate = formatFileSize(fileSize),
+            mimeType = mimeType,
+            preview = newUri,
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
+        )
+    }
+
+    fun getFileDataFromCameraPicture(
+        uri: Uri
+    ): FileData {
         Timber.d("getFileUrisFromUri, $uri")
-        val nameAndSize = getFileNameAndSize(uri)
-        return FileUris(
-            fileUri = uri,
-            filePreviewUri = getFilePreview(uri, draftDocument),
-            fileName = nameAndSize.first,
-            fileSize = formatFileSize(nameAndSize.second),
-            mimeType = getMimeType(uri)
+        val fileSize = getUriFileSize(uri)
+        val mimeType = getMimeType(uri)
+        return FileData(
+            uri = uri,
+            preview = uri,
+            name = getUriFileName(uri),
+            size = fileSize,
+            sizeToDemonstrate = formatFileSize(fileSize),
+            mimeType = mimeType,
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
         )
     }
 
     fun getFileUrisFromUri(
         uri: Uri,
         draftDocument: DraftDocument
-    ): FileUris {
+    ): FileData {
         Timber.d("getFileUrisFromUri, $uri")
-        val newFile = createFileLocally(uri, draftDocument)
-        val newUri = Uri.fromFile(newFile)
-        val nameAndSize = getFileNameAndSize(newUri)
-        return FileUris(
-            fileUri = newUri,
-            filePreviewUri = getFilePreview(newUri, draftDocument),
-            fileName = nameAndSize.first,
-            fileSize = formatFileSize(nameAndSize.second),
-            mimeType = getMimeType(newUri)
+        val newFile = createFileLocally(uri, draftDocument.folderName)
+        val newUri = getFileUri(newFile)
+        val fileSize = getUriFileSize(newUri)
+        val mimeType = getMimeType(uri)
+        return FileData(
+            uri = newUri,
+            preview = getFilePreview(
+                uri = newUri,
+                folderName = draftDocument.folderName,
+                mimeType = mimeType
+            ),
+            name = getUriFileName(newUri),
+            size = fileSize,
+            sizeToDemonstrate = formatFileSize(fileSize),
+            mimeType = mimeType,
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
         )
     }
 
-    private fun getFilePreview(uri: Uri, draftDocument: DraftDocument): Uri? {
-        val mimetype = getMimeType(uri)
-        Timber.d("$uri's mimeType: $mimetype")
-        if (mimetype == PDF_MIME_TYPE) {
+    fun getFilePreview(
+        uri: Uri,
+        folderName: String,
+        mimeType: String
+    ): Uri? {
+        if (mimeType == MimeTypes.Application.PDF) {
             var bitmap: Bitmap? = null
             context.contentResolver.openFileDescriptor(uri, "r")?.use { parcelFileDescriptor ->
                 val pdfRenderer = PdfRenderer(parcelFileDescriptor).openPage(0)
@@ -144,7 +164,7 @@ class FileUtils @Inject constructor(
                 )
                 pdfRenderer.close()
             }
-            return fromBitmapToUri(bitmap!!, draftDocument)
+            return fromBitmapToUri(bitmap!!, folderName)
         } else {
             return null
         }
@@ -158,16 +178,16 @@ class FileUtils @Inject constructor(
     @Throws(IllegalStateException::class)
     fun createFileFromDocumentFileUri(
         document: Document,
-        documentFileUri: DocumentFileUri
+        documentFileData: DocumentFileData
     ): File {
-        val uri = Uri.parse(documentFileUri.string)
+        val uri = Uri.parse(documentFileData.uriString)
         val tempFile = File(
             getFolder(
                 document.getGDriveFileName(
                     dateTimeUtils.formatToGDrive(document.createdDate)
                 )
             ),
-            documentFileUri.fileName
+            documentFileData.name
         )
         if (tempFile.exists()) {
             return tempFile
@@ -206,22 +226,39 @@ class FileUtils @Inject constructor(
         return folder
     }
 
-    fun getTmpFileUri(
-        draftDocument: DraftDocument
+    fun getFileUriForTakePicture(
+        folderName: String
+    ): Uri = getFileUri(
+        folderName,
+        getBitmapFileName()
+    )
+
+    fun getFileUri(
+        folderName: String,
+        fileName: String
     ): Uri {
-        val tmpFile = File(getFolder(draftDocument.folderName), getBitmapFileName())
-        return FileProvider.getUriForFile(
+        val tmpFile = File(getFolder(folderName), fileName)
+        return getFileUri(tmpFile)
+    }
+
+    fun getFileUri(
+        file: File
+    ): Uri {
+        val uri = FileProvider.getUriForFile(
             context,
             "${context.packageName}.provider",
-            tmpFile
+            file
         )
+        Timber.d("getTmpFileUri, $uri")
+        return uri
     }
 
     fun fromBitmapToUri(
         bitmap: Bitmap,
-        draftDocument: DraftDocument
+        folderName: String,
     ): Uri {
-        val tempFile = File(getFolder(draftDocument.folderName), getBitmapFileName("preview"))
+        val fileName = getBitmapFileName("preview")
+        val tempFile = File(getFolder(folderName), fileName)
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes)
         val bitmapData = bytes.toByteArray()
@@ -230,34 +267,55 @@ class FileUtils @Inject constructor(
         fileOutPut.write(bitmapData)
         fileOutPut.flush()
         fileOutPut.close()
-        val uri = Uri.fromFile(tempFile)
+        val uri = getFileUri(tempFile)
         return uri
     }
 
-    fun getFileNameAndSize(
+    private fun getUriFileSize(
         uri: Uri
-    ): Pair<String, Int> {
-        Timber.d("$uri to getFileNameAndSize")
+    ): Long {
         val returnCursor = context.contentResolver.query(
             uri,
-            arrayOf(OpenableColumns.SIZE, OpenableColumns.DISPLAY_NAME),
+            arrayOf(OpenableColumns.SIZE),
             null,
             null,
             null
         )
         return if (returnCursor != null) {
             val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
-            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            returnCursor.moveToFirst()
-            val name = returnCursor.getString(nameIndex)
-            val size = returnCursor.getString(sizeIndex).toInt()
-            returnCursor.close()
-            Pair(name, size)
+            var size: Long
+            returnCursor.use {
+                returnCursor.moveToFirst()
+                size = returnCursor.getString(sizeIndex).toLong()
+            }
+            size
         } else {
             val file = File(uri.path)
-            val name = file.name
-            val size = file.length()
-            Pair(name, size.toInt())
+            file.length()
+        }
+    }
+
+    private fun getUriFileName(
+        uri: Uri
+    ): String {
+        val returnCursor = context.contentResolver.query(
+            uri,
+            arrayOf(OpenableColumns.DISPLAY_NAME),
+            null,
+            null,
+            null
+        )
+        return if (returnCursor != null) {
+            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            var name: String
+            returnCursor.use {
+                returnCursor.moveToFirst()
+                name = returnCursor.getString(nameIndex)
+            }
+            name
+        } else {
+            val file = File(uri.path)
+            file.name
         }
     }
 }

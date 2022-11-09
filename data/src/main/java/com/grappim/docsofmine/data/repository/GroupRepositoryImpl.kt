@@ -1,11 +1,11 @@
 package com.grappim.docsofmine.data.repository
 
 import com.grappim.docsofmine.data.db.dao.GroupsDao
-import com.grappim.docsofmine.data.db.model.GroupEntity
-import com.grappim.docsofmine.data.db.model.GroupFieldEntity
-import com.grappim.domain.Group
-import com.grappim.domain.GroupField
-import com.grappim.domain.GroupToCreate
+import com.grappim.docsofmine.data.db.model.group.GroupEntity
+import com.grappim.docsofmine.data.db.model.group.GroupFieldEntity
+import com.grappim.domain.model.group.Group
+import com.grappim.domain.model.group.GroupField
+import com.grappim.domain.model.group.GroupToCreate
 import com.grappim.domain.repository.GroupRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

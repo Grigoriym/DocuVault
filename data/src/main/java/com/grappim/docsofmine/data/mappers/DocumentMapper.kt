@@ -1,17 +1,18 @@
 package com.grappim.docsofmine.data.mappers
 
-import com.grappim.docsofmine.data.db.model.DocumentEntity
-import com.grappim.docsofmine.data.db.model.DocumentFileUriDTO
-import com.grappim.docsofmine.data.db.model.GroupEntity
-import com.grappim.docsofmine.data.db.model.GroupFieldEntity
-import com.grappim.docsofmine.data.model.DocumentDTO
-import com.grappim.docsofmine.data.model.GroupDTO
-import com.grappim.docsofmine.data.model.GroupFieldDTO
-import com.grappim.domain.CreateDocument
-import com.grappim.domain.Document
-import com.grappim.domain.DocumentFileUri
-import com.grappim.domain.Group
-import com.grappim.domain.GroupField
+import com.grappim.docsofmine.data.db.model.document.DocumentEntity
+import com.grappim.docsofmine.data.db.model.document.DocumentFileDataEntity
+import com.grappim.docsofmine.data.db.model.group.GroupEntity
+import com.grappim.docsofmine.data.db.model.group.GroupFieldEntity
+import com.grappim.docsofmine.data.model.document.DocumentDTO
+import com.grappim.docsofmine.data.model.document.DocumentFileUriDTO
+import com.grappim.docsofmine.data.model.group.GroupDTO
+import com.grappim.docsofmine.data.model.group.GroupFieldDTO
+import com.grappim.domain.model.document.CreateDocument
+import com.grappim.domain.model.document.Document
+import com.grappim.domain.model.document.DocumentFileData
+import com.grappim.domain.model.group.Group
+import com.grappim.domain.model.group.GroupField
 
 fun Document.toDTO(): DocumentDTO =
     DocumentDTO(
@@ -30,24 +31,55 @@ fun Document.toDTO(): DocumentDTO =
         ),
         filesUri = this.filesUri.map { uri ->
             DocumentFileUriDTO(
-                fileName = uri.fileName,
+                name = uri.name,
                 mimeType = uri.mimeType,
-                path = uri.path,
-                string = uri.string,
-                fileSize = uri.size
+                path = uri.uriPath,
+                string = uri.uriString,
+                size = uri.size,
+                previewUriString = uri.previewUriString,
+                previewUriPath = uri.previewUriPath
+            )
+        },
+        createdDate = this.createdDate
+    )
+
+fun DocumentDTO.toDomain(): Document =
+    Document(
+        id = this.id,
+        name = this.name,
+        group = Group(
+            id = this.group.id,
+            name = this.group.name,
+            fields = this.group.fields.map { field ->
+                GroupField(
+                    name = field.name,
+                    value = field.value,
+                )
+            },
+            color = this.group.color
+        ),
+        filesUri = this.filesUri.map { uri ->
+            DocumentFileData(
+                name = uri.name,
+                mimeType = uri.mimeType,
+                uriPath = uri.path,
+                uriString = uri.string,
+                size = uri.size,
+                previewUriString = uri.previewUriString,
+                previewUriPath = uri.previewUriPath
             )
         },
         createdDate = this.createdDate
     )
 
 fun DocumentEntity.toDocument(
-    createdDateString: String
+    fileDataList: List<DocumentFileDataEntity>?
 ): Document =
     Document(
-        id = this.id,
+        id = this.documentId,
         name = this.name,
         group = Group(
-            id = this.id,
+            id = this.documentId,
             name = this.group?.name ?: "",
             fields = this.group?.fields?.map { field ->
                 GroupField(
@@ -57,22 +89,51 @@ fun DocumentEntity.toDocument(
             } ?: emptyList(),
             color = this.group?.color ?: ""
         ),
-        filesUri = this.filesUri.map { dto ->
-            DocumentFileUri(
-                fileName = dto.fileName,
+        filesUri = fileDataList?.map { dto ->
+            DocumentFileData(
+                name = dto.name,
                 mimeType = dto.mimeType,
-                path = dto.path,
-                string = dto.string,
-                size = dto.fileSize
+                uriPath = dto.uriPath,
+                uriString = dto.uriString,
+                size = dto.size,
+                previewUriPath = dto.previewUriPath,
+                previewUriString = dto.previewUriString
             )
-        },
-        createdDate = this.createdDate,
-        createdDateString = createdDateString
+        } ?: emptyList(),
+        createdDate = this.createdDate
     )
+
+fun CreateDocument.toFileDataEntityList(): List<DocumentFileDataEntity> =
+    filesUri.map {
+        DocumentFileDataEntity(
+            documentId = this.id,
+            name = it.name,
+            mimeType = it.mimeType,
+            size = it.size,
+            uriPath = it.uriPath,
+            uriString = it.uriString,
+            previewUriString = it.previewUriString,
+            previewUriPath = it.previewUriPath
+        )
+    }
+
+fun Document.toFileDataEntityList(): List<DocumentFileDataEntity> =
+    filesUri.map {
+        DocumentFileDataEntity(
+            documentId = this.id,
+            name = it.name,
+            mimeType = it.mimeType,
+            size = it.size,
+            uriPath = it.uriPath,
+            uriString = it.uriString,
+            previewUriString = it.previewUriString,
+            previewUriPath = it.previewUriPath
+        )
+    }
 
 fun CreateDocument.toEntity(): DocumentEntity =
     DocumentEntity(
-        id = this.id,
+        documentId = this.id,
         name = this.name,
         group = GroupEntity(
             name = this.group.name,
@@ -84,14 +145,44 @@ fun CreateDocument.toEntity(): DocumentEntity =
             },
             color = this.group.color
         ),
-        filesUri = this.filesUri.map { uri ->
-            DocumentFileUriDTO(
-                fileName = uri.fileName,
-                mimeType = uri.mimeType,
-                path = uri.path,
-                string = uri.string,
-                fileSize = uri.size
-            )
-        },
+//        filesUri = this.filesUri.map { uri ->
+//            DocumentFileUriDTO(
+//                name = uri.name,
+//                mimeType = uri.mimeType,
+//                path = uri.uriPath,
+//                string = uri.uriString,
+//                size = uri.size,
+//                previewUriString = uri.previewUriString,
+//                previewUriPath = uri.previewUriPath
+//            )
+//        },
+        createdDate = this.createdDate
+    )
+
+fun Document.toEntity(): DocumentEntity =
+    DocumentEntity(
+        documentId = this.id,
+        name = this.name,
+        group = GroupEntity(
+            name = this.group.name,
+            fields = this.group.fields.map { field ->
+                GroupFieldEntity(
+                    name = field.name,
+                    value = field.value,
+                )
+            },
+            color = this.group.color
+        ),
+//        filesUri = this.filesUri.map { uri ->
+//            DocumentFileUriDTO(
+//                name = uri.name,
+//                mimeType = uri.mimeType,
+//                path = uri.uriPath,
+//                string = uri.uriString,
+//                size = uri.size,
+//                previewUriPath = uri.previewUriPath,
+//                previewUriString = uri.previewUriString
+//            )
+//        },
         createdDate = this.createdDate
     )

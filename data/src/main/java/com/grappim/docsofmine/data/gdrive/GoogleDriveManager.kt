@@ -18,11 +18,13 @@ import com.grappim.docsofmine.common.async.IoDispatcher
 import com.grappim.docsofmine.data.BuildConfig
 import com.grappim.docsofmine.data.mappers.toDTO
 import com.grappim.docsofmine.data.runOperationCatching
+import com.grappim.docsofmine.gdrive.GDriveFileHolder
 import com.grappim.docsofmine.uikit.R
 import com.grappim.docsofmine.utils.datetime.DateTimeUtils
-import com.grappim.docsofmine.utils.datetime.DtfGDriveDocumentFolder
-import com.grappim.domain.Document
-import com.grappim.domain.DocumentFileUri
+import com.grappim.docsofmine.utils.files.FileUtils
+import com.grappim.docsofmine.utils.files.mime.MimeTypes
+import com.grappim.domain.model.document.Document
+import com.grappim.domain.model.document.DocumentFileData
 import com.grappim.domain.storage.GoogleDrivePrefs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -36,7 +38,6 @@ import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,10 +45,9 @@ import javax.inject.Singleton
 class GoogleDriveManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val googleDrivePrefs: GoogleDrivePrefs,
-    private val fileUtils: com.grappim.docsofmine.utils.files.FileUtils,
+    private val fileUtils: FileUtils,
     private val dateTimeUtils: DateTimeUtils,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @DtfGDriveDocumentFolder private val dtfGDriveDocumentFolder: DateTimeFormatter,
     private val json: Json
 ) {
 
@@ -59,8 +59,9 @@ class GoogleDriveManager @Inject constructor(
             "nextPageToken, files(id,name,size,createdTime,modifiedTime," +
                     "starred,mimeType,appProperties,parents)"
 
-        private const val JSON_APP_PROPERTY_NAME = "json.app.property.name"
-        private const val JSON_APP_PROPERTY_ENTITY_ID = "json.app.property.entity.id"
+        const val JSON_APP_PROPERTY_NAME = "json.app.property.name"
+        const val JSON_APP_ID = "json.app.id"
+        const val JSON_APP_DATE = "json.app.date"
     }
 
     fun getLastSignedInAccount(): GoogleSignInAccount? =
@@ -133,7 +134,7 @@ class GoogleDriveManager @Inject constructor(
 
     private suspend fun searchForDocumentFolder(
         document: Document
-    ): List<com.grappim.docsofmine.gdrive.GDriveFileHolder> {
+    ): List<GDriveFileHolder> {
         val documentFolderName = getDocumentFolderName(document)
         return searchFile(
             fileName = documentFolderName,
@@ -145,8 +146,8 @@ class GoogleDriveManager @Inject constructor(
         fileName: String? = null,
         mimeType: String? = null,
         newQ: String? = null
-    ): List<com.grappim.docsofmine.gdrive.GDriveFileHolder> = withContext(ioDispatcher) {
-        val files = mutableListOf<com.grappim.docsofmine.gdrive.GDriveFileHolder>()
+    ): List<GDriveFileHolder> = withContext(ioDispatcher) {
+        val files = mutableListOf<GDriveFileHolder>()
         var newPageToken: String? = null
         val service = getDriveService()
         if (service != null) {
@@ -192,7 +193,7 @@ class GoogleDriveManager @Inject constructor(
 
     private fun mapToGDriveFileHolder(
         file: com.google.api.services.drive.model.File
-    ): com.grappim.docsofmine.gdrive.GDriveFileHolder {
+    ): GDriveFileHolder {
         val createdTime = if (file.createdTime != null) {
             dateTimeUtils.getDateFromGDrive(file.createdTime.toStringRfc3339())
         } else {
@@ -203,7 +204,7 @@ class GoogleDriveManager @Inject constructor(
         } else {
             null
         }
-        return com.grappim.docsofmine.gdrive.GDriveFileHolder(
+        return GDriveFileHolder(
             name = file.name,
             id = file.id,
             size = file.size.toLong(),
@@ -212,7 +213,8 @@ class GoogleDriveManager @Inject constructor(
             modifiedTime = modifiedTime,
             starred = file.starred ?: false,
             appProperties = file.appProperties,
-            parents = file.parents
+            parents = file.parents,
+            appFileId = file.appProperties?.get(JSON_APP_ID)?.toLong() ?: -1L
         )
     }
 
@@ -256,15 +258,15 @@ class GoogleDriveManager @Inject constructor(
                         val documentFolderId = getDocumentFolderId(document)
                         uploadDocJson(document, documentFolderId)
 
-                        document.filesUri.map { documentFileUri: DocumentFileUri ->
+                        document.filesUri.map { documentFileData: DocumentFileData ->
                             async {
-                                Timber.d("uploading $documentFileUri, $document")
-                                val uri = Uri.parse(documentFileUri.string)
+                                Timber.d("uploading $documentFileData, $document")
+                                val uri = Uri.parse(documentFileData.uriString)
                                 val file = fileUtils.createFileFromDocumentFileUri(
                                     document = document,
-                                    documentFileUri = documentFileUri
+                                    documentFileData = documentFileData
                                 )
-                                val mimeType = documentFileUri.mimeType
+                                val mimeType = documentFileData.mimeType
                                 Timber.d("uploading data: $uri, $file, $mimeType")
                                 uploadFileToGDrive(
                                     file = file,
@@ -279,16 +281,6 @@ class GoogleDriveManager @Inject constructor(
         }
     }
 
-    private fun getLocalFolder(
-        child: String
-    ): File {
-        val folder = File(context.filesDir, "docs/$child")
-        if (folder.exists().not()) {
-            folder.mkdirs()
-        }
-        return folder
-    }
-
     private suspend fun uploadDocJson(
         document: Document,
         documentFolderId: String?
@@ -300,20 +292,22 @@ class GoogleDriveManager @Inject constructor(
         )
 
         val jsonFile = File(
-            getLocalFolder(folder),
+            fileUtils.getFolder(folder),
             "$folder.json"
         )
 
         jsonFile.writeBytes(docJson.toByteArray())
 
-        val appPropertyName = dtfGDriveDocumentFolder.format(document.createdDate)
+        val createdDate = dateTimeUtils.formatToGDrive(document.createdDate)
 
         uploadFileToGDrive(
             file = jsonFile,
-            type = "application/json",
+            type = MimeTypes.Application.JSON,
             documentParent = documentFolderId,
             fileAppProperties = mapOf(
-                JSON_APP_PROPERTY_NAME to "${document.id}_${appPropertyName}"
+                JSON_APP_PROPERTY_NAME to "${document.id}_${createdDate}",
+                JSON_APP_ID to "${document.id}",
+                JSON_APP_DATE to createdDate
             )
         )
     }
@@ -349,8 +343,9 @@ class GoogleDriveManager @Inject constructor(
 
     suspend fun downloadFiles(
         localDocs: List<Document>
-    ) = withContext(ioDispatcher) {
+    ): List<GDriveFileHolder> = withContext(ioDispatcher) {
         Timber.d("downloadFiles")
+        val filesToSave = mutableListOf<GDriveFileHolder>()
         getDriveService()?.let { googleDriveService ->
             var newPageToken: String?
             do {
@@ -364,7 +359,7 @@ class GoogleDriveManager @Inject constructor(
 
                 result.files.map {
                     mapToGDriveFileHolder(it)
-                }.map { file: com.grappim.docsofmine.gdrive.GDriveFileHolder ->
+                }.map { file: GDriveFileHolder ->
                     async {
                         Timber.d("mapped file: $file")
 
@@ -381,18 +376,35 @@ class GoogleDriveManager @Inject constructor(
                                     baos.writeTo(fos)
                                 }
                             }
-                            downloadFilesFromDocument(file)
+                            val docFiles = downloadFilesFromDocument(
+                                file,
+                                folderName
+                            )
+                            val fileUri = fileUtils.getFileUri(
+                                folderName,
+                                localFile.name
+                            )
+                            file.files = docFiles
+                            file.file = localFile
+                            file.fileUri = fileUri
+                            file.size = localFile.length()
+
+                            filesToSave.add(file)
                         }
                     }
                 }.awaitAll()
 
             } while (newPageToken != null)
         }
+        filesToSave.toList()
     }
 
     private suspend fun downloadFilesFromDocument(
-        gDriveFileHolder: com.grappim.docsofmine.gdrive.GDriveFileHolder
-    ) = withContext(ioDispatcher) {
+        gDriveFileHolder: GDriveFileHolder,
+        folderName: String
+    ): List<GDriveFileHolder> = withContext(ioDispatcher) {
+        val filesToSave = mutableListOf<GDriveFileHolder>()
+
         getDriveService()?.let { googleDriveService ->
             var newPageToken: String?
             do {
@@ -400,22 +412,21 @@ class GoogleDriveManager @Inject constructor(
                     fields = DEFAULT_FIELDS
                     newPageToken = pageToken
                     q = "mimeType != 'application/vnd.google-apps.folder' " +
-                            "and '${gDriveFileHolder.parents!!.first()}' in parents"
+                            "and '${gDriveFileHolder.parents!!.first()}' in parents " +
+                            "and not name contains '.json'"
                 }.execute()
 
                 result.files
                     .map {
                         mapToGDriveFileHolder(it)
-                    }.map { file: com.grappim.docsofmine.gdrive.GDriveFileHolder ->
+                    }.map { file: GDriveFileHolder ->
                         async {
                             Timber.d("mapped sub file: $file")
-
-                            val folderName =
-                                gDriveFileHolder.appProperties?.get(JSON_APP_PROPERTY_NAME)!!
                             val localFile = File(
                                 fileUtils.getFolder(folderName),
                                 file.name
                             )
+                            filesToSave.add(file)
 
                             if (localFile.exists().not()) {
                                 Timber.d("start sync file $file")
@@ -425,11 +436,30 @@ class GoogleDriveManager @Inject constructor(
                                         baos.writeTo(fos)
                                     }
                                 }
+
+                                val fileUri = fileUtils.getFileUri(
+                                    folderName,
+                                    localFile.name
+                                )
+                                file.file = localFile
+                                file.fileUri = fileUri
+                                file.size = localFile.length()
+
+                                val filePreviewUri = fileUtils.getFilePreview(
+                                    fileUri,
+                                    folderName,
+                                    file.mimeType!!
+                                )
+
+                                file.filePreviewUriPath = filePreviewUri?.path
+                                file.filePreviewUriString = filePreviewUri?.toString()
                             }
                         }
                     }.awaitAll()
             } while (newPageToken != null)
         }
+
+        filesToSave.toList()
     }
 
     private fun downloadFileFromGDrive(id: String): ByteArrayOutputStream? {

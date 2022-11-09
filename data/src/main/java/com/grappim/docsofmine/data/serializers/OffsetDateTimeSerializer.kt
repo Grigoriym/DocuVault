@@ -15,7 +15,7 @@ object OffsetDateTimeSerializer : KSerializer<OffsetDateTime> {
         val millis = decoder.decodeString()
         return OffsetDateTime.from(
             DateTimeFormatter
-                .ofPattern("yyyy.MM.dd HH:mm")
+                .ISO_OFFSET_DATE_TIME
                 .parse(millis)
         )
     }
@@ -26,8 +26,7 @@ object OffsetDateTimeSerializer : KSerializer<OffsetDateTime> {
     override fun serialize(encoder: Encoder, value: OffsetDateTime) {
         encoder.encodeString(
             value.format(
-                DateTimeFormatter
-                    .ofPattern("yyyy.MM.dd HH:mm")
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME
             )
         )
     }
