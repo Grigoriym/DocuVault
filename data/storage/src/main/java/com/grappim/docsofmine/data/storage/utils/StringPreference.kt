@@ -1,4 +1,4 @@
-package com.grappim.docsofmine.data.utils
+package com.grappim.docsofmine.data.storage.utils
 
 import android.content.SharedPreferences
 import kotlin.properties.ReadWriteProperty

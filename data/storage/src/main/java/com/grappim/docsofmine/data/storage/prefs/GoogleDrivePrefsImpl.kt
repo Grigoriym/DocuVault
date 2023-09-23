@@ -1,10 +1,10 @@
-package com.grappim.docsofmine.data.storage
+package com.grappim.docsofmine.data.storage.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.grappim.docsofmine.data.utils.string
+import com.grappim.docsofmine.data.storage.utils.string
 import com.grappim.domain.storage.GoogleDrivePrefs
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GoogleDrivePrefsImpl @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ) : GoogleDrivePrefs {
 
     companion object {
@@ -30,6 +30,5 @@ class GoogleDrivePrefsImpl @Inject constructor(
 
     override var googleDriveRootFolder: String? by sharedPrefs.string(GOOGLE_DRIVE_ROOT_FOLDER)
     override var lastSyncTime: String? by sharedPrefs.string(GOOGLE_DRIVE_LAST_SYNC_TIME)
-
 
 }

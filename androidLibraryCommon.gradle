@@ -17,14 +17,18 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk ProjectConfig.minSdk
         targetSdk ProjectConfig.targetSdk
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
 
         coreLibraryDesugaringEnabled true
     }
@@ -44,9 +48,17 @@ android {
 
     kapt {
         correctErrorTypes true
+
+        javacOptions {
+            option("-Xmaxerrs", 500)
+        }
+        arguments{
+            arg("dagger.formatGeneratedSource", "enabled")
+            arg("dagger.fullBindingGraphValidation", "ERROR")
+        }
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '18'
 
         freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
         freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"

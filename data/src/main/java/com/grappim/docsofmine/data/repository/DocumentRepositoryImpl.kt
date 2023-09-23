@@ -3,23 +3,20 @@ package com.grappim.docsofmine.data.repository
 import com.grappim.docsofmine.common.async.IoDispatcher
 import com.grappim.docsofmine.data.db.dao.DocumentsDao
 import com.grappim.docsofmine.data.db.model.document.DocumentEntity
-import com.grappim.docsofmine.data.db.model.document.DocumentFileDataEntity
 import com.grappim.docsofmine.data.mappers.toDocument
 import com.grappim.docsofmine.data.mappers.toEntity
 import com.grappim.docsofmine.data.mappers.toFileDataEntityList
-import com.grappim.docsofmine.utils.datetime.DateTimeUtils
+import com.grappim.docsofmine.utils.dateTime.DateTimeUtils
 import com.grappim.domain.model.document.CreateDocument
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DraftDocument
 import com.grappim.domain.repository.DocumentRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +28,7 @@ class DocumentRepositoryImpl @Inject constructor(
 ) : DocumentRepository {
 
     override suspend fun addDraftDocument(): DraftDocument {
-        val nowDate = OffsetDateTime.now()
+        val nowDate = dateTimeUtils.getDateTimeUTCNow()
         val formattedDate = dateTimeUtils.formatToDemonstrate(nowDate)
         val id = documentsDao.insert(
             DocumentEntity(
@@ -52,24 +49,42 @@ class DocumentRepositoryImpl @Inject constructor(
     override fun getAllDocumentsFlow(): Flow<List<Document>> =
         documentsDao.getAllFlow()
             .map {
+                it.filter { entity ->
+                    entity.files?.isNotEmpty() == true
+                }
+            }
+            .map {
                 it.map { documentWithFilesEntity ->
                     documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
                 }
             }
 
-    override suspend fun markAsSynced() {
-        documentsDao.markAsSynced()
+    override suspend fun markAsSynced(synced: List<Document>) = withContext(ioDispatcher) {
+        synced.map {
+            async {
+                documentsDao.markAsSynced(it.id)
+            }
+        }.awaitAll()
+        Unit
     }
 
     override suspend fun getAllDocuments(): List<Document> =
-        documentsDao.getAll().map { documentWithFilesEntity ->
-            documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
-        }
+        documentsDao.getAll()
+            .filter {
+                it.files?.isNotEmpty() == true
+            }
+            .map { documentWithFilesEntity ->
+                documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
+            }
 
     override suspend fun getAllUnSynced(): List<Document> =
-        documentsDao.getAllUnSynced().map { documentWithFilesEntity ->
-            documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
-        }
+        documentsDao.getAllUnSynced()
+            .filter {
+                it.files?.isNotEmpty() == true
+            }
+            .map { documentWithFilesEntity ->
+                documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
+            }
 
     override suspend fun addDocument(document: CreateDocument) {
         val entity = document.toEntity()
@@ -84,7 +99,9 @@ class DocumentRepositoryImpl @Inject constructor(
         documentsDao.insert(document.toEntity())
     }
 
-    override suspend fun addDocuments(documents: List<Document>) = withContext(ioDispatcher) {
+    override suspend fun addDocuments(
+        documents: List<Document>
+    ) = withContext(ioDispatcher) {
         documents.map { document ->
             async {
                 documentsDao.insertDocumentAndFiles(

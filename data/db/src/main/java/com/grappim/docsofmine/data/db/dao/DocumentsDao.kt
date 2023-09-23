@@ -61,8 +61,8 @@ interface DocumentsDao {
     @Query("SELECT * FROM document_table WHERE isSynced = 0")
     suspend fun getAllUnSynced(): List<DocumentWithFilesEntity>
 
-    @Query("UPDATE document_table SET isSynced = 1 WHERE isSynced = 0")
-    suspend fun markAsSynced()
+    @Query("UPDATE document_table SET isSynced = 1 WHERE documentId=:id AND isSynced = 0")
+    suspend fun markAsSynced(id: Long)
 
     @Query("SELECT * FROM document_table WHERE documentId=:id")
     fun getDocumentById(id: Long): Flow<DocumentWithFilesEntity>

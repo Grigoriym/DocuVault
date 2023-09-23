@@ -8,6 +8,7 @@ import com.grappim.docsofmine.data.DataCleaner
 import com.grappim.docsofmine.uikit.MimeTypeImageHelper
 import com.grappim.docsofmine.uikit.R
 import com.grappim.docsofmine.utils.NativeText
+import com.grappim.docsofmine.utils.files.CameraTakePictureData
 import com.grappim.docsofmine.utils.files.FileData
 import com.grappim.docsofmine.utils.files.FileUtils
 import com.grappim.docsofmine.utils.files.mime.MimeTypes
@@ -68,7 +69,7 @@ class AddDocumentViewModel @Inject constructor(
         addDraftDoc()
     }
 
-    fun getGroups() {
+    private fun getGroups() {
         viewModelScope.launch {
             groupRepository.getGroups()
                 .collect {
@@ -121,16 +122,16 @@ class AddDocumentViewModel @Inject constructor(
         }
     }
 
-    fun addCameraPicture(cameraImageUri: Uri) {
+    fun addCameraPicture(cameraTakePictureData: CameraTakePictureData) {
         viewModelScope.launch {
             val result = fileUtils.getFileDataFromCameraPicture(
-                uri = cameraImageUri
+                cameraTakePictureData = cameraTakePictureData
             )
             _filesUris.add(result)
         }
     }
 
-    fun getCameraImageFileUri(): Uri {
+    fun getCameraImageFileUri(): CameraTakePictureData {
         return fileUtils.getFileUriForTakePicture(_draftDocument.value!!.folderName)
     }
 
@@ -174,7 +175,8 @@ class AddDocumentViewModel @Inject constructor(
                             uriString = it.uri.toString(),
                             size = it.size,
                             previewUriString = previewUri?.toString(),
-                            previewUriPath = previewUri?.path
+                            previewUriPath = previewUri?.path,
+                            md5 = it.md5
                         )
                     },
                     createdDate = draftDocument.first().date

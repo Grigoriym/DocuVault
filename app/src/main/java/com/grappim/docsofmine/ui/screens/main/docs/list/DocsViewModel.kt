@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grappim.docsofmine.model.document.DocumentListUI
 import com.grappim.docsofmine.uikit.utils.toColor
-import com.grappim.docsofmine.utils.FilePreviewHelper
 import com.grappim.docsofmine.utils.WhileViewSubscribed
-import com.grappim.docsofmine.utils.datetime.DateTimeUtils
+import com.grappim.docsofmine.utils.dateTime.DateTimeUtils
 import com.grappim.docsofmine.utils.files.mime.MimeTypes
 import com.grappim.domain.repository.DocumentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,17 +16,18 @@ import javax.inject.Inject
 @HiltViewModel
 class DocsViewModel @Inject constructor(
     documentRepository: DocumentRepository,
-    private val dateTimeUtils: DateTimeUtils,
-    private val filePreviewHelper: FilePreviewHelper
+    private val dateTimeUtils: DateTimeUtils
 ) : ViewModel() {
 
     val documents = documentRepository.getAllDocumentsFlow()
         .map { list ->
             list.map { document ->
+                val formattedCreatedDate = dateTimeUtils
+                    .formatToDemonstrate(document.createdDate, true)
                 DocumentListUI(
                     id = document.id.toString(),
                     name = document.name,
-                    createdDate = dateTimeUtils.formatToDemonstrate(document.createdDate),
+                    createdDate = formattedCreatedDate,
                     preview = document
                         .filesUri
                         .find {

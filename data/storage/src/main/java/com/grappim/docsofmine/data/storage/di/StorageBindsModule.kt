@@ -1,6 +1,6 @@
-package com.grappim.docsofmine.data.di
+package com.grappim.docsofmine.data.storage.di
 
-import com.grappim.docsofmine.data.storage.GoogleDrivePrefsImpl
+import com.grappim.docsofmine.data.storage.prefs.GoogleDrivePrefsImpl
 import com.grappim.domain.storage.GoogleDrivePrefs
 import dagger.Binds
 import dagger.Module

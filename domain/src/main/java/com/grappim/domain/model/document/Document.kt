@@ -8,7 +8,8 @@ data class Document(
     val name: String,
     val group: Group,
     val filesUri: List<DocumentFileData>,
-    val createdDate: OffsetDateTime
+    val createdDate: OffsetDateTime,
+    val isSynced: Boolean = false
 ) {
     companion object {
         fun getForPreview(): Document =
@@ -21,8 +22,4 @@ data class Document(
             )
 
     }
-
-    fun getGDriveFileName(
-        gDriveFormattedDate: String
-    ): String = "${id}_${gDriveFormattedDate}"
 }

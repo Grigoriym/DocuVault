@@ -1,6 +1,6 @@
 package com.grappim.docsofmine.ui.screens.main.docs.details
 
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -40,14 +40,13 @@ class DocumentDetailsViewModel @Inject constructor(
 
     val filesData: Flow<List<FileData>> = document.map { document ->
         document?.filesUri?.map { documentFileData ->
-            val uri = Uri.parse(documentFileData.uriString)
+            val uri = documentFileData.uriString.toUri()
             val mimeType = documentFileData.mimeType
 
             val preview = filePreviewHelper.getPreview(
                 mimeType = mimeType,
                 fileDataUriString = documentFileData.uriString,
-                documentCreatedDate = document.createdDate,
-                id = document.id.toString()
+                document = document
             )
 
             FileData(
@@ -57,7 +56,8 @@ class DocumentDetailsViewModel @Inject constructor(
                 size = documentFileData.size,
                 sizeToDemonstrate = fileUtils.formatFileSize(documentFileData.size),
                 mimeTypeToDemonstrate = MimeTypes.formatMimeType(documentFileData.mimeType),
-                preview = preview
+                preview = preview,
+                md5 = documentFileData.md5
             )
         } ?: emptyList()
     }

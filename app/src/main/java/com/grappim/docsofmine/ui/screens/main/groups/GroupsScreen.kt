@@ -32,8 +32,8 @@ fun GroupsScreen(
             columns = StaggeredGridCells.Fixed(3),
             modifier = Modifier
                 .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalItemSpacing = 12.dp,
         ) {
             items(groups) { group ->
                 DomGroupItem(

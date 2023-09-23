@@ -2,7 +2,7 @@ package com.grappim.docsofmine.data.db.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.grappim.docsofmine.utils.datetime.DateTimeUtils
+import com.grappim.docsofmine.utils.dateTime.DateTimeUtils
 import java.time.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

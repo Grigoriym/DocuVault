@@ -7,5 +7,6 @@ data class DocumentFileData(
     val uriString: String,
     val size: Long,
     val previewUriString: String? = null,
-    val previewUriPath: String? = null
+    val previewUriPath: String? = null,
+    val md5: String
 )

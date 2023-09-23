@@ -20,5 +20,7 @@ data class DocumentFileDataEntity(
     val uriString: String,
 
     val previewUriString: String? = null,
-    val previewUriPath: String? = null
+    val previewUriPath: String? = null,
+
+    val md5: String
 )

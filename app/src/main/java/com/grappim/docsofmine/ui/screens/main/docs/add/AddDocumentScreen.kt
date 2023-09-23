@@ -60,6 +60,7 @@ import com.grappim.docsofmine.utils.DomFileItem
 import com.grappim.docsofmine.utils.LaunchedEffectResult
 import com.grappim.docsofmine.utils.NativeText
 import com.grappim.docsofmine.utils.asString
+import com.grappim.docsofmine.utils.files.CameraTakePictureData
 import com.grappim.docsofmine.utils.files.FileData
 import com.grappim.docsofmine.utils.files.mime.MimeTypes
 import com.grappim.domain.model.group.Group
@@ -79,8 +80,8 @@ fun AddDocumentScreen(
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val context = LocalContext.current
-    var cameraImageUri by remember {
-        mutableStateOf(Uri.EMPTY)
+    var cameraTakePictureData by remember {
+        mutableStateOf(CameraTakePictureData.empty())
     }
 
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -109,7 +110,7 @@ fun AddDocumentScreen(
         ActivityResultContracts.TakePicture()
     ) { isSuccess: Boolean ->
         if (isSuccess) {
-            viewModel.addCameraPicture(cameraImageUri)
+            viewModel.addCameraPicture(cameraTakePictureData)
         }
     }
 
@@ -197,8 +198,8 @@ fun AddDocumentScreen(
             )
         },
         onCameraClick = {
-            cameraImageUri = viewModel.getCameraImageFileUri()
-            cameraLauncher.launch(cameraImageUri)
+            cameraTakePictureData = viewModel.getCameraImageFileUri()
+            cameraLauncher.launch(cameraTakePictureData.uri)
         },
         groups = groups,
         onCreateClick = {

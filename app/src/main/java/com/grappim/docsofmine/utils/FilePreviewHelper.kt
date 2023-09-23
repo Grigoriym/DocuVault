@@ -1,15 +1,13 @@
 package com.grappim.docsofmine.utils
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.grappim.docsofmine.uikit.MimeTypeImageHelper
-import com.grappim.docsofmine.utils.datetime.DateTimeUtils
 import com.grappim.docsofmine.utils.files.FileUtils
 import com.grappim.docsofmine.utils.files.mime.MimeTypes
-import java.time.OffsetDateTime
+import com.grappim.domain.model.document.Document
 import javax.inject.Inject
 
 class FilePreviewHelper @Inject constructor(
-    private val dateTimeUtils: DateTimeUtils,
     private val mimeTypeImageHelper: MimeTypeImageHelper,
     private val fileUtils: FileUtils
 ) {
@@ -17,11 +15,9 @@ class FilePreviewHelper @Inject constructor(
     fun getPreview(
         mimeType: String,
         fileDataUriString: String,
-        documentCreatedDate: OffsetDateTime,
-        id: String
+        document: Document
     ): Any? {
-        val formattedDate = dateTimeUtils.formatToGDrive(documentCreatedDate)
-        val uri = Uri.parse(fileDataUriString)
+        val uri = fileDataUriString.toUri()
 
         val preview: Any? = when (mimeType) {
             in MimeTypes.images -> {
@@ -31,8 +27,7 @@ class FilePreviewHelper @Inject constructor(
                 fileUtils.getFilePreview(
                     uri = uri,
                     folderName = fileUtils.getDocumentFolderName(
-                        id = id,
-                        gDriveFormattedDate = formattedDate
+                        document = document
                     ),
                     mimeType = mimeType
                 )

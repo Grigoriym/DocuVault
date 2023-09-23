@@ -4,7 +4,8 @@ import com.grappim.docsofmine.data.db.model.document.DocumentEntity
 import com.grappim.docsofmine.data.db.model.document.DocumentFileDataEntity
 import com.grappim.docsofmine.data.db.model.group.GroupEntity
 import com.grappim.docsofmine.data.db.model.group.GroupFieldEntity
-import com.grappim.docsofmine.data.model.document.DocumentDTO
+import com.grappim.docsofmine.data.model.document.DocumentDownloadDTO
+import com.grappim.docsofmine.data.model.document.DocumentUploadDTO
 import com.grappim.docsofmine.data.model.document.DocumentFileUriDTO
 import com.grappim.docsofmine.data.model.group.GroupDTO
 import com.grappim.docsofmine.data.model.group.GroupFieldDTO
@@ -14,8 +15,8 @@ import com.grappim.domain.model.document.DocumentFileData
 import com.grappim.domain.model.group.Group
 import com.grappim.domain.model.group.GroupField
 
-fun Document.toDTO(): DocumentDTO =
-    DocumentDTO(
+fun Document.toUploadDTO(): DocumentUploadDTO =
+    DocumentUploadDTO(
         id = this.id,
         name = this.name,
         group = GroupDTO(
@@ -33,17 +34,14 @@ fun Document.toDTO(): DocumentDTO =
             DocumentFileUriDTO(
                 name = uri.name,
                 mimeType = uri.mimeType,
-                path = uri.uriPath,
-                string = uri.uriString,
                 size = uri.size,
-                previewUriString = uri.previewUriString,
-                previewUriPath = uri.previewUriPath
+                md5 = uri.md5
             )
         },
         createdDate = this.createdDate
     )
 
-fun DocumentDTO.toDomain(): Document =
+fun DocumentDownloadDTO.toDomain(): Document =
     Document(
         id = this.id,
         name = this.name,
@@ -66,7 +64,8 @@ fun DocumentDTO.toDomain(): Document =
                 uriString = uri.string,
                 size = uri.size,
                 previewUriString = uri.previewUriString,
-                previewUriPath = uri.previewUriPath
+                previewUriPath = uri.previewUriPath,
+                md5 = uri.md5
             )
         },
         createdDate = this.createdDate
@@ -97,7 +96,8 @@ fun DocumentEntity.toDocument(
                 uriString = dto.uriString,
                 size = dto.size,
                 previewUriPath = dto.previewUriPath,
-                previewUriString = dto.previewUriString
+                previewUriString = dto.previewUriString,
+                md5 = dto.md5
             )
         } ?: emptyList(),
         createdDate = this.createdDate
@@ -113,7 +113,8 @@ fun CreateDocument.toFileDataEntityList(): List<DocumentFileDataEntity> =
             uriPath = it.uriPath,
             uriString = it.uriString,
             previewUriString = it.previewUriString,
-            previewUriPath = it.previewUriPath
+            previewUriPath = it.previewUriPath,
+            md5 = it.md5
         )
     }
 
@@ -127,7 +128,8 @@ fun Document.toFileDataEntityList(): List<DocumentFileDataEntity> =
             uriPath = it.uriPath,
             uriString = it.uriString,
             previewUriString = it.previewUriString,
-            previewUriPath = it.previewUriPath
+            previewUriPath = it.previewUriPath,
+            md5 = it.md5
         )
     }
 
@@ -184,5 +186,6 @@ fun Document.toEntity(): DocumentEntity =
 //                previewUriString = uri.previewUriString
 //            )
 //        },
-        createdDate = this.createdDate
+        createdDate = this.createdDate,
+        isSynced = this.isSynced
     )

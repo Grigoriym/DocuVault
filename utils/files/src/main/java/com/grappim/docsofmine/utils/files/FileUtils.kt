@@ -7,7 +7,8 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
-import com.grappim.docsofmine.utils.datetime.DateTimeUtils
+import androidx.core.net.toUri
+import com.grappim.docsofmine.utils.dateTime.DateTimeUtils
 import com.grappim.docsofmine.utils.files.mime.MimeTypes
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DocumentFileData
@@ -18,8 +19,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.OffsetDateTime
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,13 +27,14 @@ import javax.inject.Singleton
 @Singleton
 class FileUtils @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val dateTimeUtils: DateTimeUtils
+    private val dateTimeUtils: DateTimeUtils,
+    private val hashUtils: HashUtils
 ) {
 
     fun getDocumentFolderName(
-        id: String,
-        gDriveFormattedDate: String
-    ): String = "${id}_${gDriveFormattedDate}"
+        document: Document
+    ): String =
+        "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
 
     fun removeFile(fileData: FileData): Boolean {
         val file = File(fileData.uri.path)
@@ -55,10 +56,16 @@ class FileUtils @Inject constructor(
         uri: Uri,
         folderName: String
     ): File {
-        val localFile = File(getFolder(folderName), getUriFileName(uri))
+        val extension = getUriFileExtension(uri)
+        val localFile = File(getFolder(folderName), getFileName(extension))
         writeDataToFile(uri, localFile)
         Timber.d("createFileLocally, $localFile")
         return localFile
+    }
+
+    private fun getUriFileExtension(uri: Uri): String {
+        val mimeType = getMimeType(uri)
+        return MimeTypes.formatMimeType(mimeType)
     }
 
     private fun writeDataToFile(uri: Uri, newFile: File) {
@@ -92,19 +99,22 @@ class FileUtils @Inject constructor(
         val mimeType = getMimeType(uri)
         return FileData(
             uri = newUri,
-            name = getUriFileName(newUri),
+            name = newFile.name,
             size = fileSize,
             sizeToDemonstrate = formatFileSize(fileSize),
             mimeType = mimeType,
             preview = newUri,
-            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType),
+            md5 = hashUtils.md5(newFile)
         )
     }
 
     fun getFileDataFromCameraPicture(
-        uri: Uri
+        cameraTakePictureData: CameraTakePictureData
     ): FileData {
-        Timber.d("getFileUrisFromUri, $uri")
+        val uri = cameraTakePictureData.uri
+        val file = cameraTakePictureData.file
+        Timber.d("getFileUrisFromUri, $cameraTakePictureData")
         val fileSize = getUriFileSize(uri)
         val mimeType = getMimeType(uri)
         return FileData(
@@ -114,7 +124,8 @@ class FileUtils @Inject constructor(
             size = fileSize,
             sizeToDemonstrate = formatFileSize(fileSize),
             mimeType = mimeType,
-            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType),
+            md5 = hashUtils.md5(file)
         )
     }
 
@@ -134,11 +145,12 @@ class FileUtils @Inject constructor(
                 folderName = draftDocument.folderName,
                 mimeType = mimeType
             ),
-            name = getUriFileName(newUri),
+            name = newFile.name,
             size = fileSize,
             sizeToDemonstrate = formatFileSize(fileSize),
             mimeType = mimeType,
-            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType)
+            mimeTypeToDemonstrate = MimeTypes.formatMimeType(mimeType),
+            md5 = hashUtils.md5(newFile)
         )
     }
 
@@ -180,13 +192,9 @@ class FileUtils @Inject constructor(
         document: Document,
         documentFileData: DocumentFileData
     ): File {
-        val uri = Uri.parse(documentFileData.uriString)
+        val uri = documentFileData.uriString.toUri()
         val tempFile = File(
-            getFolder(
-                document.getGDriveFileName(
-                    dateTimeUtils.formatToGDrive(document.createdDate)
-                )
-            ),
+            getFolder(getDocumentFolderName(document)),
             documentFileData.name
         )
         if (tempFile.exists()) {
@@ -196,9 +204,12 @@ class FileUtils @Inject constructor(
         return tempFile
     }
 
-    private fun getFileName(): String {
-        val dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")
-        return dtf.format(LocalDateTime.now())
+    private fun getFileName(
+        extension: String
+    ): String {
+        val date = dateTimeUtils.formatToGDrive(OffsetDateTime.now())
+        val millis = Instant.now().toEpochMilli()
+        return "${date}_${millis}.$extension"
     }
 
     private fun getBitmapFileName(
@@ -209,10 +220,7 @@ class FileUtils @Inject constructor(
                 if (prefix.isNotEmpty()) {
                     append("${prefix}_")
                 }
-                append(getFileName())
-                append("_")
-                append("${Instant.now().toEpochMilli()}")
-                append(".jpg")
+                append(getFileName("jpg"))
             }
             .toString()
 
@@ -228,10 +236,15 @@ class FileUtils @Inject constructor(
 
     fun getFileUriForTakePicture(
         folderName: String
-    ): Uri = getFileUri(
-        folderName,
-        getBitmapFileName()
-    )
+    ): CameraTakePictureData {
+        val fileName = getBitmapFileName()
+        val file = File(getFolder(folderName), fileName)
+        val uri = getFileUri(file)
+        return CameraTakePictureData(
+            uri = uri,
+            file = file
+        )
+    }
 
     fun getFileUri(
         folderName: String,
@@ -249,7 +262,7 @@ class FileUtils @Inject constructor(
             "${context.packageName}.provider",
             file
         )
-        Timber.d("getTmpFileUri, $uri")
+        Timber.d("getFileUri from FileProvider: $uri")
         return uri
     }
 

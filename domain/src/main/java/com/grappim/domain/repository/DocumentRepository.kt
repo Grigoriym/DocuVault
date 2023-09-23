@@ -16,5 +16,5 @@ interface DocumentRepository {
     fun getDocumentById(id: Long): Flow<Document>
 
     suspend fun getAllUnSynced(): List<Document>
-    suspend fun markAsSynced()
+    suspend fun markAsSynced(synced: List<Document>)
 }

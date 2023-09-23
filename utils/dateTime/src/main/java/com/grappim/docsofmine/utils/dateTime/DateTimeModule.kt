@@ -1,4 +1,4 @@
-package com.grappim.docsofmine.utils.datetime
+package com.grappim.docsofmine.utils.dateTime
 
 import dagger.Module
 import dagger.Provides

@@ -27,9 +27,9 @@ class GoogleUploadWorker @AssistedInject constructor(
         if (docs.isEmpty()) {
             return@withContext Result.success()
         }
-        when (googleDriveManager.uploadFiles(docs)) {
+        when (val result = googleDriveManager.uploadFiles(docs)) {
             is Try.Success -> {
-                documentRepository.markAsSynced()
+                documentRepository.markAsSynced(result.result)
                 return@withContext Result.success()
             }
             is Try.Error -> {
