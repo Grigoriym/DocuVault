@@ -58,7 +58,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:${versions.android.core}")
     implementation("com.google.android.material:material:${versions.google.material}")
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.startup:startup-runtime:${versions.android.startup}")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
