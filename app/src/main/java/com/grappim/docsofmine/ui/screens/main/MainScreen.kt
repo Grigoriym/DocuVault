@@ -3,6 +3,8 @@ package com.grappim.docsofmine.ui.screens.main
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
@@ -50,7 +52,6 @@ import com.grappim.docsofmine.ui.screens.main.home.HomeScreen
 import com.grappim.docsofmine.ui.screens.main.settings.SettingsItem
 import com.grappim.docsofmine.ui.screens.main.settings.SettingsScreen
 import com.grappim.docsofmine.ui.screens.main.settings.about.AboutScreen
-import com.grappim.docsofmine.ui.screens.main.settings.drive.GoogleDriveScreen
 import com.grappim.docsofmine.uikit.theme.DocsOfMineTheme
 
 @Composable
@@ -77,7 +78,9 @@ private fun MainScreenContent(
 
     Scaffold(
         modifier = Modifier
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .imePadding(),
         bottomBar = {
             if (showBottomNavigation) {
                 BottomAppBar(
@@ -166,9 +169,6 @@ private fun MainScreenContent(
                             is SettingsItem.About -> {
                                 navController.navigate(SettingsNavDestinations.About.route)
                             }
-                            is SettingsItem.GoogleSync -> {
-                                navController.navigate(SettingsNavDestinations.GoogleSync.route)
-                            }
                         }
                     }
                 )
@@ -186,9 +186,6 @@ private fun MainScreenContent(
                 })
             ) {
                 DocumentDetailsScreen()
-            }
-            composable(SettingsNavDestinations.GoogleSync.route) {
-                GoogleDriveScreen()
             }
         }
     }

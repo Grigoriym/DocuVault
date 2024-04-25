@@ -6,8 +6,4 @@ sealed interface SettingsItem {
     data class About(
         override val name: String = "About"
     ) : SettingsItem
-
-    data class GoogleSync(
-        override val name: String = "Google Sync"
-    ) : SettingsItem
 }

@@ -17,31 +17,6 @@ class WorkerHelper @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    companion object{
-        private const val UNIQUE_GOOGLE_SYNC_WORK = "unique.google.sync.work"
-        private const val UNIQUE_GOOGLE_DOWNLOAD_WORK = "unique.google.download.work"
-    }
-
-    fun startDriveDownloading() {
-        val googleDownloadWorker = buildWorkRequest<GoogleDownloadWorker>()
-        WorkManager.getInstance(context)
-            .beginUniqueWork(
-                UNIQUE_GOOGLE_DOWNLOAD_WORK,
-                ExistingWorkPolicy.KEEP,
-                googleDownloadWorker
-            ).enqueue()
-    }
-
-    fun startDriveUploading() {
-        val googleUploadWorker = buildWorkRequest<GoogleUploadWorker>()
-        WorkManager.getInstance(context)
-            .beginUniqueWork(
-                UNIQUE_GOOGLE_SYNC_WORK,
-                ExistingWorkPolicy.KEEP,
-                googleUploadWorker
-            ).enqueue()
-    }
-
     private inline fun <reified T : ListenableWorker> buildWorkRequest(): OneTimeWorkRequest =
         OneTimeWorkRequestBuilder<T>()
             .setConstraints(

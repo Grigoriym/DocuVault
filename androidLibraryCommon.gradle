@@ -10,10 +10,10 @@ android {
 
         }
         release {
-            storeFile file(DOCS_OF_MINE_STORE_FILE)
-            storePassword DOCS_OF_MINE_STORE_PASSWORD
-            keyAlias DOCS_OF_MINE_STORE_ALIAS
-            keyPassword DOCS_OF_MINE_STORE_ALIAS_PASSWORD
+//            storeFile file(DOCS_OF_MINE_STORE_FILE)
+//            storePassword DOCS_OF_MINE_STORE_PASSWORD
+//            keyAlias DOCS_OF_MINE_STORE_ALIAS
+//            keyPassword DOCS_OF_MINE_STORE_ALIAS_PASSWORD
         }
     }
 

@@ -376,10 +376,11 @@ private fun AddedFilesContent(
                             Color.White
                         } else {
                             Color.Red
-                        }
+                        }, label = ""
                     )
                     val scale by animateFloatAsState(
-                        if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
+                        if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f,
+                        label = ""
                     )
 
                     Box(

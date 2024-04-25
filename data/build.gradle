@@ -11,12 +11,6 @@ android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
-        buildConfigField(
-                "String",
-                "SERVER_CLIENT_ID",
-                DOCS_OF_MINE_DEBUG_SERVER_CLIENT_ID
-        )
     }
 }
 
@@ -26,19 +20,12 @@ dependencies {
     implementation(project(":utils:files"))
     implementation(project(":uikit"))
     implementation(project(":common:async"))
-    implementation(project(":gdrive"))
     implementation(project(":data:db"))
     implementation(project(":data:serialization"))
     implementation(project(":data:storage"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.android.gms:play-services-drive:17.0.0")
-    implementation("com.google.apis:google-api-services-drive:v3-rev20220815-2.0.0")
-    implementation("com.google.api-client:google-api-client-android:2.0.0")
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.11.0")
 
     implementation("androidx.work:work-runtime-ktx:${versions.android.worker}")
     implementation("androidx.hilt:hilt-work:1.0.0")

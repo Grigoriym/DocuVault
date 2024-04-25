@@ -22,7 +22,6 @@ fun SettingsScreen(
         items(
             listOf(
                 SettingsItem.About(),
-                SettingsItem.GoogleSync()
             )
         ) { item ->
             SettingsItem(

@@ -6,8 +6,4 @@ sealed interface SettingsNavDestinations {
     object About : SettingsNavDestinations {
         override val route: String = "settings_about_destination"
     }
-
-    object GoogleSync : SettingsNavDestinations {
-        override val route: String = "settings_google_sync_destination"
-    }
 }
