@@ -98,6 +98,8 @@ dependencies {
     implementation(project(":utils:files"))
     implementation(project(":common:async"))
     implementation(project(":data:repo"))
+    implementation(project(":data:db"))
+    implementation(project(":data:storage"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)
