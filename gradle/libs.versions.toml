@@ -1,5 +1,6 @@
 [versions]
 compose-bom = "2024.04.01"
+composeColorPicker = "0.5.1"
 firebase-bom = "32.8.1"
 firebaseCrashlytics = "2.9.9"
 composeKotlinCompiler = "1.5.8"
@@ -32,6 +33,7 @@ activity-compose = "1.9.0"
 room = "2.6.1"
 sqlite = "2.4.0"
 archCore = "2.2.0"
+splashscreen = "1.0.0"
 
 androidDesugarJdkLibs = "2.0.4"
 crypto = "1.0.0"
@@ -65,6 +67,7 @@ androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-sqlite = { module = "androidx.sqlite:sqlite-ktx", version.ref = "sqlite" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
@@ -97,6 +100,7 @@ androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 
@@ -111,6 +115,8 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-j
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
 
+compose-color-picker-android = { module = "com.godaddy.android.colorpicker:compose-color-picker-android", version.ref = "composeColorPicker" }
+#compose-color-picker = { module = "com.godaddy.android.colorpicker:compose-color-picker", version.ref = "composeColorPicker" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
@@ -133,7 +139,6 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
 
-kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
@@ -161,6 +166,6 @@ jacocoAggregationCoverage = { id = "io.github.gmazzo.test.aggregation.coverage",
 jacocoAggregationResults = { id = "io.github.gmazzo.test.aggregation.results", version.ref = "jacocoAggregation" }
 
 # Plugins definded in the included build-logic
-hateitorrateit-android-hilt = { id = "hateitorrateit.android.hilt", version = "unspecified" }
-hateitorrateit-android-library = { id = "hateitorrateit.android.library", version = "unspecified" }
-hateitorrateit-android-library-compose = { id = "hateitorrateit.android.library.compose", version = "unspecified" }
+docuvault-android-hilt = { id = "docuvault.android.hilt", version = "unspecified" }
+docuvault-android-library = { id = "docuvault.android.library", version = "unspecified" }
+docuvault-android-library-compose = { id = "docuvault.android.library.compose", version = "unspecified" }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DocsOfMine</string>
+    <string name="app_name">DocuVault</string>
 
     <string name="select_group">Please select a group</string>
     <string name="add_file">Please add a file</string>

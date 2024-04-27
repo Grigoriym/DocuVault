@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "943664159795",
-    "project_id": "docsofmine",
-    "storage_bucket": "docsofmine.appspot.com"
+    "project_id": "docuvault",
+    "storage_bucket": "docuvault.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:943664159795:android:c2dd9a4d3af15e45525746",
         "android_client_info": {
-          "package_name": "com.grappim.docsofmine"
+          "package_name": "com.grappim.docuvault"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "943664159795-5r4t1j1h1vuasbq8kh1rl68dv8ie3u8h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.grappim.docsofmine",
+            "package_name": "com.grappim.docuvault",
             "certificate_hash": "4665bf9bae268b9af34dfcd1dbf5cf8ff6117881"
           }
         },
@@ -46,7 +46,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:943664159795:android:f6fd20e38ec49d35525746",
         "android_client_info": {
-          "package_name": "com.grappim.docsofmine.debug"
+          "package_name": "com.grappim.docuvault.debug"
         }
       },
       "oauth_client": [
@@ -54,7 +54,7 @@
           "client_id": "943664159795-ti7p6iujt5fo615qf824qar7akfhcord.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.grappim.docsofmine.debug",
+            "package_name": "com.grappim.docuvault.debug",
             "certificate_hash": "80f44d9c35574bfc7581b0bfedbde31741bcfa02"
           }
         },
