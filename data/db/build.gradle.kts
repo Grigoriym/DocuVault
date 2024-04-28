@@ -23,6 +23,7 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":utils:datetime"))
+    implementation(project(":utils:files"))
     implementation(project(":common:async"))
 
     implementation(libs.androidx.security.crypto)

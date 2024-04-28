@@ -6,7 +6,7 @@ import com.grappim.docuvault.data.db.model.document.DocumentEntity
 import com.grappim.docuvault.repo.mappers.toDocument
 import com.grappim.docuvault.repo.mappers.toEntity
 import com.grappim.docuvault.repo.mappers.toFileDataEntityList
-import com.grappim.docuvault.utils.datetime.DateTimeUtils
+import com.grappim.docuvault.utils.files.datetime.DateTimeUtils
 import com.grappim.domain.model.document.CreateDocument
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DraftDocument

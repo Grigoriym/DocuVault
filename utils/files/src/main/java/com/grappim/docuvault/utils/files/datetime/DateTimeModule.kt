@@ -1,4 +1,4 @@
-package com.grappim.docuvault.utils.datetime
+package com.grappim.docuvault.utils.files.datetime
 
 import dagger.Binds
 import dagger.Module

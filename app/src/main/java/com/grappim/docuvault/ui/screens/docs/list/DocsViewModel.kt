@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.grappim.docuvault.model.document.DocumentListUI
 import com.grappim.docuvault.uikit.utils.toColor
 import com.grappim.docuvault.utils.WhileViewSubscribed
-import com.grappim.docuvault.utils.datetime.DateTimeUtils
+import com.grappim.docuvault.utils.files.datetime.DateTimeUtils
 import com.grappim.docuvault.utils.files.mime.MimeTypes
 import com.grappim.domain.repository.DocumentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
