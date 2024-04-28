@@ -27,8 +27,8 @@ import javax.inject.Singleton
 @Singleton
 class FileUtils @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val dateTimeUtils: DateTimeUtils,
-    private val hashUtils: HashUtils
+    private val hashUtils: HashUtils,
+    private val dateTimeUtils: DateTimeUtils
 ) {
     fun getDocumentFolderName(document: Document): String =
         "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
