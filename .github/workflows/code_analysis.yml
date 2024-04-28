@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +39,6 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-            token: CODECOV_TOKEN
+            token: ${{ secrets.CODECOV_TOKEN }}
             files: ./build/reports/jacoco/jacocoAggregatedReport/jacocoTestReport.xml
             fail_ci_if_error: true
