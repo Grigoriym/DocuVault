@@ -9,7 +9,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":utils:datetime"))
 
     implementation(libs.timber)
 }
