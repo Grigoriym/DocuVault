@@ -8,7 +8,6 @@ import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.grappim.docuvault.utils.datetime.DateTimeUtils
 import com.grappim.docuvault.utils.files.mime.MimeTypes
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DocumentFileData
@@ -18,8 +17,6 @@ import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.time.Instant
-import java.time.OffsetDateTime
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,11 +24,11 @@ import javax.inject.Singleton
 @Singleton
 class FileUtils @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val hashUtils: HashUtils,
-    private val dateTimeUtils: DateTimeUtils
+    private val hashUtils: HashUtils
+//    private val dateTimeUtils: DateTimeUtils
 ) {
-    fun getDocumentFolderName(document: Document): String =
-        "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
+    fun getDocumentFolderName(document: Document): String = ""
+//        "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
 
     fun removeFile(fileData: FileData): Boolean {
         val file = File(fileData.uri.path!!)
@@ -180,9 +177,10 @@ class FileUtils @Inject constructor(
     }
 
     private fun getFileName(extension: String): String {
-        val date = dateTimeUtils.formatToGDrive(OffsetDateTime.now())
-        val millis = Instant.now().toEpochMilli()
-        return "${date}_$millis.$extension"
+//        val date = dateTimeUtils.formatToGDrive(OffsetDateTime.now())
+//        val millis = Instant.now().toEpochMilli()
+//        return "${date}_$millis.$extension"
+        return ""
     }
 
     private fun getBitmapFileName(prefix: String = ""): String = StringBuilder()
