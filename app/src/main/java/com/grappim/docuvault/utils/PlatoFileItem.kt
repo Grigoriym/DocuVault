@@ -19,7 +19,7 @@ import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
 import com.grappim.docuvault.utils.files.FileData
 
 @Composable
-fun DomFileItem(
+fun PlatoFileItem(
     modifier: Modifier = Modifier,
     fileData: FileData,
     onFileClicked: (file: FileData) -> Unit

@@ -56,7 +56,7 @@ import com.grappim.docuvault.uikit.widget.DomButtonDefault
 import com.grappim.docuvault.uikit.widget.DomGroupItem
 import com.grappim.docuvault.uikit.widget.PlatoSnackbar
 import com.grappim.docuvault.uikit.widget.PlatoTextFieldDefault
-import com.grappim.docuvault.utils.DomFileItem
+import com.grappim.docuvault.utils.PlatoFileItem
 import com.grappim.docuvault.utils.LaunchedEffectResult
 import com.grappim.docuvault.utils.NativeText
 import com.grappim.docuvault.utils.asString
@@ -400,7 +400,7 @@ private fun AddedFilesContent(filesUris: List<FileData>, onFileRemoved: (FileDat
                     }
                 }
             ) {
-                DomFileItem(
+                PlatoFileItem(
                     fileData = uri,
                     onFileClicked = {}
                 )

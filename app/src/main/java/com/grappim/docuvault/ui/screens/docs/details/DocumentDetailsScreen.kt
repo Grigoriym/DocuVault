@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.grappim.docuvault.uikit.R
-import com.grappim.docuvault.utils.DomFileItem
+import com.grappim.docuvault.utils.PlatoFileItem
 import com.grappim.docuvault.utils.files.FileData
 import com.grappim.domain.model.document.Document
 import timber.log.Timber
@@ -52,7 +52,7 @@ private fun DocumentDetailsScreenContent(document: Document, files: List<FileDat
         )
     ) {
         items(files) { item: FileData ->
-            DomFileItem(
+            PlatoFileItem(
                 fileData = item,
                 onFileClicked = {
                     try {
