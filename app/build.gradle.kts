@@ -99,6 +99,7 @@ dependencies {
     implementation(project(":data:repo"))
     implementation(project(":data:db"))
     implementation(project(":data:storage"))
+    implementation(project(":utils:date-time"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)

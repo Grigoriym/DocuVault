@@ -8,7 +8,7 @@ import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.grappim.docuvault.utils.files.datetime.DateTimeUtils
+import com.grappim.docuvault.datetime.DateTimeUtils
 import com.grappim.docuvault.utils.files.mime.MimeTypes
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DocumentFileData

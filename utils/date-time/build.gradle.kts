@@ -4,12 +4,9 @@ plugins {
 }
 
 android {
-    namespace = "com.grappim.docuvault.utils.files"
+    namespace = "com.grappim.docuvault.utils.datetime"
 }
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":utils:date-time"))
-
-    implementation(libs.timber)
 }

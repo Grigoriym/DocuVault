@@ -1,4 +1,4 @@
-package com.grappim.docuvault.utils.files.datetime
+package com.grappim.docuvault.datetime
 
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
