@@ -43,6 +43,7 @@ subprojects {
     ktlint {
         android = true
         ignoreFailures = false
+        verbose = true
         reporters {
             reporter(ReporterType.HTML)
         }

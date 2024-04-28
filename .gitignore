@@ -8,3 +8,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/common/build/
+/data/build/
+/utils/build/
