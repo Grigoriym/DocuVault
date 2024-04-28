@@ -1,5 +1,6 @@
 package com.grappim.docuvault.utils.datetime
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +39,10 @@ object DateTimeModule {
 
     @[Provides Singleton DtfGDriveRfc3339]
     fun provideDtfRfc3339(): DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+}
+
+@[Module InstallIn(SingletonComponent::class)]
+interface DateTimeBindsModule {
+    @Binds
+    fun bindDateTimeUtils(dateTimeUtils: DateTimeUtilsImpl): DateTimeUtils
 }
