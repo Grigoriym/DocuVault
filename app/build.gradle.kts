@@ -110,8 +110,6 @@ dependencies {
 
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
-    ksp(libs.androidx.hilt.compiler)
-
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
