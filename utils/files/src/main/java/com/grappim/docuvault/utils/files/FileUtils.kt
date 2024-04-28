@@ -27,6 +27,7 @@ class FileUtils @Inject constructor(
     private val hashUtils: HashUtils
 //    private val dateTimeUtils: DateTimeUtils
 ) {
+    @Suppress("FunctionOnlyReturningConstant", "UnusedParameter")
     fun getDocumentFolderName(document: Document): String = ""
 //        "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
 
@@ -176,6 +177,7 @@ class FileUtils @Inject constructor(
         return tempFile
     }
 
+    @Suppress("FunctionOnlyReturningConstant", "UnusedParameter")
     private fun getFileName(extension: String): String {
 //        val date = dateTimeUtils.formatToGDrive(OffsetDateTime.now())
 //        val millis = Instant.now().toEpochMilli()
