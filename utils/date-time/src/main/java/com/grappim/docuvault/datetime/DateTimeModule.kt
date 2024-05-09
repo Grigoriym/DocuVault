@@ -21,10 +21,14 @@ annotation class DtfGDriveDocumentFolder
 @Qualifier
 annotation class DtfGDriveRfc3339
 
+@Qualifier
+annotation class DtfDocumentFolder
+
 @[Module InstallIn(SingletonComponent::class)]
 object DateTimeModule {
     private const val GOOGLE_DRIVE_DOCUMENT_FOLDER = "yyyy-MM-dd_HH-mm-ss"
     private const val PATTERN_TO_DEMONSTRATE = "yyyy.MM.dd HH:mm:ss"
+    private const val DOCUMENT_FOLDER = "yyyy-MM-dd_HH-mm-ss"
 
     @[Provides Singleton DtfToStore]
     fun provideDtfToStore(): DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
@@ -39,6 +43,9 @@ object DateTimeModule {
 
     @[Provides Singleton DtfGDriveRfc3339]
     fun provideDtfRfc3339(): DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+
+    @[Provides Singleton DtfDocumentFolder]
+    fun provideDtfDocumentFolder(): DateTimeFormatter = DateTimeFormatter.ofPattern(DOCUMENT_FOLDER)
 }
 
 @[Module InstallIn(SingletonComponent::class)]

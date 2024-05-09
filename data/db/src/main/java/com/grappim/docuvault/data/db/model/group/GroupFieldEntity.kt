@@ -1,14 +1,27 @@
 package com.grappim.docuvault.data.db.model.group
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "group_field_table"
+    tableName = "group_field_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = GroupEntity::class,
+            parentColumns = arrayOf("groupId"),
+            childColumns = arrayOf("groupId"),
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index("groupId")]
 )
 data class GroupFieldEntity(
     @PrimaryKey(autoGenerate = true)
-    val groupId: Long = 0,
+    val groupFieldId: Long = 0,
     val name: String,
-    val value: String
+    val value: String,
+    val groupId: Long
 )

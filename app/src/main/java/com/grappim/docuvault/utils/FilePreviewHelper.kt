@@ -1,9 +1,9 @@
 package com.grappim.docuvault.utils
 
 import androidx.core.net.toUri
-import com.grappim.docuvault.uikit.MimeTypeImageHelper
 import com.grappim.docuvault.utils.files.FileUtils
-import com.grappim.docuvault.utils.files.mime.MimeTypes
+import com.grappim.docuvault.utils.ui.MimeTypeImageHelper
+import com.grappim.domain.model.MimeTypes
 import com.grappim.domain.model.document.Document
 import javax.inject.Inject
 

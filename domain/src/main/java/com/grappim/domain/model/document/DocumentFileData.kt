@@ -1,12 +1,10 @@
 package com.grappim.domain.model.document
 
 data class DocumentFileData(
+    val fileId: Long,
     val name: String,
     val mimeType: String,
-    val uriPath: String,
     val uriString: String,
     val size: Long,
-    val previewUriString: String? = null,
-    val previewUriPath: String? = null,
     val md5: String
 )

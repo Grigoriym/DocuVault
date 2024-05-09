@@ -4,12 +4,12 @@ import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.grappim.docuvault.navigation.DocumentsNavDestinations
+import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
 import com.grappim.docuvault.utils.FilePreviewHelper
 import com.grappim.docuvault.utils.WhileViewSubscribed
 import com.grappim.docuvault.utils.files.FileData
 import com.grappim.docuvault.utils.files.FileUtils
-import com.grappim.docuvault.utils.files.mime.MimeTypes
+import com.grappim.domain.model.MimeTypes
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.repository.DocumentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

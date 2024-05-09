@@ -9,7 +9,8 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.grappim.docuvault.datetime.DateTimeUtils
-import com.grappim.docuvault.utils.files.mime.MimeTypes
+import com.grappim.docuvault.utils.files.models.CameraTakePictureData
+import com.grappim.domain.model.MimeTypes
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DocumentFileData
 import com.grappim.domain.model.document.DraftDocument
@@ -31,7 +32,7 @@ class FileUtils @Inject constructor(
     private val dateTimeUtils: DateTimeUtils
 ) {
     fun getDocumentFolderName(document: Document): String =
-        "${document.id}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
+        "${document.documentId}_${dateTimeUtils.formatToGDrive(document.createdDate)}"
 
     fun removeFile(fileData: FileData): Boolean {
         val file = File(fileData.uri.path!!)
@@ -40,7 +41,7 @@ class FileUtils @Inject constructor(
     }
 
     fun deleteFolder(document: DraftDocument) {
-        val file = getFolder(document.folderName)
+        val file = getFolder(document.documentFolderName)
         file.deleteRecursively()
     }
 
@@ -75,7 +76,7 @@ class FileUtils @Inject constructor(
 
     fun getFileUrisFromGalleryUri(uri: Uri, draftDocument: DraftDocument): FileData {
         Timber.d("getFileUrisFromGalleryUri, $uri")
-        val newFile = createFileLocally(uri, draftDocument.folderName)
+        val newFile = createFileLocally(uri, draftDocument.documentFolderName)
         val newUri = getFileUri(newFile)
         val fileSize = getUriFileSize(newUri)
         val mimeType = getMimeType(uri)
@@ -111,7 +112,7 @@ class FileUtils @Inject constructor(
 
     fun getFileUrisFromUri(uri: Uri, draftDocument: DraftDocument): FileData {
         Timber.d("getFileUrisFromUri, $uri")
-        val newFile = createFileLocally(uri, draftDocument.folderName)
+        val newFile = createFileLocally(uri, draftDocument.documentFolderName)
         val newUri = getFileUri(newFile)
         val fileSize = getUriFileSize(newUri)
         val mimeType = getMimeType(uri)
@@ -120,7 +121,7 @@ class FileUtils @Inject constructor(
             preview =
             getFilePreview(
                 uri = newUri,
-                folderName = draftDocument.folderName,
+                folderName = draftDocument.documentFolderName,
                 mimeType = mimeType
             ),
             name = newFile.name,

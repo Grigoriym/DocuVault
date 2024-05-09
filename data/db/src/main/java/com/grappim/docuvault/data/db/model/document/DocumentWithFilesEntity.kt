@@ -9,5 +9,5 @@ data class DocumentWithFilesEntity(
         parentColumn = "documentId",
         entityColumn = "documentId"
     )
-    val files: List<DocumentFileDataEntity>?
+    val files: List<DocumentFileEntity>?
 )

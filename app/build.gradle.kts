@@ -100,6 +100,9 @@ dependencies {
     implementation(project(":data:db"))
     implementation(project(":data:storage"))
     implementation(project(":utils:date-time"))
+    implementation(project(":feature:docmanager:ui"))
+    implementation(project(":utils:ui"))
+    implementation(project(":core:navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)

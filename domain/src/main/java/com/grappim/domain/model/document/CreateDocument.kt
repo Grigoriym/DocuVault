@@ -7,6 +7,7 @@ data class CreateDocument(
     val id: Long,
     val name: String,
     val group: Group,
-    val filesUri: List<DocumentFileData>,
-    val createdDate: OffsetDateTime
+    val files: List<DocumentFileData>,
+    val createdDate: OffsetDateTime,
+    val documentFolderName: String
 )

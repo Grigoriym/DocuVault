@@ -1,6 +1,7 @@
 package com.grappim.docuvault.repo.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
+import com.grappim.docuvault.data.db.model.group.GroupEntity
 import com.grappim.docuvault.data.db.model.group.GroupWithFieldsEntity
 import com.grappim.domain.model.group.Group
 import com.grappim.domain.model.group.GroupField
@@ -26,4 +27,12 @@ class GroupMapper @Inject constructor(
                 }
             )
         }
+
+    suspend fun toGroupEntity(group: Group): GroupEntity = withContext(ioDispatcher) {
+        GroupEntity(
+            groupId = group.id,
+            name = group.name,
+            color = group.color
+        )
+    }
 }
