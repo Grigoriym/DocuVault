@@ -1,6 +1,5 @@
 package com.grappim.docuvault.ui.screens.docs.list
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,33 +10,30 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
-import com.grappim.docuvault.model.document.DocumentListUI
 import com.grappim.docuvault.uikit.theme.DefaultArrangement
 import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme
+import com.grappim.docuvault.uikit.widget.PlatoIcon
 
 @Composable
 fun DocsScreen(viewModel: DocsViewModel = hiltViewModel(), onDocumentClick: (id: String) -> Unit) {
-    val documents by viewModel.documents.collectAsState()
+    val state by viewModel.viewState.collectAsStateWithLifecycle()
     DocsScreenContent(
-        documents = documents,
+        state = state,
         onDocumentClick = onDocumentClick
     )
 }
 
 @Composable
-private fun DocsScreenContent(
-    documents: List<DocumentListUI>,
-    onDocumentClick: (id: String) -> Unit
-) {
+private fun DocsScreenContent(state: DocsListState, onDocumentClick: (id: String) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +41,7 @@ private fun DocsScreenContent(
         verticalArrangement = Arrangement.spacedBy(DefaultArrangement),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(documents) { document ->
+        items(state.documents) { document ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -75,9 +71,8 @@ private fun DocsScreenContent(
                             )
                             .size(100.dp)
                     ) {
-                        Image(
-                            painter = rememberAsyncImagePainter(document.preview),
-                            contentDescription = ""
+                        PlatoIcon(
+                            painter = rememberAsyncImagePainter(document.preview)
                         )
                     }
                 }
@@ -93,7 +88,7 @@ private fun DocsScreenContent(
 private fun FilesScreenContentPreview() {
     DocuVaultTheme {
         DocsScreenContent(
-            documents = emptyList(),
+            state = DocsListState(),
             onDocumentClick = {}
         )
     }

@@ -2,8 +2,12 @@ package com.grappim.docuvault.repo
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.db.dao.DocumentsDao
+import com.grappim.docuvault.data.db.dao.GroupsDao
 import com.grappim.docuvault.data.db.model.document.DocumentEntity
 import com.grappim.docuvault.datetime.DateTimeUtils
+import com.grappim.docuvault.repo.mappers.DocumentFileMapper
+import com.grappim.docuvault.repo.mappers.DocumentMapper
+import com.grappim.docuvault.repo.mappers.GroupMapper
 import com.grappim.docuvault.repo.mappers.toDocument
 import com.grappim.docuvault.repo.mappers.toEntity
 import com.grappim.docuvault.repo.mappers.toFileDataEntityList
@@ -24,68 +28,47 @@ import javax.inject.Singleton
 class DocumentRepositoryImpl @Inject constructor(
     private val documentsDao: DocumentsDao,
     private val dateTimeUtils: DateTimeUtils,
+    private val documentMapper: DocumentMapper,
+    private val groupsDao: GroupsDao,
+    private val groupMapper: GroupMapper,
+    private val documentFileMapper: DocumentFileMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : DocumentRepository {
-    override suspend fun addDraftDocument(): DraftDocument {
+    override suspend fun deleteDocumentFile(documentId: Long, fileName: String) {
+        documentsDao.deleteDocumentFileByIdAndName(documentId, fileName)
+    }
+
+    override suspend fun getFullDocumentById(documentId: Long): Document =
+        documentMapper.toDocument(documentsDao.getFullDocument(documentId))
+
+    override suspend fun addDraftDocument(): DraftDocument = withContext(ioDispatcher) {
+        val defaultGroup = groupsDao.getFirstGroup()
         val nowDate = dateTimeUtils.getDateTimeUTCNow()
-        val formattedDate = dateTimeUtils.formatToDemonstrate(nowDate)
-        val id =
-            documentsDao.insert(
-                DocumentEntity(
-                    name = formattedDate,
-                    group = null,
-                    createdDate = nowDate
-                )
+        val folderDate = dateTimeUtils.formatToDocumentFolder(nowDate)
+        val id = documentsDao.insert(
+            DocumentEntity(
+                name = "",
+                documentFolderName = "",
+                createdDate = nowDate,
+                groupId = defaultGroup.groupEntity.groupId
             )
-        val folderDate = dateTimeUtils.formatToGDrive(nowDate)
+        )
         val folderName = "${id}_$folderDate"
-        return DraftDocument(
+        documentsDao.updateProductFolderName(folderName, id)
+        DraftDocument(
             id = id,
             date = nowDate,
-            folderName = folderName
+            documentFolderName = folderName,
+            group = groupMapper.toGroup(defaultGroup)
         )
     }
 
-    override fun getAllDocumentsFlow(): Flow<List<Document>> = documentsDao.getAllFlow()
-        .map {
-            it.filter { entity ->
-                entity.files?.isNotEmpty() == true
-            }
-        }
-        .map {
-            it.map { documentWithFilesEntity ->
-                documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
-            }
-        }
+    override fun getAllDocumentsFlow(): Flow<List<Document>> = documentsDao.getFullDocumentsFlow()
+        .map { list -> documentMapper.toDocumentList(list) }
 
-    override suspend fun markAsSynced(synced: List<Document>) = withContext(ioDispatcher) {
-        synced.map {
-            async {
-                documentsDao.markAsSynced(it.id)
-            }
-        }.awaitAll()
-        Unit
-    }
-
-    override suspend fun getAllDocuments(): List<Document> = documentsDao.getAll()
-        .filter {
-            it.files?.isNotEmpty() == true
-        }
-        .map { documentWithFilesEntity ->
-            documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
-        }
-
-    override suspend fun getAllUnSynced(): List<Document> = documentsDao.getAllUnSynced()
-        .filter {
-            it.files?.isNotEmpty() == true
-        }
-        .map { documentWithFilesEntity ->
-            documentWithFilesEntity.documentEntity.toDocument(documentWithFilesEntity.files)
-        }
-
-    override suspend fun addDocument(document: CreateDocument) {
-        val entity = document.toEntity()
-        val list = document.toFileDataEntityList()
+    override suspend fun addDocument(createDocument: CreateDocument) {
+        val entity = documentMapper.toDocumentEntity(createDocument)
+        val list = documentFileMapper.toFileDataEntity(createDocument)
         documentsDao.updateDocumentAndFiles(
             documentEntity = entity,
             list = list

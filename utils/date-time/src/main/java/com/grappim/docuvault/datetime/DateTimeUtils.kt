@@ -1,5 +1,6 @@
 package com.grappim.docuvault.datetime
 
+import java.time.Instant
 import java.time.OffsetDateTime
 
 interface DateTimeUtils {
@@ -7,7 +8,7 @@ interface DateTimeUtils {
 
     fun parseToStore(string: String): OffsetDateTime
 
-    fun formatToDemonstrate(offsetDateTime: OffsetDateTime, inUtc: Boolean = false): String
+    fun formatToDemonstrate(offsetDateTime: OffsetDateTime): String
 
     fun formatToGDrive(offsetDateTime: OffsetDateTime): String
 
@@ -16,4 +17,8 @@ interface DateTimeUtils {
     fun getDateTimeUTCNow(): OffsetDateTime
 
     fun getLocalTimeFromUTC(offsetDateTime: OffsetDateTime): OffsetDateTime
+
+    fun formatToDocumentFolder(offsetDateTime: OffsetDateTime): String
+
+    fun getInstantNow(): Instant
 }

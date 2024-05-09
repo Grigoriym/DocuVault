@@ -17,4 +17,7 @@ interface GroupsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(groupEntity: GroupEntity)
+
+    @[Transaction Query("SELECT * FROM group_table ORDER BY groupId ASC LIMIT 1")]
+    fun getFirstGroup(): GroupWithFieldsEntity
 }

@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.play.core.ktx.AppUpdateResult
 import com.grappim.docuvault.core.inAppUpdate.rememberInAppUpdateState
-import com.grappim.docuvault.navigation.RootNavDestinations
+import com.grappim.docuvault.core.navigation.RootNavDestinations
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme
 import com.grappim.docuvault.uikit.widget.PlatoSnackbar
 import dagger.hilt.android.AndroidEntryPoint

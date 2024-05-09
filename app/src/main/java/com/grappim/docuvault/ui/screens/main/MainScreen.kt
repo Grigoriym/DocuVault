@@ -32,12 +32,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.grappim.docuvault.navigation.DocumentsNavDestinations
-import com.grappim.docuvault.navigation.GroupNavDestinations
-import com.grappim.docuvault.navigation.MainNavDestinations
-import com.grappim.docuvault.navigation.SettingsNavDestinations
-import com.grappim.docuvault.navigation.bottomNavigationScreens
-import com.grappim.docuvault.ui.screens.docs.add.AddDocumentScreen
+import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
+import com.grappim.docuvault.core.navigation.GroupNavDestinations
+import com.grappim.docuvault.core.navigation.MainNavDestinations
+import com.grappim.docuvault.core.navigation.SettingsNavDestinations
+import com.grappim.docuvault.core.navigation.bottomNavigationScreens
+import com.grappim.docuvault.feature.docmanager.ui.DocumentManagerRoute
 import com.grappim.docuvault.ui.screens.docs.details.DocumentDetailsScreen
 import com.grappim.docuvault.ui.screens.docs.list.DocsScreen
 import com.grappim.docuvault.ui.screens.groups.GroupsScreen
@@ -47,6 +47,7 @@ import com.grappim.docuvault.ui.screens.settings.SettingsItem
 import com.grappim.docuvault.ui.screens.settings.SettingsScreen
 import com.grappim.docuvault.ui.screens.settings.about.AboutScreen
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme
+import com.grappim.docuvault.uikit.widget.PlatoIcon
 
 @Composable
 fun MainScreen() {
@@ -59,14 +60,6 @@ private fun MainScreenContent(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination
     val showBottomNavigation = bottomNavigationScreens.any { it.route == currentRoute?.route }
-
-//    val fabState by remember {
-//        mutableStateOf(FabState.COLLAPSED)
-//    }
-//    val fabTransition = updateTransition(targetState = fabState, label = "fabTransition")
-//    val fabRotation by fabTransition.animateFloat(label = "fabRotation") { state ->
-//        if (state == FabState.EXPANDED) 45f else 0f
-//    }
 
     Scaffold(
         modifier = Modifier
@@ -98,7 +91,9 @@ private fun MainScreenContent(navController: NavHostController) {
             if (showBottomNavigation) {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(MainNavDestinations.Add.route) {
+                        navController.navigate(
+                            MainNavDestinations.ProductManager.getRouteToNavigate("")
+                        ) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
                             }
@@ -108,12 +103,7 @@ private fun MainScreenContent(navController: NavHostController) {
                     },
                     shape = CircleShape
                 ) {
-                    Icon(
-                        imageVector = MainNavDestinations.Add.icon,
-                        contentDescription = "",
-                        modifier = Modifier
-//                            .rotate(fabRotation)
-                    )
+                    PlatoIcon(imageVector = MainNavDestinations.ProductManager.icon)
                 }
             }
         }
@@ -144,9 +134,17 @@ private fun MainScreenContent(navController: NavHostController) {
                     }
                 )
             }
-            composable(MainNavDestinations.Add.route) {
-                AddDocumentScreen(
-                    onDocumentCreated = {
+            composable(
+                route = MainNavDestinations.ProductManager.route,
+                arguments = listOf(
+                    navArgument(MainNavDestinations.ProductManager.KEY_EDIT_PRODUCT_ID) {
+                        type = NavType.StringType
+                        nullable = true
+                    }
+                )
+            ) {
+                DocumentManagerRoute(
+                    onDocumentDone = {
                         navController.popBackStack()
                     },
                     goBack = {
