@@ -1,7 +1,7 @@
 [versions]
 compose-bom = "2024.05.00"
 composeColorPicker = "0.7.0"
-firebase-bom = "32.8.1"
+firebase-bom = "33.0.0"
 firebaseCrashlytics = "2.9.9"
 composeKotlinCompiler = "1.5.8"
 
