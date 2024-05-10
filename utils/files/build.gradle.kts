@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":utils:date-time"))
     implementation(project(":uikit"))
     implementation(project(":common:async"))
+    implementation(project(":feature:group:domain"))
 
     implementation(libs.timber)
     implementation(libs.androidx.compose.ui)

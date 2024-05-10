@@ -6,7 +6,7 @@ import com.grappim.docuvault.data.db.BuildConfig
 import com.grappim.docuvault.data.db.DocuVaultDatabase
 import com.grappim.docuvault.data.db.converters.DateTimeConverter
 import com.grappim.docuvault.data.db.dao.DocumentsDao
-import com.grappim.docuvault.data.db.dao.GroupsDao
+import com.grappim.docuvault.feature.group.db.dao.GroupsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

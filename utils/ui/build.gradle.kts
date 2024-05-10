@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.docuvault.android.library)
+    alias(libs.plugins.docuvault.android.library.compose)
     alias(libs.plugins.docuvault.android.hilt)
 }
 
@@ -27,4 +28,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
     testImplementation(libs.robolectric)
+
+    implementation(libs.androidx.compose.ui)
 }

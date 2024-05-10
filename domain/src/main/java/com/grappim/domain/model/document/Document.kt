@@ -1,6 +1,6 @@
 package com.grappim.domain.model.document
 
-import com.grappim.domain.model.group.Group
+import com.grappim.docuvault.feature.group.domain.Group
 import java.time.OffsetDateTime
 
 data class Document(

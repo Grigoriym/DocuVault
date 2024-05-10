@@ -15,6 +15,9 @@ dependencies {
     implementation(project(":data:db"))
     implementation(project(":data:storage"))
     implementation(project(":utils:date-time"))
+    implementation(project(":feature:group:db"))
+    implementation(project(":feature:group:domain"))
+    implementation(project(":feature:group:repo-api"))
 
     implementation(libs.timber)
 }

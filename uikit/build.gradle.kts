@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":feature:group:domain"))
 
     implementation(libs.androidx.activity.compose)
 

@@ -33,16 +33,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
-import com.grappim.docuvault.core.navigation.GroupNavDestinations
 import com.grappim.docuvault.core.navigation.MainNavDestinations
 import com.grappim.docuvault.core.navigation.SettingsNavDestinations
 import com.grappim.docuvault.core.navigation.bottomNavigationScreens
 import com.grappim.docuvault.feature.docmanager.ui.DocumentManagerRoute
+import com.grappim.docuvault.feature.group.navigation.groupsScreens
 import com.grappim.docuvault.ui.screens.docs.details.DocumentDetailsScreen
 import com.grappim.docuvault.ui.screens.docs.list.DocsScreen
-import com.grappim.docuvault.ui.screens.groups.GroupsScreen
-import com.grappim.docuvault.ui.screens.groups.create.CreateGroupScreen
-import com.grappim.docuvault.ui.screens.home.HomeScreen
 import com.grappim.docuvault.ui.screens.settings.SettingsItem
 import com.grappim.docuvault.ui.screens.settings.SettingsScreen
 import com.grappim.docuvault.ui.screens.settings.about.AboutScreen
@@ -112,11 +109,9 @@ private fun MainScreenContent(navController: NavHostController) {
             modifier = Modifier
                 .padding(paddingValues),
             navController = navController,
-            startDestination = MainNavDestinations.Home.route
+            startDestination = MainNavDestinations.Settings.route
         ) {
-            composable(MainNavDestinations.Home.route) {
-                HomeScreen()
-            }
+            groupsScreens(navController)
             composable(MainNavDestinations.Docs.route) {
                 DocsScreen(
                     onDocumentClick = { id ->
@@ -124,13 +119,6 @@ private fun MainScreenContent(navController: NavHostController) {
                             DocumentsNavDestinations.Details
                                 .createRoute(id)
                         )
-                    }
-                )
-            }
-            composable(MainNavDestinations.Groups.route) {
-                GroupsScreen(
-                    onCreateGroupClick = {
-                        navController.navigate(GroupNavDestinations.CreateGroup.route)
                     }
                 )
             }
@@ -163,9 +151,7 @@ private fun MainScreenContent(navController: NavHostController) {
                     }
                 )
             }
-            composable(GroupNavDestinations.CreateGroup.route) {
-                CreateGroupScreen()
-            }
+
             composable(SettingsNavDestinations.About.route) {
                 AboutScreen()
             }

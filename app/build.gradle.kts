@@ -104,6 +104,15 @@ dependencies {
     implementation(project(":utils:ui"))
     implementation(project(":core:navigation"))
 
+    implementation(project(":feature:group:manager"))
+    implementation(project(":feature:group:list"))
+    implementation(project(":feature:group:details"))
+    implementation(project(":feature:group:domain"))
+    implementation(project(":feature:group:db"))
+    implementation(project(":feature:group:repo-impl"))
+    implementation(project(":feature:group:repo-api"))
+    implementation(project(":feature:group:navigation"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)
     implementation(libs.androidx.activity.compose)
@@ -136,8 +145,6 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
-
-    implementation(libs.compose.color.picker.android)
 
     implementation(libs.google.inAppUpdate)
     implementation(libs.google.inAppUpdateKtx)

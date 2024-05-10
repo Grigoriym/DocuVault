@@ -1,11 +1,11 @@
 package com.grappim.docuvault.feature.docmanager.ui
 
 import android.net.Uri
+import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.uikit.DocumentFileUiData
 import com.grappim.docuvault.utils.files.models.CameraTakePictureData
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DraftDocument
-import com.grappim.domain.model.group.Group
 
 data class DocumentManagerState(
     val documentName: String = "",

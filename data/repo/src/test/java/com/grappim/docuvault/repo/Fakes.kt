@@ -1,11 +1,11 @@
 package com.grappim.docuvault.repo
 
+import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.testing.getRandomLong
 import com.grappim.docuvault.testing.getRandomString
 import com.grappim.docuvault.testing.nowDate
 import com.grappim.domain.model.document.CreateDocument
 import com.grappim.domain.model.document.DocumentFileData
-import com.grappim.domain.model.group.Group
 
 fun getCreateDocument(): CreateDocument = CreateDocument(
     id = getRandomLong(),

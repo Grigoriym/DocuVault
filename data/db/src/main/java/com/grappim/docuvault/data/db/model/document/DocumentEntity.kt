@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.grappim.docuvault.data.db.model.group.GroupEntity
+import com.grappim.docuvault.feature.group.db.model.GroupEntity
 import java.time.OffsetDateTime
 
 @Entity(

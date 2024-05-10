@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":utils:files"))
     implementation(project(":utils:date-time"))
     implementation(project(":common:async"))
+    implementation(project(":feature:group:db"))
 
     implementation(libs.androidx.security.crypto)
 
