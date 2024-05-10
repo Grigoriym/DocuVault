@@ -4,6 +4,7 @@ import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.feature.group.db.model.GroupEntity
 import com.grappim.docuvault.feature.group.db.model.GroupWithFieldsEntity
 import com.grappim.docuvault.feature.group.domain.Group
+import com.grappim.docuvault.feature.group.domain.GroupField
 import com.grappim.docuvault.feature.group.domain.GroupToCreate
 import com.grappim.docuvault.feature.group.repoapi.mappers.GroupMapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,7 +29,7 @@ class GroupMapperImpl @Inject constructor(
                 name = groupWithFieldsEntity.groupEntity.name,
                 color = groupWithFieldsEntity.groupEntity.color,
                 fields = groupWithFieldsEntity.groupFields.map { groupField ->
-                    com.grappim.docuvault.feature.group.domain.GroupField(
+                    GroupField(
                         groupId = groupField.groupId,
                         name = groupField.name,
                         value = groupField.value
