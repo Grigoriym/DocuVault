@@ -2,7 +2,7 @@ package com.grappim.docuvault.utils.files.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.datetime.DateTimeUtils
-import com.grappim.docuvault.uikit.utils.toColor
+import com.grappim.docuvault.uikit.utils.ColorUtils
 import com.grappim.docuvault.utils.files.models.DocumentListUI
 import com.grappim.domain.model.document.Document
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,7 +11,8 @@ import javax.inject.Inject
 
 class DocsListUIMapperImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val dateTimeUtils: DateTimeUtils
+    private val dateTimeUtils: DateTimeUtils,
+    private val colorUtils: ColorUtils
 ) : DocsListUIMapper {
     override suspend fun toDocumentListUIList(list: List<Document>): List<DocumentListUI> =
         withContext(ioDispatcher) {
@@ -21,7 +22,7 @@ class DocsListUIMapperImpl @Inject constructor(
                     id = document.documentId.toString(),
                     name = document.name,
                     createdDate = formattedDate,
-                    groupColor = document.group.color.toColor(),
+                    groupColor = colorUtils.toComposeColor(document.group.color),
                     preview = document.filesUri.firstOrNull()?.uriString ?: ""
                 )
             }

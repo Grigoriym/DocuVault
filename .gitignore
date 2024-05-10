@@ -11,3 +11,7 @@ local.properties
 /common/build/
 /data/build/
 /utils/build/
+/core/build/
+/feature/build/
+/feature/docmanager/build/
+/feature/group/build/

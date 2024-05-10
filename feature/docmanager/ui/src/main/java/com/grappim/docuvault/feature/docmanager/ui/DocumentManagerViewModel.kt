@@ -5,6 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grappim.docuvault.core.navigation.MainNavDestinations
+import com.grappim.docuvault.feature.group.domain.Group
+import com.grappim.docuvault.feature.group.repoapi.GroupRepository
 import com.grappim.docuvault.repo.DataCleaner
 import com.grappim.docuvault.uikit.DocumentFileUiData
 import com.grappim.docuvault.uikit.R
@@ -18,9 +20,7 @@ import com.grappim.docuvault.utils.ui.NativeText
 import com.grappim.docuvault.utils.ui.SnackbarStateViewModel
 import com.grappim.docuvault.utils.ui.SnackbarStateViewModelImpl
 import com.grappim.domain.model.document.CreateDocument
-import com.grappim.domain.model.group.Group
 import com.grappim.domain.repository.DocumentRepository
-import com.grappim.domain.repository.GroupRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

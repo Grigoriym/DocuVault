@@ -16,6 +16,9 @@ dependencies {
     implementation(project(":utils:ui"))
     implementation(project(":core:navigation"))
 
+    implementation(project(":feature:group:domain"))
+    implementation(project(":feature:group:repo-api"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)

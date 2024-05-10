@@ -5,11 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.grappim.docuvault.data.db.converters.DateTimeConverter
 import com.grappim.docuvault.data.db.dao.DocumentsDao
-import com.grappim.docuvault.data.db.dao.GroupsDao
 import com.grappim.docuvault.data.db.model.document.DocumentEntity
 import com.grappim.docuvault.data.db.model.document.DocumentFileEntity
-import com.grappim.docuvault.data.db.model.group.GroupEntity
-import com.grappim.docuvault.data.db.model.group.GroupFieldEntity
+import com.grappim.docuvault.feature.group.db.model.GroupEntity
+import com.grappim.docuvault.feature.group.db.model.GroupFieldEntity
 
 @Database(
     entities = [
@@ -25,6 +24,6 @@ import com.grappim.docuvault.data.db.model.group.GroupFieldEntity
     DateTimeConverter::class
 )
 abstract class DocuVaultDatabase : RoomDatabase() {
-    abstract fun categoryDao(): GroupsDao
+    abstract fun categoryDao(): com.grappim.docuvault.feature.group.db.dao.GroupsDao
     abstract fun documentsDao(): DocumentsDao
 }

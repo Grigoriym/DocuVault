@@ -14,4 +14,5 @@ kotlin {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    implementation(project(":feature:group:domain"))
 }

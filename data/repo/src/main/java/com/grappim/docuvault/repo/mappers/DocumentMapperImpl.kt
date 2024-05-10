@@ -4,11 +4,11 @@ import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.db.model.FullDocumentEntity
 import com.grappim.docuvault.data.db.model.document.DocumentEntity
 import com.grappim.docuvault.data.db.model.document.DocumentFileEntity
+import com.grappim.docuvault.feature.group.domain.Group
+import com.grappim.docuvault.feature.group.domain.GroupField
 import com.grappim.domain.model.document.CreateDocument
 import com.grappim.domain.model.document.Document
 import com.grappim.domain.model.document.DocumentFileData
-import com.grappim.domain.model.group.Group
-import com.grappim.domain.model.group.GroupField
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.time.OffsetDateTime

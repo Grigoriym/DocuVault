@@ -49,15 +49,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.uikit.DocumentFileUiData
 import com.grappim.docuvault.uikit.R
 import com.grappim.docuvault.uikit.theme.DefaultArrangement
 import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme
-import com.grappim.docuvault.uikit.widget.DomButtonDefault
-import com.grappim.docuvault.uikit.widget.DomGroupItem
 import com.grappim.docuvault.uikit.widget.PlatoAlertDialog
+import com.grappim.docuvault.uikit.widget.PlatoButtonDefault
 import com.grappim.docuvault.uikit.widget.PlatoFileItem
+import com.grappim.docuvault.uikit.widget.PlatoGroupItem
 import com.grappim.docuvault.uikit.widget.PlatoSnackbar
 import com.grappim.docuvault.uikit.widget.PlatoTextFieldDefault
 import com.grappim.docuvault.utils.files.models.CameraTakePictureData
@@ -65,7 +66,6 @@ import com.grappim.docuvault.utils.ui.LaunchedEffectResult
 import com.grappim.docuvault.utils.ui.NativeText
 import com.grappim.docuvault.utils.ui.asString
 import com.grappim.domain.model.MimeTypes
-import com.grappim.domain.model.group.Group
 
 @Composable
 fun DocumentManagerRoute(
@@ -268,7 +268,7 @@ private fun AddDocumentScreenContent(
                 )
             }
 
-            DomButtonDefault(
+            PlatoButtonDefault(
                 onClick = onCreateClick,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -313,7 +313,7 @@ private fun GroupsContent(
         contentPadding = PaddingValues(start = 8.dp)
     ) {
         items(groups) { group ->
-            DomGroupItem(
+            PlatoGroupItem(
                 group = group,
                 onGroupClick = onGroupClick,
                 isSelected = group.id == selectedGroup?.id
@@ -440,12 +440,30 @@ private fun AddDocumentScreenContentPreview() {
             setDocumentName = {},
             onGalleryClick = {},
             onCameraClick = {},
-            groups = Group.getGroupsForPreview(),
+            groups = listOf(
+                Group(
+                    id = 9587,
+                    name = "Renee Riggs",
+                    fields = listOf(),
+                    color = "veri"
+                ),
+                Group(
+                    id = 12,
+                    name = "Renee Riggs",
+                    fields = listOf(),
+                    color = "veri"
+                )
+            ),
             onCreateClick = {},
             filesUris = emptyList(),
             onFilesClick = {},
             onGroupClick = {},
-            selectedGroup = Group.getGroupForPreview(),
+            selectedGroup = Group(
+                id = 8833,
+                name = "Cindy Whitfield",
+                fields = listOf(),
+                color = "tempor"
+            ),
             scaffoldState = rememberScaffoldState(),
             onFileRemoved = {}
         )

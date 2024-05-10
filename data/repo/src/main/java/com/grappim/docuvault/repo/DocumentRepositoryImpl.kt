@@ -2,12 +2,12 @@ package com.grappim.docuvault.repo
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.db.dao.DocumentsDao
-import com.grappim.docuvault.data.db.dao.GroupsDao
 import com.grappim.docuvault.data.db.model.document.DocumentEntity
 import com.grappim.docuvault.datetime.DateTimeUtils
+import com.grappim.docuvault.feature.group.db.dao.GroupsDao
+import com.grappim.docuvault.feature.group.repoapi.mappers.GroupMapper
 import com.grappim.docuvault.repo.mappers.DocumentFileMapper
 import com.grappim.docuvault.repo.mappers.DocumentMapper
-import com.grappim.docuvault.repo.mappers.GroupMapper
 import com.grappim.docuvault.repo.mappers.toDocument
 import com.grappim.docuvault.repo.mappers.toEntity
 import com.grappim.docuvault.repo.mappers.toFileDataEntityList
