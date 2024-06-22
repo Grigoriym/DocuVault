@@ -9,15 +9,9 @@
     <string name="error_content_not_found">Content not found</string>
     <string name="error_unknown">Unknown error</string>
 
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="files">Files</string>
-
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
 
-    <string name="save_changes_before_exit">Save the changes before exit?</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

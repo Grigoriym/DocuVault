@@ -20,9 +20,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":uikit"))
     implementation(project(":utils:files"))
-    implementation(project(":domain"))
+    implementation(project(":feature:docs:domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

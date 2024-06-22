@@ -21,15 +21,12 @@ rootProject.name = "DocuVault"
 
 include(":app")
 include(":uikit")
-include(":domain")
 include(":data:storage")
-include(":data:repo")
 include(":data:db")
 include(":common:async")
 include(":testing")
 include(":utils:files")
 include(":utils:date-time")
-include(":feature:docmanager:ui")
 include(":utils:ui")
 include(":core:navigation")
 include(":feature:group:manager")
@@ -40,3 +37,28 @@ include(":feature:group:repo-api")
 include(":feature:group:repo-impl")
 include(":feature:group:db")
 include(":feature:group:navigation")
+include(
+    ":feature:docs:db",
+    ":feature:docs:manager",
+    ":feature:docs:list",
+    ":feature:docs:list",
+    ":feature:docs:details",
+    ":feature:docs:repo-impl",
+    ":feature:docs:repo-api",
+    ":feature:docs:navigation",
+    ":feature:docs:domain"
+)
+include(
+    ":data:backup-api",
+    ":data:backup-impl",
+    ":data:backup-db"
+)
+include(":data:cleaner-api")
+include(":data:cleaner-impl")
+include(":data:db-api")
+include(":utils:files-api")
+include(":feature:group:ui-api")
+include(":feature:group:ui-impl")
+include(":feature:docs:ui-api")
+include(":feature:docs:ui-impl")
+include(":utils:date-time-api")

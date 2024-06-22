@@ -24,7 +24,7 @@ private const val DEFAULT_GRID_SIZE = 3
 fun GroupListScreenRoute(
     viewModel: GroupListViewModel = hiltViewModel(),
     onCreateGroupClick: () -> Unit,
-    onGroupClick: (String) -> Unit
+    onGroupClick: (Long) -> Unit
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
 
@@ -39,7 +39,7 @@ fun GroupListScreenRoute(
 private fun GroupListScreenContent(
     state: GroupListState,
     onCreateGroupClick: () -> Unit,
-    onGroupClick: (String) -> Unit
+    onGroupClick: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -55,11 +55,13 @@ private fun GroupListScreenContent(
         ) {
             items(state.groups) { group ->
                 PlatoGroupItem(
-                    group = group,
+                    id = group.id,
+                    name = group.name,
+                    color = group.color,
+                    isSelected = true,
                     onGroupClick = {
-                        onGroupClick(it.id.toString())
-                    },
-                    isSelected = true
+                        onGroupClick(group.id)
+                    }
                 )
             }
         }

@@ -14,14 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.grappim.docuvault.uikit.DocumentFileUiData
+import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
 
 @Composable
 fun PlatoFileItem(
     modifier: Modifier = Modifier,
-    fileData: DocumentFileUiData,
-    onFileClicked: (file: DocumentFileUiData) -> Unit
+    fileData: DocumentFileUI,
+    onFileClicked: (file: DocumentFileUI) -> Unit
 ) {
     Row(
         modifier = modifier

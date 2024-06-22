@@ -26,20 +26,16 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
 import com.grappim.docuvault.core.navigation.MainNavDestinations
 import com.grappim.docuvault.core.navigation.SettingsNavDestinations
 import com.grappim.docuvault.core.navigation.bottomNavigationScreens
-import com.grappim.docuvault.feature.docmanager.ui.DocumentManagerRoute
+import com.grappim.docuvault.feature.docs.navigation.docsScreen
 import com.grappim.docuvault.feature.group.navigation.groupsScreens
-import com.grappim.docuvault.ui.screens.docs.details.DocumentDetailsScreen
-import com.grappim.docuvault.ui.screens.docs.list.DocsScreen
 import com.grappim.docuvault.ui.screens.settings.SettingsItem
 import com.grappim.docuvault.ui.screens.settings.SettingsScreen
 import com.grappim.docuvault.ui.screens.settings.about.AboutScreen
@@ -89,7 +85,7 @@ private fun MainScreenContent(navController: NavHostController) {
                 FloatingActionButton(
                     onClick = {
                         navController.navigate(
-                            MainNavDestinations.ProductManager.getRouteToNavigate("")
+                            DocumentsNavDestinations.DocManager.getRouteToNavigate("")
                         ) {
                             popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
@@ -100,7 +96,7 @@ private fun MainScreenContent(navController: NavHostController) {
                     },
                     shape = CircleShape
                 ) {
-                    PlatoIcon(imageVector = MainNavDestinations.ProductManager.icon)
+                    PlatoIcon(imageVector = DocumentsNavDestinations.DocManager.icon)
                 }
             }
         }
@@ -112,34 +108,8 @@ private fun MainScreenContent(navController: NavHostController) {
             startDestination = MainNavDestinations.Settings.route
         ) {
             groupsScreens(navController)
-            composable(MainNavDestinations.Docs.route) {
-                DocsScreen(
-                    onDocumentClick = { id ->
-                        navController.navigate(
-                            DocumentsNavDestinations.Details
-                                .createRoute(id)
-                        )
-                    }
-                )
-            }
-            composable(
-                route = MainNavDestinations.ProductManager.route,
-                arguments = listOf(
-                    navArgument(MainNavDestinations.ProductManager.KEY_EDIT_PRODUCT_ID) {
-                        type = NavType.StringType
-                        nullable = true
-                    }
-                )
-            ) {
-                DocumentManagerRoute(
-                    onDocumentDone = {
-                        navController.popBackStack()
-                    },
-                    goBack = {
-                        navController.popBackStack()
-                    }
-                )
-            }
+            docsScreen(navController)
+
             composable(MainNavDestinations.Settings.route) {
                 SettingsScreen(
                     onItemClick = {
@@ -151,19 +121,8 @@ private fun MainScreenContent(navController: NavHostController) {
                     }
                 )
             }
-
             composable(SettingsNavDestinations.About.route) {
                 AboutScreen()
-            }
-            composable(
-                route = DocumentsNavDestinations.Details.route,
-                arguments = listOf(
-                    navArgument(DocumentsNavDestinations.Details.documentIdArgument()) {
-                        type = NavType.StringType
-                    }
-                )
-            ) {
-                DocumentDetailsScreen()
             }
         }
     }

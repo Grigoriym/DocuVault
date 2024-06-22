@@ -20,7 +20,7 @@ fun NavGraphBuilder.groupsScreens(navController: NavController) {
             onGroupClick = {
                 navController.navigate(
                     GroupNavDestinations.GroupDetails.getRouteToNavigate(
-                        it
+                        it.toString()
                     )
                 )
             }

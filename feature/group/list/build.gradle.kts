@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":uikit"))
     implementation(project(":feature:group:domain"))
     implementation(project(":feature:group:repo-api"))
+    implementation(project(":feature:group:ui-api"))
 
     implementation(libs.androidx.core.ktx)
 

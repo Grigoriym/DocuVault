@@ -1,7 +1,6 @@
 package com.grappim.docuvault.utils.ui
 
-import com.grappim.docuvault.uikit.R
-import com.grappim.domain.model.MimeTypes
+import com.grappim.docuvault.utils.files.MimeTypes
 import javax.inject.Inject
 
 class MimeTypeImageHelper @Inject constructor() {
