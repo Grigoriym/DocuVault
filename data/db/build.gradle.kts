@@ -21,11 +21,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":utils:files"))
     implementation(project(":utils:date-time"))
     implementation(project(":common:async"))
     implementation(project(":feature:group:db"))
+    implementation(project(":feature:docs:db"))
+    implementation(project(":data:backup-db"))
+    implementation(project(":data:db-api"))
 
     implementation(libs.androidx.security.crypto)
 

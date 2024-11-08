@@ -9,6 +9,5 @@ android {
 
 dependencies {
     implementation(project(":feature:group:domain"))
-    implementation(project(":data:db"))
     implementation(project(":feature:group:db"))
 }

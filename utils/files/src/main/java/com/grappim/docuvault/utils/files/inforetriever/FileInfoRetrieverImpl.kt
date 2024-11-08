@@ -5,7 +5,7 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import com.grappim.docuvault.datetime.DateTimeUtils
-import com.grappim.domain.model.MimeTypes
+import com.grappim.docuvault.utils.files.MimeTypes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.time.OffsetDateTime

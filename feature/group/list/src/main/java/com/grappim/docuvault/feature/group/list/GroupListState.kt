@@ -1,7 +1,7 @@
 package com.grappim.docuvault.feature.group.list
 
-import com.grappim.docuvault.feature.group.domain.Group
+import com.grappim.docuvault.feature.group.uiapi.GroupUI
 
 data class GroupListState(
-    val groups: List<Group> = emptyList()
+    val groups: List<GroupUI> = emptyList()
 )

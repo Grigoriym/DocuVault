@@ -1,9 +1,12 @@
 package com.grappim.docuvault.utils.files.mappers
 
-import com.grappim.docuvault.uikit.DocumentFileUiData
-import com.grappim.domain.model.document.DocumentFileData
+import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 
 interface FileDataMapper {
-    suspend fun toDocumentFileData(documentFileUiData: DocumentFileUiData): DocumentFileData
-    suspend fun toDocumentFileDataList(list: List<DocumentFileUiData>): List<DocumentFileData>
+    suspend fun toDocumentFileData(documentFileUI: DocumentFileUI): DocumentFile
+    suspend fun toDocumentFileDataList(list: List<DocumentFileUI>): List<DocumentFile>
+
+    suspend fun toDocumentFileUiData(documentFile: DocumentFile): DocumentFileUI
+    suspend fun toDocumentFileUiDataList(list: List<DocumentFile>): List<DocumentFileUI>
 }

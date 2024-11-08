@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.docuvault.android.hilt)
+    alias(libs.plugins.moduleGraphAssertion)
 }
 
 android {
@@ -19,7 +20,7 @@ android {
 
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 6
+        versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -93,14 +94,11 @@ android {
 
 dependencies {
     implementation(project(":uikit"))
-    implementation(project(":domain"))
     implementation(project(":utils:files"))
     implementation(project(":common:async"))
-    implementation(project(":data:repo"))
     implementation(project(":data:db"))
     implementation(project(":data:storage"))
     implementation(project(":utils:date-time"))
-    implementation(project(":feature:docmanager:ui"))
     implementation(project(":utils:ui"))
     implementation(project(":core:navigation"))
 
@@ -112,6 +110,26 @@ dependencies {
     implementation(project(":feature:group:repo-impl"))
     implementation(project(":feature:group:repo-api"))
     implementation(project(":feature:group:navigation"))
+    implementation(project(":feature:group:ui-api"))
+    implementation(project(":feature:group:ui-impl"))
+
+    implementation(project(":feature:docs:db"))
+    implementation(project(":feature:docs:manager"))
+    implementation(project(":feature:docs:list"))
+    implementation(project(":feature:docs:details"))
+    implementation(project(":feature:docs:domain"))
+    implementation(project(":feature:docs:navigation"))
+    implementation(project(":feature:docs:repo-impl"))
+    implementation(project(":feature:docs:repo-api"))
+
+    implementation(project(":data:backup-impl"))
+    implementation(project(":data:backup-api"))
+    implementation(project(":data:backup-db"))
+
+    implementation(project(":data:cleaner-api"))
+    implementation(project(":data:cleaner-impl"))
+
+    implementation(project(":utils:files-api"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)
@@ -158,4 +176,9 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.timber)
+}
+
+moduleGraphAssert {
+    maxHeight = 6
+    assertOnAnyBuild = true
 }

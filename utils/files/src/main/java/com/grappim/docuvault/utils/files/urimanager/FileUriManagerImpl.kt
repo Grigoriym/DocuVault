@@ -3,7 +3,7 @@ package com.grappim.docuvault.utils.files.urimanager
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.grappim.docuvault.uikit.DocumentFileUiData
+import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.files.HashUtils
 import com.grappim.docuvault.utils.files.creation.FileCreationUtils
 import com.grappim.docuvault.utils.files.inforetriever.FileInfoRetriever
@@ -24,11 +24,24 @@ class FileUriManagerImpl @Inject constructor(
     private val fileCreationUtils: FileCreationUtils
 ) : FileUriManager {
 
-    override fun getFileUriFromGalleryUri(
+    override suspend fun getDocumentFileDataList(
+        uriList: List<Uri>,
+        folderName: String,
+        isEdit: Boolean
+    ): List<DocumentFileUI> {
+        val result = mutableListOf<DocumentFileUI>()
+        uriList.forEach { uri ->
+            val documentFileUiData = getDocumentFileData(uri, folderName, isEdit)
+            result.add(documentFileUiData)
+        }
+        return result
+    }
+
+    override suspend fun getDocumentFileData(
         uri: Uri,
         folderName: String,
         isEdit: Boolean
-    ): DocumentFileUiData {
+    ): DocumentFileUI {
         val folder = if (isEdit) {
             folderPathManager.getTempFolderName(folderName)
         } else {
@@ -40,7 +53,7 @@ class FileUriManagerImpl @Inject constructor(
         val newUri = getFileUri(newFile)
         val fileSize = fileInfoRetriever.getFileSize(newUri)
         val mimeType = fileInfoRetriever.getMimeType(uri)
-        return DocumentFileUiData(
+        return DocumentFileUI(
             uri = newUri,
             name = newFile.name,
             size = fileSize,
@@ -53,13 +66,13 @@ class FileUriManagerImpl @Inject constructor(
     override fun getFileDataFromCameraPicture(
         cameraTakePictureData: CameraTakePictureData,
         isEdit: Boolean
-    ): DocumentFileUiData {
+    ): DocumentFileUI {
         val uri = cameraTakePictureData.uri
         val file = cameraTakePictureData.file
         Timber.d("getFileUrisFromUri, $cameraTakePictureData")
         val fileSize = fileInfoRetriever.getFileSize(uri)
         val mimeType = fileInfoRetriever.getMimeType(uri)
-        return DocumentFileUiData(
+        return DocumentFileUI(
             uri = uri,
             name = fileInfoRetriever.getFileName(uri),
             size = fileSize,

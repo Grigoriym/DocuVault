@@ -8,43 +8,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme
-import com.grappim.docuvault.uikit.utils.toComposeColor
+import com.grappim.docuvault.uikit.utils.ThemePreviews
 
 @Composable
-fun PlatoGroupItem(group: Group, onGroupClick: (Group) -> Unit, isSelected: Boolean = false) {
-    val backgroundColor = if (isSelected) {
-        group.color.toComposeColor()
+fun PlatoGroupItem(
+    color: Color,
+    id: Long,
+    name: String,
+    isSelected: Boolean,
+    onGroupClick: (id: Long) -> Unit
+) {
+    val cardColor = if (isSelected) {
+        color
     } else {
         Color.Gray
     }
     Card(
-        modifier = Modifier
-            .size(100.dp),
-        backgroundColor = backgroundColor,
+        modifier = Modifier.size(100.dp),
+        backgroundColor = cardColor,
         onClick = {
-            onGroupClick(group)
+            onGroupClick(id)
         }
     ) {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Text(text = group.name)
+            Text(text = name)
         }
     }
 }
 
-@Composable
-@Preview(
-    showBackground = true
-)
-private fun DomGroupItemPreview() {
+@[Composable ThemePreviews]
+private fun PlatoGroupItemPreview() {
     DocuVaultTheme {
         PlatoGroupItem(
-            group = Group(id = 0, name = "Name", fields = listOf(), color = "FFCB77"),
+            color = Color.Green,
+            id = 1L,
+            name = "name",
+            isSelected = true,
+            onGroupClick = {}
+        )
+    }
+}
+
+@[Composable ThemePreviews]
+private fun PlatoGroupItemNotSelectedPreview() {
+    DocuVaultTheme {
+        PlatoGroupItem(
+            color = Color.Blue,
+            id = 1L,
+            name = "name",
+            isSelected = false,
             onGroupClick = {}
         )
     }

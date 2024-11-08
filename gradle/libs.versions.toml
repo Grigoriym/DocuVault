@@ -60,6 +60,7 @@ material = "1.12.0"
 sqlCipher = "4.5.4"
 
 robolectric = "4.12.1"
+moduleGraphAssertion = "2.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -163,6 +164,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 jacocoAggregationCoverage = { id = "io.github.gmazzo.test.aggregation.coverage", version.ref = "jacocoAggregation" }
 jacocoAggregationResults = { id = "io.github.gmazzo.test.aggregation.results", version.ref = "jacocoAggregation" }
+moduleGraphAssertion = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraphAssertion" }
 
 # Plugins definded in the included build-logic
 docuvault-android-hilt = { id = "docuvault.android.hilt", version = "unspecified" }
