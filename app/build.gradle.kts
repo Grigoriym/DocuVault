@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.docuvault.android.hilt)
     alias(libs.plugins.moduleGraphAssertion)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -63,9 +64,6 @@ android {
         freeCompilerArgs += "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
         freeCompilerArgs += "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi"
         freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeKotlinCompiler.get()
     }
     testOptions {
         unitTests {
