@@ -59,7 +59,7 @@ material = "1.12.0"
 sqlCipher = "4.5.4"
 
 robolectric = "4.14-beta-1"
-moduleGraphAssertion = "2.5.0"
+moduleGraphAssertion = "2.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
