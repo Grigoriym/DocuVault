@@ -42,7 +42,7 @@ mockk = "1.13.13"
 
 kotlin = "2.0.20"
 kotlin-serialization = "1.6.3"
-coroutines = "1.8.1"
+coroutines = "1.10.1"
 ksp = "2.0.20-1.0.25"
 
 androidxEspresso = "3.6.1"
