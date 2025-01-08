@@ -82,7 +82,7 @@ class DocumentRepositoryImpl @Inject constructor(
         documentsDao.insert(documentMapper.toDocumentEntity(document))
     }
 
-    override suspend fun addDocuments(documents: List<Document>) = withContext(ioDispatcher) {
+    override suspend fun addDocuments(documents: List<Document>): Unit = withContext(ioDispatcher) {
         documents.map { document ->
             async {
                 documentsDao.insertDocumentAndFiles(
@@ -94,7 +94,6 @@ class DocumentRepositoryImpl @Inject constructor(
                 )
             }
         }.awaitAll()
-        Unit
     }
 
     override suspend fun removeDocumentById(id: Long) {
@@ -113,5 +112,10 @@ class DocumentRepositoryImpl @Inject constructor(
     override suspend fun updateFilesInDocument(documentId: Long, files: List<DocumentFile>) {
         val filesEntities = documentFileMapper.toDocumentFileEntityList(documentId, files)
         documentsDao.upsertFiles(filesEntities)
+    }
+
+    override suspend fun getDocumentsByGroupId(groupId: Long): List<Document> {
+        val entities = documentsDao.getDocumentsByGroupId(groupId)
+        return documentMapper.toDocumentList(entities)
     }
 }

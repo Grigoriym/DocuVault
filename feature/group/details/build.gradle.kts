@@ -11,8 +11,10 @@ android {
 dependencies {
     implementation(project(":uikit"))
     implementation(project(":core:navigation"))
+    implementation(project(":utils:files"))
     implementation(project(":feature:group:domain"))
     implementation(project(":feature:group:repo-api"))
+    implementation(project(":feature:docs:repo-api"))
 
     implementation(libs.androidx.core.ktx)
 
@@ -28,4 +30,5 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.compose.color.picker.android)
+    implementation(libs.coil)
 }

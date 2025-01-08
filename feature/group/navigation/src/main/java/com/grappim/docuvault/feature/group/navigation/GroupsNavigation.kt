@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
 import com.grappim.docuvault.core.navigation.GroupNavDestinations
 import com.grappim.docuvault.core.navigation.MainNavDestinations
 import com.grappim.docuvault.feature.group.details.GroupDetailsRoute
@@ -43,9 +44,14 @@ fun NavGraphBuilder.groupsScreens(navController: NavController) {
         )
     ) {
         GroupDetailsRoute(
-            goBack = {
-                navController.popBackStack()
+            onDocumentClick = { id ->
+                navController.navigate(
+                    DocumentsNavDestinations.Details.createRoute(id)
+                )
             }
+//            goBack = {
+//                navController.popBackStack()
+//            }
         )
     }
 }

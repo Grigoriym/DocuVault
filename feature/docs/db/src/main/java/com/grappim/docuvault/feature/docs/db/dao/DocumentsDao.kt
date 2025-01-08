@@ -15,6 +15,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DocumentsDao {
 
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM document_table 
+WHERE groupId=:groupId AND isCreated=1 
+ORDER BY createdDate
+    """
+    )
+    suspend fun getDocumentsByGroupId(groupId: Long): List<FullDocumentEntity>
+
     @[Transaction Query("SELECT * FROM document_table WHERE isCreated=1 ORDER BY createdDate")]
     fun getFullDocumentsFlow(): Flow<List<FullDocumentEntity>>
 
