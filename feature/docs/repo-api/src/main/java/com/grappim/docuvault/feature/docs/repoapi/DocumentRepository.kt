@@ -21,4 +21,5 @@ interface DocumentRepository {
     suspend fun updateDocumentWithFiles(document: Document, files: List<DocumentFile>)
 
     suspend fun updateFilesInDocument(documentId: Long, files: List<DocumentFile>)
+    suspend fun getDocumentsByGroupId(groupId: Long): List<Document>
 }
