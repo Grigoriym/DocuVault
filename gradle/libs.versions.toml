@@ -1,5 +1,5 @@
 [versions]
-compose-bom = "2024.12.01"
+compose-bom = "2025.05.00"
 composeColorPicker = "0.7.0"
 firebase-bom = "33.7.0"
 firebaseCrashlytics = "3.0.2"
