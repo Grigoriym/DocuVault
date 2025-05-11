@@ -22,8 +22,8 @@ class GroupRepositoryImpl @Inject constructor(
         groupMapper.toGroupList(list)
     }
 
-    override suspend fun getGroupById(groupId: String): Group {
-        val entity = groupsDao.getFullGroupById(groupId.toLong())
+    override suspend fun getGroupById(groupId: Long): Group {
+        val entity = groupsDao.getFullGroupById(groupId)
         return groupMapper.toGroup(entity)
     }
 

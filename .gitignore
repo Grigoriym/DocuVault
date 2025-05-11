@@ -16,3 +16,6 @@ local.properties
 /feature/docmanager/build/
 /feature/group/build/
 /feature/docs/build/
+/feature/settings/build/
+
+.kotlin

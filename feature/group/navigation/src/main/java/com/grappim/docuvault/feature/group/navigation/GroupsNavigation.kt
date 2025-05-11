@@ -1,57 +1,32 @@
 package com.grappim.docuvault.feature.group.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
-import com.grappim.docuvault.core.navigation.GroupNavDestinations
-import com.grappim.docuvault.core.navigation.MainNavDestinations
+import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
+import com.grappim.docuvault.core.navigation.GroupManagerNavRoute
+import com.grappim.docuvault.core.navigation.GroupsListNavRoute
 import com.grappim.docuvault.feature.group.details.GroupDetailsRoute
 import com.grappim.docuvault.feature.group.list.GroupListScreenRoute
 import com.grappim.docuvault.feature.group.manager.GroupManagerScreenRoute
 
-fun NavGraphBuilder.groupsScreens(navController: NavController) {
-    composable(MainNavDestinations.GroupList.route) {
+fun NavGraphBuilder.groupsScreens(
+    onGroupClick: (Long) -> Unit,
+    onDocClickedFromGroup: (Long) -> Unit,
+    onBackFromManager: () -> Unit
+) {
+    composable<GroupsListNavRoute> {
         GroupListScreenRoute(
-            onCreateGroupClick = {
-                navController.navigate(GroupNavDestinations.GroupManager.route)
-            },
-            onGroupClick = {
-                navController.navigate(
-                    GroupNavDestinations.GroupDetails.getRouteToNavigate(
-                        it.toString()
-                    )
-                )
-            }
+            onGroupClick = onGroupClick
         )
     }
-    composable(GroupNavDestinations.GroupManager.route) {
+    composable<GroupManagerNavRoute> {
         GroupManagerScreenRoute(
-            onGroupSaved = {
-                navController.popBackStack()
-            }
+            onBack = onBackFromManager
         )
     }
-    composable(
-        route = GroupNavDestinations.GroupDetails.route,
-        arguments = listOf(
-            navArgument(GroupNavDestinations.GroupDetails.KEY_GROUP_ID) {
-                type = NavType.StringType
-                nullable = false
-            }
-        )
-    ) {
+    composable<GroupDetailsNavRoute> {
         GroupDetailsRoute(
-            onDocumentClick = { id ->
-                navController.navigate(
-                    DocumentsNavDestinations.Details.createRoute(id)
-                )
-            }
-//            goBack = {
-//                navController.popBackStack()
-//            }
+            onDocumentClick = onDocClickedFromGroup
         )
     }
 }

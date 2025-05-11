@@ -1,4 +1,5 @@
 import com.android.build.gradle.LibraryExtension
+import com.grappim.docuvault.buildlogic.configureFlavors
 import com.grappim.docuvault.buildlogic.configureKotlinAndroid
 import com.grappim.docuvault.buildlogic.libs
 import org.gradle.api.Plugin
@@ -17,16 +18,17 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
-                configureKotlinAndroid(this)
                 defaultConfig.targetSdk = libs.findVersion("targetSdk").get().toString().toInt()
+                configureKotlinAndroid(this)
+                configureFlavors(this)
             }
 
-            dependencies {
-                add("testImplementation", kotlin("test"))
-                add("testImplementation", project(":testing"))
-                add("androidTestImplementation", kotlin("test"))
-                add("androidTestImplementation", project(":testing"))
-            }
+//            dependencies {
+//                add("testImplementation", kotlin("test"))
+//                add("testImplementation", project(":testing"))
+//                add("androidTestImplementation", kotlin("test"))
+//                add("androidTestImplementation", project(":testing"))
+//            }
         }
     }
 }

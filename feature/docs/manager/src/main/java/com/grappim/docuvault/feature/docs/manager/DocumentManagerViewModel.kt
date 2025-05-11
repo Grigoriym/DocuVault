@@ -4,7 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.grappim.docuvault.core.navigation.DocumentsNavDestinations
+import androidx.navigation.toRoute
+import com.grappim.docuvault.core.navigation.DocManagerNavRoute
 import com.grappim.docuvault.data.backupapi.BackupFilesRepository
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docs.domain.CreateDocument
@@ -64,11 +65,12 @@ class DocumentManagerViewModel @Inject constructor(
     )
     val viewState = _viewState.asStateFlow()
 
-    private val editDocumentId: String? =
-        savedStateHandle[DocumentsNavDestinations.DocManager.KEY_EDIT_DOC_ID]
+    private val docManagerNavRoute = savedStateHandle.toRoute<DocManagerNavRoute>()
 
-    private val editDocumentIdLong: Long
-        get() = requireNotNull(editDocumentId?.toLong())
+    private val editDocumentId: Long? = docManagerNavRoute.documentId
+
+    private val editDocumentIdNotNull: Long
+        get() = requireNotNull(editDocumentId)
 
     private val documentFolderName: String
         get() = if (_viewState.value.isNewDocument) {
@@ -86,7 +88,7 @@ class DocumentManagerViewModel @Inject constructor(
         }
     }
 
-    private fun isEdit(): Boolean = editDocumentId?.isNotEmpty() == true
+    private fun isEdit(): Boolean = editDocumentId != null
 
     private fun prepareGroups() {
         viewModelScope.launch {
@@ -115,14 +117,14 @@ class DocumentManagerViewModel @Inject constructor(
 
     private fun prepareDocumentToEdit() {
         viewModelScope.launch {
-            val editDocument = documentRepository.getDocumentById(editDocumentIdLong)
+            val editDocument = documentRepository.getDocumentById(editDocumentIdNotNull)
 
             documentFileManager.copyToBackupFolder(
                 documentFolderName = editDocument.documentFolderName
             )
 
             backupFilesRepository.insertFiles(
-                documentId = editDocumentIdLong,
+                documentId = editDocumentIdNotNull,
                 files = editDocument.files
             )
 
@@ -262,7 +264,7 @@ class DocumentManagerViewModel @Inject constructor(
 
             val editProduct = requireNotNull(_viewState.value.editDocument)
             val document = Document(
-                documentId = editDocumentIdLong,
+                documentId = editDocumentIdNotNull,
                 name = name,
                 createdDate = editProduct.createdDate,
                 group = groupUIMapper.toGroup(group),
@@ -278,7 +280,7 @@ class DocumentManagerViewModel @Inject constructor(
             dataCleaner.deleteBackupFolder(
                 documentFolderName = documentFolderName
             )
-            backupFilesRepository.deleteFilesByDocumentId(editDocumentIdLong)
+            backupFilesRepository.deleteFilesByDocumentId(editDocumentIdNotNull)
 
             documentRepository.updateDocumentWithFiles(document, editedFiles)
 
@@ -318,14 +320,14 @@ class DocumentManagerViewModel @Inject constructor(
                     documentFolderName = draftDocument.documentFolderName
                 )
             } else {
-                val initialFiles = backupFilesRepository.getAllByDocumentId(editDocumentIdLong)
-                documentRepository.updateFilesInDocument(editDocumentIdLong, initialFiles)
+                val initialFiles = backupFilesRepository.getAllByDocumentId(editDocumentIdNotNull)
+                documentRepository.updateFilesInDocument(editDocumentIdNotNull, initialFiles)
                 documentFileManager.moveFromBackupToOriginalFolder(documentFolderName)
 
                 dataCleaner.deleteTempFolder(documentFolderName)
                 dataCleaner.deleteBackupFolder(documentFolderName)
 
-                backupFilesRepository.deleteFilesByDocumentId(editDocumentIdLong)
+                backupFilesRepository.deleteFilesByDocumentId(editDocumentIdNotNull)
             }
             _viewState.update { it.copy(quitStatus = QuitStatus.Finish) }
         }

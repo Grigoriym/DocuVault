@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.docuvault.android.library)
     alias(libs.plugins.docuvault.android.library.compose)
+    alias(libs.plugins.docuvault.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -11,4 +13,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

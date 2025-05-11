@@ -1,11 +1,14 @@
 package com.grappim.docuvault.feature.docs.repoimpl.mappers
 
+import com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity
 import com.grappim.docuvault.feature.docs.repoimpl.getCreateDocument
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DocumentFileMapperImplTest {
 
     private val sut = DocumentFileMapperImpl(UnconfinedTestDispatcher())
@@ -17,7 +20,7 @@ class DocumentFileMapperImplTest {
         val first = createDocument.files.first()
         val second = createDocument.files[1]
         val expected = listOf(
-            com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity(
+            DocumentFileEntity(
                 fileId = first.fileId,
                 documentId = createDocument.id,
                 name = first.name,
@@ -26,7 +29,7 @@ class DocumentFileMapperImplTest {
                 uriString = first.uriString,
                 md5 = first.md5
             ),
-            com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity(
+            DocumentFileEntity(
                 fileId = second.fileId,
                 documentId = createDocument.id,
                 name = second.name,

@@ -1,34 +1,38 @@
 package com.grappim.docuvault.core.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
+import kotlinx.serialization.Serializable
 
-sealed interface DocumentsNavDestinations {
-    val route: String
+const val IS_FROM_EDIT = "is_from_edit"
 
-    data object Details : DocumentsNavDestinations {
+@Serializable
+data object DocsListNavRoute
 
-        private const val PREFIX = "documents_details_destination"
+@Serializable
+data class DocDetailsNavRoute(val documentId: Long, val isFromEdit: Boolean = false)
 
-        const val KEY_DOC_ID = "keyDocId"
+@Serializable
+data class DocManagerNavRoute(val documentId: Long? = null)
 
-        override val route: String =
-            "$PREFIX/?$KEY_DOC_ID={$KEY_DOC_ID}"
+fun NavController.navigateToDocsList(navOptions: NavOptions) =
+    navigate(route = DocsListNavRoute, navOptions)
 
-        const val IS_FROM_EDIT = "is_from_edit"
-
-        fun createRoute(documentId: Long) = "$PREFIX/?$KEY_DOC_ID=$documentId"
+fun NavController.navigateToDocDetails(
+    documentId: Long,
+    navOptions: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigate(route = DocDetailsNavRoute(documentId)) {
+        navOptions()
     }
+}
 
-    data object DocManager : DocumentsNavDestinations {
-        private const val PREFIX = "doc_manager"
-        const val KEY_EDIT_DOC_ID = "keyEditDocId"
-
-        override val route: String = "$PREFIX/?$KEY_EDIT_DOC_ID={$KEY_EDIT_DOC_ID}"
-
-        val icon: ImageVector = Icons.Filled.Add
-
-        fun getRouteToNavigate(id: String?) = "$PREFIX/?$KEY_EDIT_DOC_ID=$id"
+fun NavController.navigateToDocManager(
+    documentId: Long?,
+    navOptions: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigate(route = DocManagerNavRoute(documentId)) {
+        navOptions()
     }
 }

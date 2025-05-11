@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.grappim.docuvault.feature.docs.manager
 
 import android.net.Uri
@@ -22,16 +24,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -186,7 +188,7 @@ private fun DocumentManagerContent(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     var cameraTakePictureData by remember {
         mutableStateOf(CameraTakePictureData.empty())
     }
@@ -214,16 +216,15 @@ private fun DocumentManagerContent(
 
     LaunchedEffect(snackBarMessage) {
         if (snackBarMessage.data !is NativeText.Empty) {
-            scaffoldState.snackbarHostState.showSnackbar(
+            snackbarHostState.showSnackbar(
                 message = snackBarMessage.data.asString(context)
             )
         }
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
         snackbarHost = {
-            SnackbarHost(it) { data ->
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 PlatoSnackbar(
                     snackbarData = data
                 )

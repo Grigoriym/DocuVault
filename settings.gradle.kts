@@ -16,6 +16,7 @@ dependencyResolutionManagement {
 
 // https://issuetracker.google.com/issues/315023802#comment18
 gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+// enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "DocuVault"
 
@@ -62,3 +63,13 @@ include(":feature:group:ui-impl")
 include(":feature:docs:ui-api")
 include(":feature:docs:ui-impl")
 include(":utils:date-time-api")
+include(":feature:settings:ui")
+include(":feature:settings:navigation")
+
+check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    """
+    DocuVault requires JDK 17+ but it is currently using JDK ${JavaVersion.current()}.
+    Java Home: [${System.getProperty("java.home")}]
+    https://developer.android.com/build/jdks#jdk-config-in-studio
+    """.trimIndent()
+}

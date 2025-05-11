@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.docuvault.android.library)
     alias(libs.plugins.docuvault.android.library.compose)
+    alias(libs.plugins.docuvault.kotlin.serialization)
 }
 
 android {

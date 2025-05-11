@@ -5,8 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,13 +34,13 @@ import com.grappim.feature.group.manager.R
 @Composable
 fun GroupManagerScreenRoute(
     viewModel: GroupManagerViewModel = hiltViewModel(),
-    onGroupSaved: () -> Unit
+    onBack: () -> Unit
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
 
     LaunchedEffect(state.groupSaved) {
         if (state.groupSaved) {
-            onGroupSaved()
+            onBack()
         }
     }
 
@@ -107,15 +108,17 @@ private fun GroupManagerScreenContent(state: GroupManagerState) {
                 text = stringResource(id = R.string.color)
             )
             Card(
-                backgroundColor = state.color,
-                onClick = {
-                    openDialog = true
-                },
                 border = BorderStroke(1.dp, Color.Gray),
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .size(60.dp),
-                content = {}
+                content = {},
+                onClick = {
+                    openDialog = true
+                },
+                colors = CardDefaults.cardColors().copy(
+                    containerColor = state.color
+                )
             )
         }
 

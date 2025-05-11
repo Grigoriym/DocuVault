@@ -1,17 +1,31 @@
 package com.grappim.docuvault.core.navigation
 
-sealed interface GroupNavDestinations {
-    val route: String
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
+import kotlinx.serialization.Serializable
 
-    data object GroupManager : GroupNavDestinations {
-        override val route: String = "group_manager_destination"
-    }
+@Serializable
+data object GroupManagerNavRoute
 
-    data object GroupDetails : GroupNavDestinations {
-        private const val PREFIX = "group_details_destination"
+@Serializable
+data class GroupDetailsNavRoute(val groupId: Long)
 
-        const val KEY_GROUP_ID = "keyGroupId"
-        override val route: String = "$PREFIX/?$KEY_GROUP_ID={$KEY_GROUP_ID}"
-        fun getRouteToNavigate(id: String) = "$PREFIX/?$KEY_GROUP_ID=$id"
+@Serializable
+data object GroupsListNavRoute
+
+fun NavController.navigateToGroupsList(navOptions: NavOptions) =
+    navigate(route = GroupsListNavRoute, navOptions)
+
+fun NavController.navigateToGroupManager(navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(route = GroupManagerNavRoute) { navOptions() }
+}
+
+fun NavController.navigateToGroupDetails(
+    groupId: Long,
+    navOptions: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigate(route = GroupDetailsNavRoute(groupId)) {
+        navOptions()
     }
 }

@@ -7,8 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,7 +25,7 @@ import com.grappim.docuvault.uikit.widget.PlatoImage
 @Composable
 fun GroupDetailsRoute(
     viewModel: GroupDetailsViewModel = hiltViewModel(),
-    onDocumentClick: (id: Long) -> Unit
+    onDocumentClick: (documentId: Long) -> Unit
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
     if (state.group != null) {
@@ -50,7 +51,9 @@ private fun GroupDetailsContent(state: GroupDetailsState, onDocumentClick: (id: 
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
-                backgroundColor = document.groupColor,
+                colors = CardDefaults.cardColors().copy(
+                    containerColor = document.groupColor
+                ),
                 onClick = {
                     onDocumentClick(document.id.toLong())
                 }

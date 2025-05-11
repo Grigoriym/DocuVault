@@ -8,7 +8,6 @@ import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.grappim.docuvault.datetime.DateTimeUtils
 import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.domain.DraftDocument
@@ -27,7 +26,7 @@ import javax.inject.Singleton
 class FileUtils @Inject constructor(
     @ApplicationContext private val context: Context,
     private val hashUtils: HashUtils,
-    private val dateTimeUtils: DateTimeUtils
+    private val dateTimeUtils: com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
 ) {
     fun getDocumentFolderName(document: Document): String =
         "${document.documentId}_${dateTimeUtils.formatToGDrive(document.createdDate)}"

@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":utils:date-time"))
+    implementation(project(":utils:date-time-api"))
     implementation(project(":uikit"))
     implementation(project(":common:async"))
     implementation(project(":feature:group:domain"))

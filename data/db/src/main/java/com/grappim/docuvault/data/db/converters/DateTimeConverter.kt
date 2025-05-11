@@ -2,7 +2,7 @@ package com.grappim.docuvault.data.db.converters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.grappim.docuvault.datetime.DateTimeUtils
+import com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
 import java.time.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

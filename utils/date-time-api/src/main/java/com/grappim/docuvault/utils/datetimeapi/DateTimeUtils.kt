@@ -1,4 +1,4 @@
-package com.grappim.docuvault.datetime
+package com.grappim.docuvault.utils.datetimeapi
 
 import java.time.Instant
 import java.time.OffsetDateTime

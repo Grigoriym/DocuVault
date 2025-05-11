@@ -8,21 +8,21 @@ android {
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
-            arg("room.expandProjection", "true")
-        }
     }
     buildFeatures {
         buildConfig = true
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
     }
 }
 
 dependencies {
     implementation(project(":utils:files"))
-    implementation(project(":utils:date-time"))
+    implementation(project(":utils:date-time-api"))
     implementation(project(":common:async"))
     implementation(project(":feature:group:db"))
     implementation(project(":feature:docs:db"))

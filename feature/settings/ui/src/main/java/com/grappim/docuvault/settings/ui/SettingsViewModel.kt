@@ -1,4 +1,4 @@
-package com.grappim.docuvault.ui.screens.settings
+package com.grappim.docuvault.settings.ui
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

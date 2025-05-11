@@ -3,11 +3,13 @@ package com.grappim.docuvault.feature.group.repoimpl.mappers
 import com.grappim.docuvault.feature.group.db.model.GroupEntity
 import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.feature.group.domain.GroupField
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GroupMapperImplTest {
 
     private val sut = GroupMapperImpl(UnconfinedTestDispatcher())
