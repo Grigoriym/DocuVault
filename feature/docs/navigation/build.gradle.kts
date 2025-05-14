@@ -9,10 +9,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:docs:list"))
-    implementation(project(":feature:docs:details"))
-    implementation(project(":feature:docs:manager"))
+    implementation(projects.core.navigation)
+    implementation(projects.feature.docs.list)
+    implementation(projects.feature.docs.details)
+    implementation(projects.feature.docs.manager)
 
     implementation(libs.androidx.navigation.compose)
 }

@@ -1,8 +1,8 @@
 package com.grappim.docuvault.feature.docs.repoimpl
 
+import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docs.domain.CreateDocument
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
-import com.grappim.docuvault.feature.group.domain.Group
 import com.grappim.docuvault.testing.getRandomLong
 import com.grappim.docuvault.testing.getRandomString
 import com.grappim.docuvault.testing.nowDate

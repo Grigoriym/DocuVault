@@ -3,8 +3,8 @@ package com.grappim.docuvault.data.db
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.backupdb.BackupFilesDao
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
+import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
 import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
-import com.grappim.docuvault.feature.group.db.dao.GroupsDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

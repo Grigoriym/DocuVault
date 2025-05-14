@@ -8,14 +8,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":utils:date-time-api"))
-    implementation(project(":common:async"))
+    implementation(projects.utils.dateTimeApi)
+    implementation(projects.common.async)
 
-    implementation(project(":feature:docs:domain"))
-    implementation(project(":feature:docs:repo-api"))
-    implementation(project(":feature:docs:db"))
+    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.feature.docs.db)
 
-    implementation(project(":feature:group:db"))
-    implementation(project(":feature:group:repo-api"))
-    implementation(project(":feature:group:domain"))
+    implementation(projects.feature.docgroup.db)
+    implementation(projects.feature.docgroup.repoApi)
+    implementation(projects.feature.docgroup.domain)
 }

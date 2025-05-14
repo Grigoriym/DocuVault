@@ -9,8 +9,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:settings:ui"))
+    implementation(projects.core.navigation)
+    implementation(projects.feature.settings.ui)
 
     implementation(libs.androidx.navigation.compose)
 }

@@ -8,13 +8,13 @@ import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.DocManagerNavRoute
 import com.grappim.docuvault.data.backupapi.BackupFilesRepository
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
+import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
+import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
+import com.grappim.docuvault.feature.docgroup.uiapi.GroupUIMapper
 import com.grappim.docuvault.feature.docs.domain.CreateDocument
 import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
-import com.grappim.docuvault.feature.group.repoapi.GroupRepository
-import com.grappim.docuvault.feature.group.uiapi.GroupUI
-import com.grappim.docuvault.feature.group.uiapi.GroupUIMapper
 import com.grappim.docuvault.utils.files.deletion.FileDeletionUtils
 import com.grappim.docuvault.utils.files.docfilemanager.DocumentFileManager
 import com.grappim.docuvault.utils.files.docfiles.FilesPersistenceManager

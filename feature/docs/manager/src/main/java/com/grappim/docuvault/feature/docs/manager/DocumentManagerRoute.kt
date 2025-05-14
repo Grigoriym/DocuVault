@@ -52,8 +52,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
-import com.grappim.docuvault.feature.group.uiapi.GroupUI
 import com.grappim.docuvault.uikit.theme.DefaultArrangement
 import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
 import com.grappim.docuvault.uikit.theme.DocuVaultTheme

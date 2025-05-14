@@ -8,8 +8,8 @@ import com.grappim.docuvault.data.db.DatabaseWrapperImpl
 import com.grappim.docuvault.data.db.DocuVaultDatabase
 import com.grappim.docuvault.data.db.converters.DateTimeConverter
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
+import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
 import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
-import com.grappim.docuvault.feature.group.db.dao.GroupsDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

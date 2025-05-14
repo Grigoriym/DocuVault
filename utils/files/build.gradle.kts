@@ -9,12 +9,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":utils:date-time-api"))
-    implementation(project(":uikit"))
-    implementation(project(":common:async"))
-    implementation(project(":feature:group:domain"))
-    implementation(project(":feature:docs:ui-api"))
-    implementation(project(":feature:docs:domain"))
+    implementation(projects.utils.dateTimeApi)
+    implementation(projects.uikit)
+    implementation(projects.common.async)
+    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docs.uiApi)
+    implementation(projects.feature.docs.domain)
 
     implementation(libs.timber)
     implementation(libs.androidx.compose.ui)

@@ -1,16 +1,16 @@
 package com.grappim.docuvault.feature.docs.repoimpl
 
+import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
+import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
+import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
+import com.grappim.docuvault.feature.docgroup.domain.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupMapper
 import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
 import com.grappim.docuvault.feature.docs.db.model.DocumentEntity
 import com.grappim.docuvault.feature.docs.domain.DraftDocument
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentFileMapper
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentMapper
-import com.grappim.docuvault.feature.group.db.dao.GroupsDao
-import com.grappim.docuvault.feature.group.db.model.GroupEntity
-import com.grappim.docuvault.feature.group.db.model.GroupWithFieldsEntity
-import com.grappim.docuvault.feature.group.domain.Group
-import com.grappim.docuvault.feature.group.repoapi.mappers.GroupMapper
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify

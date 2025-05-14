@@ -9,8 +9,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":utils:files"))
-    implementation(project(":feature:docs:domain"))
+    implementation(projects.utils.files)
+    implementation(projects.feature.docs.domain)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -7,8 +7,8 @@ import com.grappim.docuvault.core.navigation.IS_FROM_EDIT
 import com.grappim.docuvault.core.navigation.navigateToDocDetails
 import com.grappim.docuvault.core.navigation.navigateToDocManager
 import com.grappim.docuvault.core.navigation.navigateToGroupDetails
+import com.grappim.docuvault.feature.docgroup.navigation.groupsScreens
 import com.grappim.docuvault.feature.docs.navigation.docsScreen
-import com.grappim.docuvault.feature.group.navigation.groupsScreens
 import com.grappim.docuvault.feature.settings.navigation.settingsScreens
 
 @Composable

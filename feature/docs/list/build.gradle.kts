@@ -9,11 +9,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":uikit"))
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:docs:domain"))
-    implementation(project(":feature:docs:repo-api"))
-    implementation(project(":utils:files"))
+    implementation(projects.uikit)
+    implementation(projects.core.navigation)
+    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.utils.files)
 
     implementation(libs.androidx.core.ktx)
 

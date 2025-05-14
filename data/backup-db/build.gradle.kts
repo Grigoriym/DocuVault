@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:docs:db"))
+    implementation(projects.feature.docs.db)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":feature:group:domain"))
+    implementation(projects.feature.docgroup.domain)
 }

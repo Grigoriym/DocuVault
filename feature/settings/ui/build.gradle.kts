@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":uikit"))
+    implementation(projects.uikit)
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.androidx.lifecycle.runtime)

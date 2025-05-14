@@ -8,8 +8,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:backup-db"))
-    implementation(project(":data:backup-api"))
-    implementation(project(":common:async"))
-    implementation(project(":feature:docs:domain"))
+    implementation(projects.data.backupDb)
+    implementation(projects.data.backupApi)
+    implementation(projects.common.async)
+    implementation(projects.feature.docs.domain)
 }

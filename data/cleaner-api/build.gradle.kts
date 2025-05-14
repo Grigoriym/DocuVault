@@ -8,5 +8,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:docs:domain"))
+    implementation(projects.feature.docs.domain)
 }

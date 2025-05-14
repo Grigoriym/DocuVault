@@ -1,6 +1,8 @@
 package com.grappim.docuvault.feature.docs.repoimpl
 
 import com.grappim.docuvault.common.async.IoDispatcher
+import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
+import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupMapper
 import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
 import com.grappim.docuvault.feature.docs.db.model.DocumentEntity
 import com.grappim.docuvault.feature.docs.domain.CreateDocument
@@ -10,8 +12,6 @@ import com.grappim.docuvault.feature.docs.domain.DraftDocument
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentFileMapper
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentMapper
-import com.grappim.docuvault.feature.group.db.dao.GroupsDao
-import com.grappim.docuvault.feature.group.repoapi.mappers.GroupMapper
 import com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async

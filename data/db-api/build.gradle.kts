@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:docs:db"))
-    implementation(project(":data:backup-db"))
-    implementation(project(":feature:group:db"))
+    implementation(projects.feature.docs.db)
+    implementation(projects.data.backupDb)
+    implementation(projects.feature.docgroup.db)
 }

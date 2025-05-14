@@ -9,9 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:group:domain"))
-    implementation(project(":feature:docs:ui-api"))
-    implementation(project(":core:navigation"))
+    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docs.uiApi)
+    implementation(projects.core.navigation)
 
     implementation(libs.androidx.activity.compose)
 
