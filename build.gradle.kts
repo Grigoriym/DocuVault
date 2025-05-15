@@ -1,3 +1,6 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+import kotlinx.kover.gradle.plugin.dsl.GroupingEntityType
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
@@ -28,6 +31,95 @@ doctor {
     warnWhenJetifierEnabled.set(true)
     javaHome {
         failOnError.set(false)
+    }
+}
+
+allprojects {
+    apply {
+        plugin("org.jetbrains.kotlinx.kover")
+    }
+
+    val coverageExclusions = listOf(
+        "**/R.class",
+        "**/R\$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+
+        "**/*Module*.*",
+        "**/*Module",
+        "**/*Dagger*.*",
+        "**/*Hilt*.*",
+        "**/*GeneratedInjector",
+        "**/*HiltComponents*",
+        "**/*_HiltModules*",
+        "**/*_Provide*",
+        "**/*_Factory*",
+        "**/*_ComponentTreeDeps",
+        "**/*_Impl*",
+        "**/*DefaultImpls*",
+
+        "**/*Plato*",
+        "**/*Button*",
+        "**/TextH*",
+        "**/*Texts*",
+        "**/Theme",
+        "**/Colors",
+        "**/TypeKt",
+
+        "**/*Screen",
+        "**/*Activity",
+        "**/*Screen*",
+        "**/*Application",
+        "**/*StateProvider",
+
+        "**/NoOp*"
+    ).flatMap {
+        listOf(
+            "$it.class",
+            "${it}Kt.class",
+            "$it\$*.class"
+        )
+    }
+
+// https://kotlin.github.io/kotlinx-kover/gradle-plugin/
+// ./gradlew koverHtmlReport
+// ./gradlew koverXmlReport
+    kover {
+        reports {
+            filters {
+                excludes {
+                    androidGeneratedClasses()
+                    annotatedBy(
+                        "dagger.Module",
+                        "dagger.internal.DaggerGenerated",
+                        "androidx.room.Database"
+                    )
+                    packages("hilt_aggregated_deps")
+                    classes(coverageExclusions)
+                }
+            }
+            total {
+                html {
+                    title = "DocuVault Kover report"
+                    onCheck = true
+                    charset = "UTF-8"
+                    htmlDir.set(File(rootDir, "koverReports/html/${project.name}"))
+                }
+
+                xml {
+                    onCheck = true
+                    xmlFile.set(File(rootDir, "koverReports/xml/${project.name}"))
+                }
+
+                log {
+                    onCheck = true
+                    groupBy = GroupingEntityType.APPLICATION
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    format = "<entity> line coverage: <value>%"
+                    coverageUnits = CoverageUnit.LINE
+                }
+            }
+        }
     }
 }
 
