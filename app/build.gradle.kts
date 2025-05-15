@@ -1,3 +1,7 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+import kotlinx.kover.gradle.plugin.dsl.GroupingEntityType
+
 plugins {
     alias(libs.plugins.docuvault.android.application)
     alias(libs.plugins.docuvault.kotlin.serialization)
@@ -133,4 +137,78 @@ dependencies {
 moduleGraphAssert {
     maxHeight = 6
     assertOnAnyBuild = true
+}
+
+private val coverageExclusions = listOf(
+    "**/R.class",
+    "**/R\$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*",
+
+    "**/*Module*.*",
+    "**/*Module",
+    "**/*Dagger*.*",
+    "**/*Hilt*.*",
+    "**/*GeneratedInjector",
+    "**/*HiltComponents*",
+    "**/*_HiltModules*",
+    "**/*_Provide*",
+    "**/*_Factory*",
+    "**/*_ComponentTreeDeps",
+    "**/*_Impl*",
+    "**/*DefaultImpls*",
+
+    "**/*Plato*",
+    "**/*Button*",
+    "**/TextH*",
+    "**/*Texts*",
+    "**/Theme",
+    "**/Colors",
+    "**/TypeKt",
+
+    "**/*Screen",
+    "**/*Activity",
+    "**/*Screen*",
+    "**/*Application",
+    "**/*StateProvider",
+
+    "**/NoOp*"
+).flatMap {
+    listOf(
+        "$it.class",
+        "${it}Kt.class",
+        "$it\$*.class"
+    )
+}
+
+// ./gradlew koverHtmlReport
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy(
+                    "dagger.Module",
+                    "dagger.internal.DaggerGenerated",
+                    "androidx.room.Database"
+                )
+                packages("hilt_aggregated_deps")
+                classes(coverageExclusions)
+            }
+        }
+        total {
+            html {
+                title = "DocuVault Kover report"
+                onCheck = true
+                charset = "UTF-8"
+            }
+
+            log {
+                onCheck = true
+                groupBy = GroupingEntityType.APPLICATION
+                aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                format = "<entity> line coverage: <value>%"
+                coverageUnits = CoverageUnit.LINE
+            }
+        }
+    }
 }

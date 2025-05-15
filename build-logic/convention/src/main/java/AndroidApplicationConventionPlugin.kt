@@ -3,7 +3,6 @@ import com.grappim.docuvault.buildlogic.AppBuildTypes
 import com.grappim.docuvault.buildlogic.configureFlavors
 import com.grappim.docuvault.buildlogic.configureKotlinAndroid
 import com.grappim.docuvault.buildlogic.libs
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -17,6 +16,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             apply(plugin = "com.android.application")
             apply(plugin = "org.jetbrains.kotlin.android")
+            apply(plugin = "org.jetbrains.kotlinx.kover")
 
             extensions.configure<ApplicationExtension> {
                 defaultConfig.targetSdk = libs.findVersion("targetSdk").get().toString().toInt()

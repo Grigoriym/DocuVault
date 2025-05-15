@@ -11,21 +11,23 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
-
-    alias(libs.plugins.jacocoAggregationResults)
-    alias(libs.plugins.jacocoAggregationCoverage)
+    alias(libs.plugins.gradleDoctor)
+    alias(libs.plugins.dependencyAnalysis)
+    alias(libs.plugins.kover)
 }
 
-allprojects {
-    tasks.withType<Test> {
-        testLogging {
-            exceptionFormat = TestExceptionFormat.FULL
-            showCauses = true
-            showExceptions = true
-            showStackTraces = true
-        }
+doctor {
+    failOnEmptyDirectories.set(false)
+    enableTestCaching.set(false)
+    failOnEmptyDirectories.set(true)
+    warnWhenNotUsingParallelGC.set(true)
+    disallowCleanTaskDependencies.set(true)
+    warnWhenJetifierEnabled.set(true)
+    javaHome {
+        failOnError.set(false)
     }
 }
 
@@ -37,17 +39,27 @@ subprojects {
 
     // https://github.com/cortinico/kotlin-android-template
     detekt {
+        buildUponDefaultConfig = true
         parallel = true
         config.setFrom(rootProject.files("config/detekt/detekt.yml"))
         allRules = false
     }
 
-    ktlint {
-        android = true
-        ignoreFailures = false
-        verbose = true
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        android.set(true)
+        ignoreFailures.set(false)
+        verbose.set(true)
+        outputColorName.set("RED")
+        outputToConsole.set(true)
         reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.CHECKSTYLE)
             reporter(ReporterType.HTML)
+            reporter(ReporterType.JSON)
+        }
+        filter {
+            exclude("**/generated/**")
+            include("**/kotlin/**")
         }
     }
 
@@ -62,43 +74,5 @@ subprojects {
             exceptionFormat = TestExceptionFormat.FULL
             showExceptions = true
         }
-    }
-}
-
-private val coverageExclusions = listOf(
-    "**/R.class",
-    "**/R\$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*",
-
-    "**/*Module*.*",
-    "**/*Module",
-    "**/*Dagger*.*",
-    "**/*Hilt*.*",
-    "**/*GeneratedInjector",
-    "**/*HiltComponents*",
-    "**/*_HiltModules*",
-    "**/*_Provide*",
-    "**/*_Factory*",
-    "**/*_ComponentTreeDeps",
-    "**/*_Impl*",
-    "**/*DefaultImpls*",
-
-    "**/*Screen",
-    "**/*Activity",
-    "**/*Screen*",
-    "**/*Application",
-    "**/*StateProvider"
-).flatMap {
-    listOf(
-        "$it.class",
-        "${it}Kt.class",
-        "$it\$*.class"
-    )
-}
-
-testAggregation {
-    coverage {
-        exclude(coverageExclusions)
     }
 }

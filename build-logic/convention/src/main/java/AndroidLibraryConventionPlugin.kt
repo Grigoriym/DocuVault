@@ -5,9 +5,6 @@ import com.grappim.docuvault.buildlogic.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
-import org.gradle.kotlin.dsl.project
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -15,6 +12,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("org.jetbrains.kotlinx.kover")
             }
 
             extensions.configure<LibraryExtension> {
@@ -22,13 +20,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 configureFlavors(this)
             }
-
-//            dependencies {
-//                add("testImplementation", kotlin("test"))
-//                add("testImplementation", project(":testing"))
-//                add("androidTestImplementation", kotlin("test"))
-//                add("androidTestImplementation", project(":testing"))
-//            }
         }
     }
 }
