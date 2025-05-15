@@ -108,7 +108,7 @@ allprojects {
 
                 xml {
                     onCheck = true
-                    xmlFile.set(File(rootDir, "koverReports/xml/${project.name}"))
+                    xmlFile.set(File(rootDir, "koverReports/xml/${project.name}.xml"))
                 }
 
                 log {
