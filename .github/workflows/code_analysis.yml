@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew ktlintCheck
 
       - name: generate Kover report
-        run: ./gradlew koverXmlReport
+        run: ./gradlew koverHtmlReport
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
@@ -41,5 +41,5 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           fail_ci_if_error: true
-          directory: ./koverReports/xml/
+          directory: ./koverReports/html/
           verbose: true
