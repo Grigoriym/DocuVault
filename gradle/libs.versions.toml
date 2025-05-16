@@ -21,7 +21,7 @@ ktlint = "12.2.0"
 moduleGraphAssertion = "2.7.3"
 gradleDoctor = "0.10.0"
 dependencyAnalysis = "2.10.1"
-kover = "0.9.1"
+jacocoAggregation = "2.4.4"
 
 firebaseCrashlytics = "3.0.3"
 material = "1.12.0"
@@ -159,7 +159,8 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization-plugin" }
 gradleDoctor = { id = "com.osacky.doctor", version.ref = "gradleDoctor" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+jacocoAggregationCoverage = { id = "io.github.gmazzo.test.aggregation.coverage", version.ref = "jacocoAggregation" }
+jacocoAggregationResults = { id = "io.github.gmazzo.test.aggregation.results", version.ref = "jacocoAggregation" }
 
 # Plugins definded in the included build-logic
 docuvault-android-hilt = { id = "docuvault.android.hilt", version = "unspecified" }
