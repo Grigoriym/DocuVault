@@ -20,9 +20,11 @@ dependencies {
     api(libs.androidx.test.espresso.core)
     api(libs.androidx.test.core)
     api(libs.androidx.compose.ui.test)
+    api(libs.androidx.navigation.compose)
 
     debugApi(libs.androidx.compose.ui.testManifest)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.robolectric)
 }

@@ -1,14 +1,14 @@
 package com.grappim.docuvault.feature.docs.repoimpl.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
+import com.grappim.docuvault.feature.docgroup.domain.Group
+import com.grappim.docuvault.feature.docgroup.domain.GroupField
 import com.grappim.docuvault.feature.docs.db.model.DocumentEntity
 import com.grappim.docuvault.feature.docs.db.model.FullDocumentEntity
 import com.grappim.docuvault.feature.docs.domain.CreateDocument
 import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentMapper
-import com.grappim.docuvault.feature.group.domain.Group
-import com.grappim.docuvault.feature.group.domain.GroupField
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

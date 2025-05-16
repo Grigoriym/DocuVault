@@ -6,22 +6,11 @@ plugins {
 
 android {
     namespace = "com.grappim.docuvault.utils.ui"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    testOptions {
-        unitTests {
-            isReturnDefaultValues = true
-            isIncludeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":utils:files"))
-    implementation(project(":feature:docs:domain"))
+    implementation(projects.utils.filesApi)
+    implementation(projects.feature.docs.domain)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

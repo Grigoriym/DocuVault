@@ -5,3 +5,8 @@ plugins {
 android {
     namespace = "com.grappim.docuvault.utils.filesapi"
 }
+
+dependencies {
+    implementation(projects.feature.docs.uiApi)
+    implementation(projects.feature.docs.domain)
+}

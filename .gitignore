@@ -14,5 +14,9 @@ local.properties
 /core/build/
 /feature/build/
 /feature/docmanager/build/
-/feature/group/build/
+/feature/docgroup/build/
 /feature/docs/build/
+/feature/settings/build/
+
+.kotlin
+koverReports

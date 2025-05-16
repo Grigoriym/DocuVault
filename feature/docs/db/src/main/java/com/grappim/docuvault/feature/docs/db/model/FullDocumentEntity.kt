@@ -2,8 +2,8 @@ package com.grappim.docuvault.feature.docs.db.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.grappim.docuvault.feature.group.db.model.GroupEntity
-import com.grappim.docuvault.feature.group.db.model.GroupFieldEntity
+import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
+import com.grappim.docuvault.feature.docgroup.db.model.GroupFieldEntity
 
 data class FullDocumentEntity(
     @Embedded val documentEntity: DocumentEntity,

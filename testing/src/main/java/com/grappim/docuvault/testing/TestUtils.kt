@@ -1,5 +1,6 @@
 package com.grappim.docuvault.testing
 
+import android.net.Uri
 import java.time.OffsetDateTime
 import kotlin.random.Random
 
@@ -12,5 +13,11 @@ fun getRandomString(): String = List(15) { // Generate a list of 10 characters
     Random.nextInt(97, 123) // ASCII range for lowercase letters a-z
         .toChar() // Convert ASCII value to char
 }.joinToString("")
+
+fun getRandomUri(): Uri {
+    val randomString = getRandomString()
+    val uriString = "https://grappim.com/$randomString"
+    return Uri.parse(uriString)
+}
 
 val testException = IllegalStateException("error")

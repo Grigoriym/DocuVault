@@ -1,6 +1,5 @@
 package com.grappim.docuvault.utils.ui
 
-import com.grappim.docuvault.uikit.R
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -42,7 +41,7 @@ class NativeTextTest {
 
     @Test
     fun `resource NativeText should return provided text`() {
-        val idRes = R.string.app_name
+        val idRes = R.string.test_string
         val simple = NativeText.Resource(idRes)
 
         assertEquals(simple.asString(context), context.getString(idRes))

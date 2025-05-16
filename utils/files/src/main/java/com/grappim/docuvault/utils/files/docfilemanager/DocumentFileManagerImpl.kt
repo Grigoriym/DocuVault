@@ -1,7 +1,8 @@
 package com.grappim.docuvault.utils.files.docfilemanager
 
-import com.grappim.docuvault.utils.files.pathmanager.FolderPathManager
-import com.grappim.docuvault.utils.files.transfer.FileTransferOperations
+import com.grappim.docuvault.utils.filesapi.docfilemanager.DocumentFileManager
+import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.transfer.FileTransferOperations
 import javax.inject.Inject
 import javax.inject.Singleton
 

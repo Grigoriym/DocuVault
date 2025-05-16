@@ -1,8 +1,8 @@
 package com.grappim.docuvault.data.dbapi
 
 import com.grappim.docuvault.data.backupdb.BackupFilesDao
+import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
 import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
-import com.grappim.docuvault.feature.group.db.dao.GroupsDao
 
 interface DatabaseWrapper {
 

@@ -9,13 +9,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":uikit"))
-    implementation(project(":core:navigation"))
-    implementation(project(":utils:files"))
-    implementation(project(":utils:ui"))
-    implementation(project(":feature:docs:domain"))
-    implementation(project(":feature:docs:repo-api"))
-    implementation(project(":feature:docs:ui-api"))
+    implementation(projects.uikit)
+    implementation(projects.core.navigation)
+    implementation(projects.utils.filesApi)
+    implementation(projects.utils.ui)
+    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.feature.docs.uiApi)
 
     implementation(libs.androidx.core.ktx)
 
@@ -24,8 +24,8 @@ dependencies {
     implementation(libs.androidx.viewmodel.compose)
 
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)

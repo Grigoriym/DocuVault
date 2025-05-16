@@ -8,10 +8,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:cleaner-api"))
-    implementation(project(":feature:docs:domain"))
-    implementation(project(":common:async"))
-    implementation(project(":utils:files"))
-    implementation(project(":feature:docs:repo-api"))
-    implementation(project(":data:db-api"))
+    implementation(projects.data.cleanerApi)
+    implementation(projects.feature.docs.domain)
+    implementation(projects.common.async)
+    implementation(projects.utils.filesApi)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.data.dbApi)
 }

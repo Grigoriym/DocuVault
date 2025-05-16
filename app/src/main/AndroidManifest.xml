@@ -4,7 +4,7 @@
 
     <application
         android:name=".DocuVaultApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -22,11 +22,6 @@
             <meta-data
                 android:name="com.grappim.docuvault.core.startup.LoggerInitializer"
                 android:value="androidx.startup" />
-
-            <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
 
         </provider>
 

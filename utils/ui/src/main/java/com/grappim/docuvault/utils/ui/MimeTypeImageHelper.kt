@@ -1,28 +1,29 @@
 package com.grappim.docuvault.utils.ui
 
-import com.grappim.docuvault.utils.files.MimeTypes
+import com.grappim.docuvault.utils.filesapi.Application
+import com.grappim.docuvault.utils.filesapi.Text
 import javax.inject.Inject
 
 class MimeTypeImageHelper @Inject constructor() {
 
     fun getImageByMimeType(mimeType: String): Int = when (mimeType) {
-        MimeTypes.Application.DOC -> {
+        Application.DOC -> {
             R.drawable.ic_doc
         }
 
-        MimeTypes.Application.DOCX -> {
+        Application.DOCX -> {
             R.drawable.ic_docx
         }
 
-        MimeTypes.Application.PPT -> {
+        Application.PPT -> {
             R.drawable.ic_ppt
         }
 
-        MimeTypes.Application.PPTX -> {
+        Application.PPTX -> {
             R.drawable.ic_pptx
         }
 
-        MimeTypes.Text.PLAIN -> {
+        Text.PLAIN -> {
             R.drawable.ic_txt
         }
 

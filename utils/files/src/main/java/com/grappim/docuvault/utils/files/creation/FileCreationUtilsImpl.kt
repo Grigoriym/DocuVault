@@ -3,8 +3,9 @@ package com.grappim.docuvault.utils.files.creation
 import android.content.Context
 import android.net.Uri
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.utils.files.inforetriever.FileInfoRetriever
-import com.grappim.docuvault.utils.files.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.creation.FileCreationUtils
+import com.grappim.docuvault.utils.filesapi.inforetriever.FileInfoRetriever
+import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

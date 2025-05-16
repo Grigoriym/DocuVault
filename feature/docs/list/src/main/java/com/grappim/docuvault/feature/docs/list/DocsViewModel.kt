@@ -3,7 +3,7 @@ package com.grappim.docuvault.feature.docs.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
-import com.grappim.docuvault.utils.files.mappers.DocsListUIMapper
+import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

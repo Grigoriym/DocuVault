@@ -4,6 +4,7 @@ import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.files.UriParser
+import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
