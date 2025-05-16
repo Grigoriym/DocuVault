@@ -5,10 +5,11 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.files.HashUtils
-import com.grappim.docuvault.utils.files.creation.FileCreationUtils
-import com.grappim.docuvault.utils.files.inforetriever.FileInfoRetriever
-import com.grappim.docuvault.utils.files.models.CameraTakePictureData
-import com.grappim.docuvault.utils.files.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.creation.FileCreationUtils
+import com.grappim.docuvault.utils.filesapi.inforetriever.FileInfoRetriever
+import com.grappim.docuvault.utils.filesapi.models.CameraTakePictureData
+import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.urimanager.FileUriManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import java.io.File

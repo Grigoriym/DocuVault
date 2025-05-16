@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(projects.utils.dateTimeApi)
+    implementation(projects.utils.filesApi)
     implementation(projects.uikit)
     implementation(projects.common.async)
     implementation(projects.feature.docgroup.domain)
@@ -18,4 +19,5 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.androidx.compose.ui)
+    testImplementation(libs.robolectric)
 }

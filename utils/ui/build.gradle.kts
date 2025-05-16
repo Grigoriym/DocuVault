@@ -9,7 +9,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.utils.files)
+    implementation(projects.utils.filesApi)
     implementation(projects.feature.docs.domain)
 
     implementation(libs.androidx.core.ktx)

@@ -2,7 +2,8 @@ package com.grappim.docuvault.utils.files.docfiles
 
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
-import com.grappim.docuvault.utils.files.mappers.FileDataMapper
+import com.grappim.docuvault.utils.filesapi.FilesPersistenceManager
+import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import javax.inject.Inject
 
 class FilesPersistenceManagerImpl @Inject constructor(
@@ -22,15 +23,15 @@ class FilesPersistenceManagerImpl @Inject constructor(
      */
     override suspend fun prepareEditedFilesToPersist(
         files: List<DocumentFileUI>
-    ): List<DocumentFile> = files.map { image ->
-        if (image.isEdit) {
-            val result = docFilesMapper.toDocumentFileData(image)
+    ): List<DocumentFile> = files.map { file ->
+        if (file.isEdit) {
+            val result = docFilesMapper.toDocumentFileData(file)
             val newUriString = result.uriString.replace("_temp", "")
             result.copy(
                 uriString = newUriString
             )
         } else {
-            docFilesMapper.toDocumentFileData(image)
+            docFilesMapper.toDocumentFileData(file)
         }
     }
 }

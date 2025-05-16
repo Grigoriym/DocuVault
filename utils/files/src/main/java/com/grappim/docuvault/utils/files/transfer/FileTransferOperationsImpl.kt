@@ -1,7 +1,8 @@
 package com.grappim.docuvault.utils.files.transfer
 
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.utils.files.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.transfer.FileTransferOperations
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -54,6 +55,13 @@ class FileTransferOperationsImpl @Inject constructor(
             copyFile(file.path, destPath)
         }
     }
+
+    @Throws(NoSuchFileException::class, FileAlreadyExistsException::class, IOException::class)
+    override suspend fun writeSourceFileToTargetFile(sourceFile: File, newFile: File): Unit =
+        withContext(ioDispatcher) {
+            val result = sourceFile.copyTo(target = newFile, overwrite = true)
+            Timber.d("writeSourceFileToTargetFile: $result")
+        }
 
     private suspend fun moveFile(sourceFilePath: String, destinationFilePath: String) {
         copyFile(sourceFilePath, destinationFilePath)

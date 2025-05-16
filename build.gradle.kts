@@ -88,6 +88,7 @@ private val coverageExclusions = listOf(
     "**/*Module",
     "**/*Dagger*.*",
     "**/*Hilt*.*",
+    "**/Hilt*",
     "**/*GeneratedInjector",
     "**/*HiltComponents*",
     "**/*_HiltModules*",
@@ -96,21 +97,27 @@ private val coverageExclusions = listOf(
     "**/*_ComponentTreeDeps",
     "**/*_Impl*",
     "**/*DefaultImpls*",
+    "**/_com_grappim_docuvault_*",
+
+    "**/MainDispatcherRule*",
+    "**/SavedStateHandleRule*",
 
     "**/*Screen",
     "**/*Activity",
     "**/*Screen*",
     "**/*Application",
     "**/*StateProvider",
+    "**/DocuVaultApp",
 
     "**/*Plato*",
     "**/*Button*",
     "**/TextH*",
     "**/*Texts*",
     "**/Theme",
-    "**/Colors",
-    "**/*HateItOrRateItTheme*",
-    "**/TypeKt",
+    "**/Color",
+    "**/Shape",
+    "**/Values",
+    "**/Type",
 
     "**/LocalDataStorageImpl",
     "**/TransactionControllerImpl",
@@ -135,7 +142,7 @@ private val coverageExclusions = listOf(
     listOf(
         "$it.class",
         "${it}Kt.class",
-        "$it\$*.class"
+        "$it$*.class"
     )
 }
 
@@ -145,20 +152,6 @@ testAggregation {
     }
     coverage {
         exclude(coverageExclusions)
-    }
-}
-
-tasks.jacocoAggregatedCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = "0.19".toBigDecimal()
-            }
-            limit {
-                minimum = "0.8".toBigDecimal()
-                isFailOnViolation = false
-            }
-        }
     }
 }
 

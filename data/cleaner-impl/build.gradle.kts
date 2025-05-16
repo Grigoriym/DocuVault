@@ -11,7 +11,7 @@ dependencies {
     implementation(projects.data.cleanerApi)
     implementation(projects.feature.docs.domain)
     implementation(projects.common.async)
-    implementation(projects.utils.files)
+    implementation(projects.utils.filesApi)
     implementation(projects.feature.docs.repoApi)
     implementation(projects.data.dbApi)
 }

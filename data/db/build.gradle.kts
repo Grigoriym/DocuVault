@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.utils.files)
+    implementation(projects.utils.filesApi)
     implementation(projects.utils.dateTimeApi)
     implementation(projects.common.async)
     implementation(projects.feature.docgroup.db)

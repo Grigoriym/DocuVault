@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.DocDetailsNavRoute
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
-import com.grappim.docuvault.utils.files.mappers.FileDataMapper
+import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

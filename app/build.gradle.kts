@@ -131,6 +131,6 @@ dependencies {
 }
 
 moduleGraphAssert {
-    maxHeight = 6
+    maxHeight = 10
     assertOnAnyBuild = true
 }

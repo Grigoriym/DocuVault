@@ -11,11 +11,12 @@ android {
 dependencies {
     implementation(projects.uikit)
     implementation(projects.core.navigation)
-    implementation(projects.utils.files)
+    implementation(projects.utils.filesApi)
     implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docs.repoApi)
     implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.uiApi)
 
     implementation(libs.androidx.core.ktx)
 

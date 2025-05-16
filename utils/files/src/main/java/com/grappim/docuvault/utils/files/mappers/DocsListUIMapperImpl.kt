@@ -2,9 +2,10 @@ package com.grappim.docuvault.utils.files.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.feature.docs.domain.Document
+import com.grappim.docuvault.feature.docs.uiapi.DocumentListUI
 import com.grappim.docuvault.uikit.utils.ColorUtils
 import com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
-import com.grappim.docuvault.utils.files.models.DocumentListUI
+import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

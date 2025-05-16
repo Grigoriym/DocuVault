@@ -7,7 +7,7 @@ import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
-import com.grappim.docuvault.utils.files.mappers.DocsListUIMapper
+import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

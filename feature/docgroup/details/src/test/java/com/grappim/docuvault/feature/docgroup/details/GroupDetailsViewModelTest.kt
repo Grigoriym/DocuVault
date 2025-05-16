@@ -6,10 +6,10 @@ import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
+import com.grappim.docuvault.feature.docs.uiapi.DocumentListUI
 import com.grappim.docuvault.testing.MainDispatcherRule
 import com.grappim.docuvault.testing.SavedStateHandleRule
-import com.grappim.docuvault.utils.files.mappers.DocsListUIMapper
-import com.grappim.docuvault.utils.files.models.DocumentListUI
+import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -32,7 +32,6 @@ class GroupDetailsViewModelTest {
     private val groupRepository = mockk<GroupRepository>()
     private val documentRepository = mockk<DocumentRepository>()
     private val docsListUIMapper = mockk<DocsListUIMapper>()
-//    private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var sut: GroupDetailsViewModel
 

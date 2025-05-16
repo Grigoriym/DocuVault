@@ -11,7 +11,7 @@ android {
 dependencies {
     implementation(projects.uikit)
     implementation(projects.core.navigation)
-    implementation(projects.utils.files)
+    implementation(projects.utils.filesApi)
     implementation(projects.utils.ui)
     implementation(projects.feature.docs.domain)
     implementation(projects.feature.docs.repoApi)

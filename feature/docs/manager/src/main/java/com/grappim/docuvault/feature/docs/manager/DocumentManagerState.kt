@@ -5,7 +5,7 @@ import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.domain.DraftDocument
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
-import com.grappim.docuvault.utils.files.models.CameraTakePictureData
+import com.grappim.docuvault.utils.filesapi.models.CameraTakePictureData
 import com.grappim.docuvault.utils.ui.NativeText
 
 data class DocumentManagerState(

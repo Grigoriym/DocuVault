@@ -5,8 +5,8 @@ import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
-import com.grappim.docuvault.utils.files.deletion.FileDeletionUtils
-import com.grappim.docuvault.utils.files.pathmanager.FolderPathManager
+import com.grappim.docuvault.utils.filesapi.deletion.FileDeletionUtils
+import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
