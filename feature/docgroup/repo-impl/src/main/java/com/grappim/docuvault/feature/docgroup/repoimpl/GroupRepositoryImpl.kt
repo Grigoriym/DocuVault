@@ -18,6 +18,15 @@ class GroupRepositoryImpl @Inject constructor(
     private val groupFieldMapper: GroupFieldMapper
 ) : GroupRepository {
 
+    override suspend fun updateGroup(group: Group) {
+        val entity = groupMapper.toGroupEntity(group)
+        groupsDao.updateGroup(entity)
+    }
+
+    override suspend fun deleteGroupById(groupId: Long) {
+        groupsDao.deleteGroupById(groupId)
+    }
+
     override fun getGroups(): Flow<List<Group>> = groupsDao.getGroupsFlow().map { list ->
         groupMapper.toGroupList(list)
     }

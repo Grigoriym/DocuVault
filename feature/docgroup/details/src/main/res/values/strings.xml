@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="are_you_sure_to_delete_group">Confirm group deletion?</string>
+    <string name="no">No</string>
+</resources>

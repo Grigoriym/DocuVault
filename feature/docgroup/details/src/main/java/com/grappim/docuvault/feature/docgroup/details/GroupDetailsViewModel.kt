@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
+import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
@@ -20,16 +21,28 @@ class GroupDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val groupRepository: GroupRepository,
     private val docRepository: DocumentRepository,
-    private val docsListUIMapper: DocsListUIMapper
+    private val docsListUIMapper: DocsListUIMapper,
+    private val dataCleaner: DataCleaner
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(GroupDetailsState())
+    private val _viewState = MutableStateFlow(
+        GroupDetailsState(
+            onDeleteClicked = ::onDeleteClicked,
+            onShowAlertDialog = ::showAlertDialog,
+            onDeleteGroupConfirm = ::deletionConfirmed,
+            updateGroup = ::updateGroup
+        )
+    )
 
     val viewState = _viewState.asStateFlow()
 
     private val groupDetailsNavRoute = savedStateHandle.toRoute<GroupDetailsNavRoute>()
 
     init {
+        getData()
+    }
+
+    private fun updateGroup() {
         getData()
     }
 
@@ -42,6 +55,35 @@ class GroupDetailsViewModel @Inject constructor(
             _viewState.update {
                 it.copy(group = group, documents = uiDocuments)
             }
+        }
+    }
+
+    private fun showAlertDialog(show: Boolean) {
+        _viewState.update {
+            it.copy(
+                showDeletionDialog = show
+            )
+        }
+    }
+
+    private fun deletionConfirmed() {
+        viewModelScope.launch {
+            dataCleaner.deleteGroup(groupDetailsNavRoute.groupId)
+
+            _viewState.update {
+                it.copy(
+                    groupDeleted = true,
+                    showDeletionDialog = false
+                )
+            }
+        }
+    }
+
+    private fun onDeleteClicked() {
+        _viewState.update {
+            it.copy(
+                showDeletionDialog = true
+            )
         }
     }
 }

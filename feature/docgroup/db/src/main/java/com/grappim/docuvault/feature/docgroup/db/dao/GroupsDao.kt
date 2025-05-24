@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupFieldEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
@@ -33,4 +34,10 @@ interface GroupsDao {
         insert(groupEntity)
         insertFields(list)
     }
+
+    @Query("DELETE FROM group_table WHERE groupId=:groupId")
+    suspend fun deleteGroupById(groupId: Long)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateGroup(groupEntity: GroupEntity)
 }

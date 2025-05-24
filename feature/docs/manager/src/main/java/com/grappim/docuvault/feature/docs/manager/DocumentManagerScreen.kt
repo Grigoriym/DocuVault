@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.grappim.docuvault.feature.docs.manager
 
 import android.net.Uri
@@ -21,15 +19,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -66,7 +64,6 @@ import com.grappim.docuvault.uikit.widget.PlatoSnackbar
 import com.grappim.docuvault.uikit.widget.PlatoTextFieldDefault
 import com.grappim.docuvault.utils.filesapi.mimeTypesForDocumentPicker
 import com.grappim.docuvault.utils.filesapi.models.CameraTakePictureData
-import com.grappim.docuvault.utils.ui.LaunchedEffectResult
 import com.grappim.docuvault.utils.ui.NativeText
 import com.grappim.docuvault.utils.ui.asString
 
@@ -78,10 +75,7 @@ fun DocumentManagerRoute(
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
     val snackBarMessage by viewModel.snackBarMessage.collectAsState(
-        initial = LaunchedEffectResult(
-            data = NativeText.Empty,
-            timestamp = 0L
-        )
+        initial = NativeText.Empty
     )
 
     AddDocumentScreen(
@@ -131,7 +125,7 @@ fun handleBackAction(state: DocumentManagerState) {
 @Composable
 private fun AddDocumentScreen(
     state: DocumentManagerState,
-    snackBarMessage: LaunchedEffectResult<out NativeText>,
+    snackBarMessage: NativeText,
     onDocumentDone: (isNewProduct: Boolean) -> Unit,
     goBack: (isNewProduct: Boolean) -> Unit
 ) {
@@ -181,10 +175,7 @@ private fun AddDocumentScreen(
 }
 
 @Composable
-private fun DocumentManagerContent(
-    state: DocumentManagerState,
-    snackBarMessage: LaunchedEffectResult<out NativeText>
-) {
+private fun DocumentManagerContent(state: DocumentManagerState, snackBarMessage: NativeText) {
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -215,9 +206,9 @@ private fun DocumentManagerContent(
     }
 
     LaunchedEffect(snackBarMessage) {
-        if (snackBarMessage.data !is NativeText.Empty) {
+        if (snackBarMessage !is NativeText.Empty) {
             snackbarHostState.showSnackbar(
-                message = snackBarMessage.data.asString(context)
+                message = snackBarMessage.asString(context)
             )
         }
     }
@@ -348,6 +339,7 @@ private fun GroupsContent(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Suppress("MagicNumber")
 @Composable
 private fun AddedFilesContent(
@@ -462,7 +454,7 @@ private fun AddFromContent(
 private fun AddDocumentScreenContentPreview() {
     DocuVaultTheme {
         DocumentManagerContent(
-            snackBarMessage = LaunchedEffectResult(NativeText.Simple("tests")),
+            snackBarMessage = NativeText.Simple("tests"),
             state = DocumentManagerState(
                 documentName = "Dudley Powell",
                 isNewDocument = false,
