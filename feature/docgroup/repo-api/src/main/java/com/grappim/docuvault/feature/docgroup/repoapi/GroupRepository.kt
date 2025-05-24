@@ -9,4 +9,7 @@ interface GroupRepository {
 
     suspend fun getGroupById(groupId: Long): Group
     suspend fun createGroup(groupToCreate: GroupToCreate)
+    suspend fun deleteGroupById(groupId: Long)
+
+    suspend fun updateGroup(group: Group)
 }

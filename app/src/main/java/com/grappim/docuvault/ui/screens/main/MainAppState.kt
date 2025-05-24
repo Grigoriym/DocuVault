@@ -20,6 +20,7 @@ import com.grappim.docuvault.core.navigation.navigateToDocsList
 import com.grappim.docuvault.core.navigation.navigateToGroupManager
 import com.grappim.docuvault.core.navigation.navigateToGroupsList
 import com.grappim.docuvault.core.navigation.navigateToSettings
+import com.grappim.docuvault.uikit.widget.PlatoTopAppBarState
 
 @Composable
 fun rememberMainAppState(navController: NavHostController = rememberNavController()): MainAppState {
@@ -73,6 +74,18 @@ class MainAppState(
         }
 
     val topLevelDestinations = DrawerDestination.entries
+
+    val topAppBarState: PlatoTopAppBarState
+        @Composable get() {
+            val isTopLevelDest = topLevelDestinations.any { dest ->
+                currentDestination?.hasRoute(route = dest.route) == true
+            }
+            return if (isTopLevelDest) {
+                PlatoTopAppBarState.WithDrawable
+            } else {
+                PlatoTopAppBarState.WithBackButton
+            }
+        }
 
     private val fabDestinations = listOf(
         DrawerDestination.GroupsList,

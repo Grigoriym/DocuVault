@@ -11,6 +11,7 @@ android {
 dependencies {
     implementation(projects.uikit)
     implementation(projects.core.navigation)
+    implementation(projects.data.cleanerApi)
     implementation(projects.utils.filesApi)
     implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.repoApi)
@@ -24,8 +25,6 @@ dependencies {
     implementation(libs.androidx.runtime.compose)
     implementation(libs.androidx.viewmodel.compose)
 
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material3)
 
     implementation(libs.androidx.navigation.compose)
@@ -33,4 +32,5 @@ dependencies {
 
     implementation(libs.compose.color.picker.android)
     implementation(libs.coil)
+    implementation(libs.timber)
 }

@@ -10,7 +10,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
 

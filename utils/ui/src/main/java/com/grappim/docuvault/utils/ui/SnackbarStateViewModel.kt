@@ -1,33 +1,27 @@
 package com.grappim.docuvault.utils.ui
 
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 interface SnackbarStateViewModel {
-    val snackBarMessage: SharedFlow<LaunchedEffectResult<NativeText>>
+    val snackBarMessage: SharedFlow<NativeText>
     suspend fun setSnackbarMessageSuspend(message: NativeText)
-    fun setSnackbarMessage(message: NativeText)
 }
 
 class SnackbarStateViewModelImpl : SnackbarStateViewModel {
-    private val _snackBarMessage = MutableSharedFlow<LaunchedEffectResult<NativeText>>()
-    override val snackBarMessage: SharedFlow<LaunchedEffectResult<NativeText>>
+    private val _snackBarMessage = MutableSharedFlow<NativeText>()
+    override val snackBarMessage: SharedFlow<NativeText>
         get() = _snackBarMessage.asSharedFlow()
 
     override suspend fun setSnackbarMessageSuspend(message: NativeText) {
-        _snackBarMessage.emit(
-            LaunchedEffectResult(
-                data = message
-            )
-        )
-    }
-
-    override fun setSnackbarMessage(message: NativeText) {
-        _snackBarMessage.tryEmit(
-            LaunchedEffectResult(
-                data = message
-            )
-        )
+        _snackBarMessage.emit(message)
     }
 }
+
+@Composable
+fun SharedFlow<NativeText>.collectSnackbarMessage() = collectAsStateWithLifecycle(
+    initialValue = NativeText.Empty
+)

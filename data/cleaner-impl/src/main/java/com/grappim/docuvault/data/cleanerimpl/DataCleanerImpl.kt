@@ -3,12 +3,14 @@ package com.grappim.docuvault.data.cleanerimpl
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
+import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.utils.filesapi.deletion.FileDeletionUtils
 import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class DataCleanerImpl @Inject constructor(
@@ -16,8 +18,15 @@ class DataCleanerImpl @Inject constructor(
     private val fileDeletionUtils: FileDeletionUtils,
     private val documentRepository: DocumentRepository,
     private val folderPathManager: FolderPathManager,
-    private val databaseWrapper: DatabaseWrapper
+    private val databaseWrapper: DatabaseWrapper,
+    private val groupRepository: GroupRepository
 ) : DataCleaner {
+    override suspend fun deleteGroup(groupId: Long, isDeleteDocs: Boolean) =
+        withContext(ioDispatcher) {
+            Timber.d("deleteGroup: $groupId, isDeleteDocs: $isDeleteDocs")
+            groupRepository.deleteGroupById(groupId)
+        }
+
     override suspend fun deleteDocumentFile(
         documentId: Long,
         fileName: String,

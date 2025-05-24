@@ -1,8 +1,11 @@
 package com.grappim.docuvault.feature.docgroup.manager
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -17,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -27,20 +31,39 @@ import com.godaddy.android.colorpicker.HsvColor
 import com.godaddy.android.colorpicker.harmony.ColorHarmonyMode
 import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 import com.grappim.docuvault.uikit.theme.DefaultHorizontalPadding
+import com.grappim.docuvault.uikit.theme.DocuVaultTheme
+import com.grappim.docuvault.uikit.utils.ThemePreviews
 import com.grappim.docuvault.uikit.widget.PlatoButtonDefault
 import com.grappim.docuvault.uikit.widget.PlatoTextFieldDefault
+import com.grappim.docuvault.utils.ui.NativeText
+import com.grappim.docuvault.utils.ui.asString
+import com.grappim.docuvault.utils.ui.collectSnackbarMessage
 import com.grappim.feature.docgroup.manager.R
 
 @Composable
 fun GroupManagerScreenRoute(
     viewModel: GroupManagerViewModel = hiltViewModel(),
-    onBack: () -> Unit
+    onBack: (isNewProduct: Boolean) -> Unit,
+    onGroupSaved: (isNewProduct: Boolean) -> Unit,
+    onShowSnackbar: suspend (message: String, String?) -> Boolean
 ) {
+    val context = LocalContext.current
     val state by viewModel.viewState.collectAsStateWithLifecycle()
+    val snackbarMessage by viewModel.snackBarMessage.collectSnackbarMessage()
 
     LaunchedEffect(state.groupSaved) {
         if (state.groupSaved) {
-            onBack()
+            onGroupSaved(state.isNewGroup)
+        }
+    }
+
+    BackHandler(enabled = true) {
+        onBack(state.isNewGroup)
+    }
+
+    LaunchedEffect(snackbarMessage) {
+        if (snackbarMessage !is NativeText.Empty) {
+            onShowSnackbar(snackbarMessage.asString(context), null)
         }
     }
 
@@ -49,6 +72,7 @@ fun GroupManagerScreenRoute(
 
 @Composable
 private fun GroupManagerScreenContent(state: GroupManagerState) {
+    val context = LocalContext.current
     var openDialog by remember { mutableStateOf(false) }
     val updatedHsvColor by remember(state.color) {
         mutableStateOf(HsvColor.from(state.color))
@@ -122,11 +146,33 @@ private fun GroupManagerScreenContent(state: GroupManagerState) {
             )
         }
 
-        PlatoButtonDefault(
-            modifier = Modifier
-                .padding(top = 16.dp),
-            onClick = state.onGroupDone,
-            text = stringResource(id = R.string.create)
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            PlatoButtonDefault(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                onClick = state.onGroupDone,
+                text = state.doneButtonText.asString(context)
+            )
+        }
+    }
+}
+
+@Composable
+@ThemePreviews
+private fun GroupManagerScreenContentPreview() {
+    DocuVaultTheme {
+        GroupManagerScreenContent(
+            state = GroupManagerState(
+                name = "name",
+                color = Color.Blue,
+                setName = { },
+                setColor = {},
+                onGroupDone = {},
+                doneButtonText = NativeText.Resource(R.string.update)
+            )
         )
     }
 }

@@ -9,9 +9,13 @@ android {
 
 dependencies {
     implementation(projects.data.cleanerApi)
+    implementation(projects.data.dbApi)
     implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.feature.docgroup.repoApi)
+    implementation(projects.feature.docgroup.domain)
     implementation(projects.common.async)
     implementation(projects.utils.filesApi)
-    implementation(projects.feature.docs.repoApi)
-    implementation(projects.data.dbApi)
+
+    implementation(libs.timber)
 }

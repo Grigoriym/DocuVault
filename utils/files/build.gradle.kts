@@ -18,6 +18,5 @@ dependencies {
     implementation(projects.feature.docs.domain)
 
     implementation(libs.timber)
-    implementation(libs.androidx.compose.ui)
     testImplementation(libs.robolectric)
 }

@@ -22,8 +22,6 @@ dependencies {
     implementation(libs.androidx.runtime.compose)
     implementation(libs.androidx.viewmodel.compose)
 
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material3)
 
     implementation(libs.androidx.navigation.compose)
