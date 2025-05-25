@@ -1,4 +1,7 @@
 name: Code Analysis
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -19,12 +22,6 @@ jobs:
 
       - name: Decode google-services.json
         run: echo "$GOOGLE_SERVICES_JSON" | base64 --decode > app/google-services.json
-
-      - name: Restore release keystore.jks
-        run: echo $ENCODED_STRING_R | base64 -d > ./release.keystore.jks
-
-      - name: Restore debug keystore.jks
-        run: echo $ENCODED_STRING_D | base64 -d > ./debug.keystore.jks
 
       - name: Run Detekt
         run: ./gradlew detekt
