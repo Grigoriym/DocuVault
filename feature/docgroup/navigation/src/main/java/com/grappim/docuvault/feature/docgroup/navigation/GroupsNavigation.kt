@@ -3,10 +3,10 @@ package com.grappim.docuvault.feature.docgroup.navigation
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.grappim.docuvault.core.navigation.GROUP_IS_FROM_EDIT
-import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
-import com.grappim.docuvault.core.navigation.GroupManagerNavRoute
-import com.grappim.docuvault.core.navigation.GroupsListNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GROUP_IS_FROM_EDIT
+import com.grappim.docuvault.core.navigation.destinations.GroupDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupsListNavRoute
 import com.grappim.docuvault.feature.docgroup.details.GroupDetailsRoute
 import com.grappim.docuvault.feature.docgroup.list.GroupListScreenRoute
 import com.grappim.docuvault.feature.docgroup.manager.GroupManagerScreenRoute

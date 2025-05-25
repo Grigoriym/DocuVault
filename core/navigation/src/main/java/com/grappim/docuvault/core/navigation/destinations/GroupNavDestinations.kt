@@ -1,4 +1,4 @@
-package com.grappim.docuvault.core.navigation
+package com.grappim.docuvault.core.navigation.destinations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions

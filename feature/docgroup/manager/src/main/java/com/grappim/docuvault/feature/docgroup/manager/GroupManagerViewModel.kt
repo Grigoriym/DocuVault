@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.grappim.docuvault.core.navigation.GroupManagerNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
 import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository

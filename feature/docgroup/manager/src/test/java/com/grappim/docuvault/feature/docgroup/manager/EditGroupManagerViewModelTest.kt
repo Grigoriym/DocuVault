@@ -2,7 +2,7 @@ package com.grappim.docuvault.feature.docgroup.manager
 
 import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
-import com.grappim.docuvault.core.navigation.GroupManagerNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
 import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.testing.MainDispatcherRule

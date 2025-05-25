@@ -1,11 +1,10 @@
 package com.grappim.docuvault.core.navigation
 
+import com.grappim.docuvault.core.navigation.destinations.DocDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.DocManagerNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
 import kotlin.reflect.KClass
-
-interface Destination {
-    val title: String
-    val route: KClass<*>
-}
 
 enum class NormalDestination(
     override val title: String,

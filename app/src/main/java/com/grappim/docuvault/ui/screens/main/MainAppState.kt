@@ -12,14 +12,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.grappim.docuvault.core.navigation.Destination
-import com.grappim.docuvault.core.navigation.DocsListNavRoute
 import com.grappim.docuvault.core.navigation.DrawerDestination
 import com.grappim.docuvault.core.navigation.NormalDestination
-import com.grappim.docuvault.core.navigation.navigateToDocManager
-import com.grappim.docuvault.core.navigation.navigateToDocsList
-import com.grappim.docuvault.core.navigation.navigateToGroupManager
-import com.grappim.docuvault.core.navigation.navigateToGroupsList
-import com.grappim.docuvault.core.navigation.navigateToSettings
+import com.grappim.docuvault.core.navigation.destinations.DocsListNavRoute
+import com.grappim.docuvault.core.navigation.destinations.navigateToDocManager
+import com.grappim.docuvault.core.navigation.destinations.navigateToDocsList
+import com.grappim.docuvault.core.navigation.destinations.navigateToGroupManager
+import com.grappim.docuvault.core.navigation.destinations.navigateToGroupsList
+import com.grappim.docuvault.core.navigation.destinations.navigateToSettings
 import com.grappim.docuvault.uikit.widget.PlatoTopAppBarState
 
 @Composable

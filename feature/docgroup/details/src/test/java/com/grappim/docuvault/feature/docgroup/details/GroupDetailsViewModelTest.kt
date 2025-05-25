@@ -1,7 +1,7 @@
 package com.grappim.docuvault.feature.docgroup.details
 
 import androidx.compose.ui.graphics.Color
-import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupDetailsNavRoute
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
