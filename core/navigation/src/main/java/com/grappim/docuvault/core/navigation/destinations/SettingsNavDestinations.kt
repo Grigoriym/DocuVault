@@ -1,4 +1,6 @@
-package com.grappim.docuvault.core.navigation
+@file:Suppress("MatchingDeclarationName")
+
+package com.grappim.docuvault.core.navigation.destinations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions

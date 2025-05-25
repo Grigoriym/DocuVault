@@ -1,7 +1,8 @@
 package com.grappim.docuvault.feature.docgroup.details
 
 import androidx.compose.ui.graphics.Color
-import com.grappim.docuvault.core.navigation.GroupDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupDetailsNavRoute
+import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.domain.Document
@@ -10,8 +11,10 @@ import com.grappim.docuvault.feature.docs.uiapi.DocumentListUI
 import com.grappim.docuvault.testing.MainDispatcherRule
 import com.grappim.docuvault.testing.SavedStateHandleRule
 import com.grappim.docuvault.utils.filesapi.mappers.DocsListUIMapper
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
@@ -32,6 +35,7 @@ class GroupDetailsViewModelTest {
     private val groupRepository = mockk<GroupRepository>()
     private val documentRepository = mockk<DocumentRepository>()
     private val docsListUIMapper = mockk<DocsListUIMapper>()
+    private val dataCleaner = mockk<DataCleaner>()
 
     private lateinit var sut: GroupDetailsViewModel
 
@@ -70,7 +74,8 @@ class GroupDetailsViewModelTest {
             savedStateHandleRule.savedStateHandleMock,
             groupRepository,
             documentRepository,
-            docsListUIMapper
+            docsListUIMapper,
+            dataCleaner
         )
     }
 
@@ -83,5 +88,34 @@ class GroupDetailsViewModelTest {
         val state = sut.viewState.value
         assertEquals(group, state.group)
         assertEquals(uiDocs, state.documents)
+    }
+
+    @Test
+    fun `on showAlertDialog with value should send correct value`() {
+        listOf(true, false).forEach {
+            sut.viewState.value.onShowAlertDialog(it)
+            assertEquals(it, sut.viewState.value.showDeletionDialog)
+        }
+    }
+
+    @Test
+    fun `on onDeleteClicked should set showDeletionDialog to true`() {
+        assert(!sut.viewState.value.showDeletionDialog)
+
+        sut.viewState.value.onDeleteClicked()
+
+        assert(sut.viewState.value.showDeletionDialog)
+    }
+
+    @Test
+    fun `on deletionConfirmed should delete group and update state`() {
+        coEvery { dataCleaner.deleteGroup(groupId) } just Runs
+
+        sut.viewState.value.onDeleteGroupConfirm()
+
+        assert(sut.viewState.value.groupDeleted)
+        assert(!sut.viewState.value.showDeletionDialog)
+
+        coVerify { dataCleaner.deleteGroup(groupId) }
     }
 }

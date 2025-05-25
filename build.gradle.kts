@@ -46,6 +46,7 @@ subprojects {
         allRules = false
     }
 
+    // ./gradlew --continue ktlintCheck
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         android.set(true)
         ignoreFailures.set(false)
@@ -119,25 +120,17 @@ private val coverageExclusions = listOf(
     "**/Values",
     "**/Type",
 
-    "**/LocalDataStorageImpl",
-    "**/TransactionControllerImpl",
-    "**/*AnalyticsControllerImpl",
-    "**/*HateItOrRateItDatabase",
     "**/*LoggerInitializer",
     "**/*DevelopmentTree",
     "**/*ProductionTree",
-    "**/*RootNavDestinations",
-    "**/*HomeNavDestination",
-    "**/*HashUtils",
-    "**/*NavUtils",
-    "**/DebugAnalyticsControllerImpl",
-    "**/RemoteConfigsListenerImpl",
 
     "**/TestUtils",
-    "**/HioriTestRunner",
 
-    "**/NoOp*",
-    "**/AppInfoProviderImpl"
+    "**/*NavDestinations",
+    "**/*Navigation",
+    "**/MainNavHost",
+    "**/*Destination",
+    "**/testing/*"
 ).flatMap {
     listOf(
         "$it.class",

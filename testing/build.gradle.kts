@@ -9,6 +9,11 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docgroup.db)
+
     api(libs.junit4)
     api(libs.kotlinx.coroutines.test)
     api(libs.turbine)

@@ -5,6 +5,9 @@ import androidx.compose.material.icons.filled.Dataset
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.grappim.docuvault.core.navigation.destinations.DocsListNavRoute
+import com.grappim.docuvault.core.navigation.destinations.GroupsListNavRoute
+import com.grappim.docuvault.core.navigation.destinations.SettingsNavRoute
 import kotlin.reflect.KClass
 
 enum class DrawerDestination(

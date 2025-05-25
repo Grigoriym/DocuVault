@@ -1,6 +1,6 @@
 package com.grappim.docuvault.feature.docgroup.repoimpl.mappers
 
-import com.grappim.docuvault.common.async.IoDispatcher
+import com.grappim.docuvault.common.async.DefaultDispatcher
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
 import com.grappim.docuvault.feature.docgroup.domain.Group
@@ -12,18 +12,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GroupMapperImpl @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : GroupMapper {
 
     override suspend fun toGroupList(list: List<GroupWithFieldsEntity>): List<Group> =
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             list.map { groupFieldEntity ->
                 toGroup(groupFieldEntity)
             }
         }
 
     override suspend fun toGroup(groupWithFieldsEntity: GroupWithFieldsEntity): Group =
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             Group(
                 id = groupWithFieldsEntity.groupEntity.groupId,
                 name = groupWithFieldsEntity.groupEntity.name,
@@ -38,7 +38,7 @@ class GroupMapperImpl @Inject constructor(
             )
         }
 
-    override suspend fun toGroupEntity(group: Group): GroupEntity = withContext(ioDispatcher) {
+    override suspend fun toGroupEntity(group: Group): GroupEntity = withContext(dispatcher) {
         GroupEntity(
             groupId = group.id,
             name = group.name,
@@ -47,7 +47,7 @@ class GroupMapperImpl @Inject constructor(
     }
 
     override suspend fun toGroupEntity(groupToCreate: GroupToCreate): GroupEntity =
-        withContext(ioDispatcher) {
+        withContext(dispatcher) {
             GroupEntity(
                 name = groupToCreate.name,
                 color = groupToCreate.color

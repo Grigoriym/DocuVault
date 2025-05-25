@@ -21,7 +21,6 @@ class GroupListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(GroupListState())
-
     val viewState = _viewState.asStateFlow()
 
     init {

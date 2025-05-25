@@ -1,7 +1,7 @@
 package com.grappim.docuvault.feature.docs.repoimpl.mappers
 
 import com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity
-import com.grappim.docuvault.feature.docs.repoimpl.getCreateDocument
+import com.grappim.docuvault.testing.getCreateDocument
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

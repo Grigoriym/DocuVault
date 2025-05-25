@@ -25,9 +25,11 @@ fun PlatoDrawer(
     currentItem: DrawerDestination?,
     onDrawerItemClicked: (DrawerDestination) -> Unit,
     drawerState: DrawerState,
+    gesturesEnabled: Boolean,
     content: @Composable () -> Unit
 ) {
     ModalNavigationDrawer(
+        gesturesEnabled = gesturesEnabled,
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {

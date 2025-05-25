@@ -15,4 +15,6 @@ interface DataCleaner {
     suspend fun deleteBackupFolder(documentFolderName: String)
 
     suspend fun clearAllData()
+
+    suspend fun deleteGroup(groupId: Long, isDeleteDocs: Boolean = true)
 }

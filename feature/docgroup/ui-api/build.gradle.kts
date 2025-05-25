@@ -9,6 +9,4 @@ android {
 
 dependencies {
     implementation(projects.feature.docgroup.domain)
-
-    implementation(libs.androidx.compose.ui)
 }

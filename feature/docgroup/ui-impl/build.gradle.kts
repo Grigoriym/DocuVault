@@ -13,6 +13,4 @@ dependencies {
     implementation(projects.common.async)
     implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.uiApi)
-
-    implementation(libs.androidx.compose.ui)
 }

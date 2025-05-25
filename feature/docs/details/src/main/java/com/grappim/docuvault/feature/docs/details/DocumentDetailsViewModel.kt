@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.grappim.docuvault.core.navigation.DocDetailsNavRoute
+import com.grappim.docuvault.core.navigation.destinations.DocDetailsNavRoute
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import dagger.hilt.android.lifecycle.HiltViewModel

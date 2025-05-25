@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.grappim.docuvault.core.navigation.DocManagerNavRoute
+import com.grappim.docuvault.core.navigation.destinations.DocManagerNavRoute
 import com.grappim.docuvault.data.backupapi.BackupFilesRepository
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository

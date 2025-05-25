@@ -1,12 +1,18 @@
-package com.grappim.docuvault.core.navigation
+package com.grappim.docuvault.core.navigation.destinations
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import kotlinx.serialization.Serializable
 
+const val GROUP_IS_FROM_EDIT = "group_is_from_edit"
+
 @Serializable
-data object GroupManagerNavRoute
+/**
+ * groupId can be null when we create a new group
+ * groupId cannot be null when we edit an existing group
+ */
+data class GroupManagerNavRoute(val groupId: Long? = null)
 
 @Serializable
 data class GroupDetailsNavRoute(val groupId: Long)
@@ -17,8 +23,11 @@ data object GroupsListNavRoute
 fun NavController.navigateToGroupsList(navOptions: NavOptions) =
     navigate(route = GroupsListNavRoute, navOptions)
 
-fun NavController.navigateToGroupManager(navOptions: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(route = GroupManagerNavRoute) { navOptions() }
+fun NavController.navigateToGroupManager(
+    groupId: Long? = null,
+    navOptions: NavOptionsBuilder.() -> Unit = {}
+) {
+    navigate(route = GroupManagerNavRoute(groupId)) { navOptions() }
 }
 
 fun NavController.navigateToGroupDetails(

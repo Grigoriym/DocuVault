@@ -1,8 +1,12 @@
 package com.grappim.docuvault.feature.docgroup.repoimpl.mappers
 
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
+import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
 import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.domain.GroupField
+import com.grappim.docuvault.testing.getGroup
+import com.grappim.docuvault.testing.getGroupToCreate
+import com.grappim.docuvault.testing.getGroupWithFieldsEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -13,6 +17,31 @@ import kotlin.test.assertEquals
 class GroupMapperImplTest {
 
     private val sut = GroupMapperImpl(UnconfinedTestDispatcher())
+
+    @Test
+    fun `to toGroupList should return correct GroupList`() = runTest {
+        val entity = listOf(
+            GroupWithFieldsEntity(
+                groupEntity = GroupEntity(
+                    groupId = 7961,
+                    name = "Florence Conley",
+                    color = "persecuti"
+                ),
+                groupFields = listOf()
+            )
+        )
+        val actual = sut.toGroupList(entity)
+
+        val expected = listOf(
+            Group(
+                id = 7961,
+                name = "Florence Conley",
+                color = "persecuti",
+                fields = emptyList()
+            )
+        )
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun `on toGroup should return correct Group`() = runTest {
