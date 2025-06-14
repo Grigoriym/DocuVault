@@ -13,9 +13,9 @@ dependencies {
     implementation(projects.utils.filesApi)
     implementation(projects.uikit)
     implementation(projects.common.async)
-    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docs.uiApi)
-    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
 
     implementation(libs.timber)
     testImplementation(libs.robolectric)

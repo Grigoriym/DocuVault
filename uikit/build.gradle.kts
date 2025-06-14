@@ -9,13 +9,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docs.uiApi)
     implementation(projects.core.navigation)
 
     implementation(libs.androidx.activity.compose)
-
     implementation(libs.androidx.compose.material3)
-
     implementation(libs.coil)
 }

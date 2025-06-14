@@ -8,6 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.docs.domain)
     implementation(projects.feature.docs.db)
+    implementation(projects.feature.docgroup.repoApi)
 }

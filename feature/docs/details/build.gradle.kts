@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.core.navigation)
     implementation(projects.utils.filesApi)
     implementation(projects.utils.ui)
-    implementation(projects.feature.docs.domain)
+    implementation(projects.utils.androidApi)
     implementation(projects.feature.docs.repoApi)
     implementation(projects.feature.docs.uiApi)
 
@@ -31,4 +31,6 @@ dependencies {
     implementation(libs.compose.color.picker.android)
 
     implementation(libs.timber)
+
+    testImplementation(libs.robolectric)
 }

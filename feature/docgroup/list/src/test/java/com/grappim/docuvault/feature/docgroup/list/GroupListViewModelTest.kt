@@ -1,8 +1,8 @@
 package com.grappim.docuvault.feature.docgroup.list
 
 import androidx.compose.ui.graphics.Color
-import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUIMapper
 import io.mockk.coEvery

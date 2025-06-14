@@ -1,6 +1,7 @@
 package com.grappim.docuvault.ui.screens.main
 
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -49,6 +50,8 @@ private fun MainScreenContent() {
         gesturesEnabled = appState.topAppBarState is PlatoTopAppBarState.WithDrawable
     ) {
         Scaffold(
+            modifier = Modifier
+                .imePadding(),
             topBar = {
                 PlatoTopAppBar(
                     currentTitle = appState.appBarTitle,

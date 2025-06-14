@@ -1,9 +1,9 @@
 package com.grappim.docuvault.feature.docs.repoapi
 
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.Document
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
-import com.grappim.docuvault.feature.docs.domain.DraftDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DraftDocument
 import kotlinx.coroutines.flow.Flow
 
 interface DocumentRepository {

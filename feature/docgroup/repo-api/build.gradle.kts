@@ -8,6 +8,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.db)
 }

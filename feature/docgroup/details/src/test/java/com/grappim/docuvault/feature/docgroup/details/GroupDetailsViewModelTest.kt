@@ -3,10 +3,10 @@ package com.grappim.docuvault.feature.docgroup.details
 import androidx.compose.ui.graphics.Color
 import com.grappim.docuvault.core.navigation.destinations.GroupDetailsNavRoute
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
-import com.grappim.docuvault.feature.docgroup.domain.Group
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
-import com.grappim.docuvault.feature.docs.domain.Document
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
 import com.grappim.docuvault.feature.docs.uiapi.DocumentListUI
 import com.grappim.docuvault.testing.MainDispatcherRule
 import com.grappim.docuvault.testing.SavedStateHandleRule
@@ -59,7 +59,7 @@ class GroupDetailsViewModelTest {
         id = "efficiantur",
         name = "Lynda Park",
         createdDate = "legimus",
-        preview = "legere",
+        preview = listOf("legere"),
         groupColor = Color.Black
     )
     private val uiDocs = listOf(uiDoc)

@@ -1,6 +1,6 @@
 package com.grappim.docuvault.utils.filesapi
 
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 
 interface FilesPersistenceManager {

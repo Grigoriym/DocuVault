@@ -2,9 +2,9 @@ package com.grappim.docuvault.feature.docs.repoimpl.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentFileMapper
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

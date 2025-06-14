@@ -3,6 +3,9 @@
     <string name="save_changes_before_exit">Save the changes before exit?</string>
     <string name="ok">OK</string>
 
+    <string name="name_label">Name</string>
+    <string name="description_label">Description</string>
+
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="files">Files</string>
@@ -10,6 +13,12 @@
     <string name="set_name">Please set a name for a document</string>
     <string name="add_file">Please add a file</string>
     <string name="save">Save</string>
+    <string name="select_group">Select Group</string>
+    <string name="add_from">Add From:</string>
+
+    <string name="create_new_document">Create new document</string>
+    <string name="edit_the_document">Edit the document</string>
+    <string name="files_size">Files: %d</string>
 
     <string name="if_quit_lose_data">Warning: Quitting will result in data loss.</string>
     <string name="if_quit_ensure_saved">Warning: Please ensure you saved the data.</string>

@@ -2,8 +2,8 @@ package com.grappim.docuvault.feature.docs.repoapi.mappers
 
 import com.grappim.docuvault.feature.docs.db.model.DocumentEntity
 import com.grappim.docuvault.feature.docs.db.model.FullDocumentEntity
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.Document
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
 
 interface DocumentMapper {
 

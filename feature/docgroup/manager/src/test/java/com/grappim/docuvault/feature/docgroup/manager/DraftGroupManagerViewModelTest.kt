@@ -3,8 +3,8 @@ package com.grappim.docuvault.feature.docgroup.manager
 import androidx.compose.ui.graphics.Color
 import app.cash.turbine.test
 import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
-import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupToCreate
 import com.grappim.docuvault.testing.MainDispatcherRule
 import com.grappim.docuvault.testing.SavedStateHandleRule
 import com.grappim.docuvault.uikit.theme.Dom_Aero

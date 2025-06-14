@@ -4,15 +4,17 @@ import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import com.grappim.docuvault.utils.filesapi.deletion.FileDeletionUtils
 import com.grappim.docuvault.utils.filesapi.pathmanager.FolderPathManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DataCleanerImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val fileDeletionUtils: FileDeletionUtils,

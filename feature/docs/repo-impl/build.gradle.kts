@@ -9,13 +9,16 @@ android {
 
 dependencies {
     implementation(projects.utils.dateTimeApi)
+    implementation(projects.utils.filesApi)
     implementation(projects.common.async)
 
-    implementation(projects.feature.docs.domain)
     implementation(projects.feature.docs.repoApi)
     implementation(projects.feature.docs.db)
 
     implementation(projects.feature.docgroup.db)
     implementation(projects.feature.docgroup.repoApi)
-    implementation(projects.feature.docgroup.domain)
+
+    implementation(projects.data.dbApi)
+    implementation(projects.data.backupApi)
+    implementation(projects.data.cleanerApi)
 }

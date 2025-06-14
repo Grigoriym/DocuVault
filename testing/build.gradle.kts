@@ -10,9 +10,11 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(projects.feature.docs.repoApi)
-    implementation(projects.feature.docs.domain)
-    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docgroup.db)
+    implementation(projects.feature.docgroup.uiApi)
+    implementation(projects.feature.docs.uiApi)
+    implementation(projects.feature.docs.db)
 
     api(libs.junit4)
     api(libs.kotlinx.coroutines.test)

@@ -11,6 +11,6 @@ android {
 dependencies {
     implementation(projects.uikit)
     implementation(projects.common.async)
-    implementation(projects.feature.docgroup.domain)
+    implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docgroup.uiApi)
 }

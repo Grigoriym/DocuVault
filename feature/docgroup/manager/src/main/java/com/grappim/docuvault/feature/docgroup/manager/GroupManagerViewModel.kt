@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.destinations.GroupManagerNavRoute
-import com.grappim.docuvault.feature.docgroup.domain.Group
-import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupToCreate
 import com.grappim.docuvault.uikit.theme.Dom_Aero
 import com.grappim.docuvault.uikit.utils.ColorUtils
 import com.grappim.docuvault.utils.ui.NativeText
