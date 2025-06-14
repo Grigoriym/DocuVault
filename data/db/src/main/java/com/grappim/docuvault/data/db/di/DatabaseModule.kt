@@ -2,14 +2,11 @@ package com.grappim.docuvault.data.db.di
 
 import android.content.Context
 import androidx.room.Room
-import com.grappim.docuvault.data.backupdb.BackupFilesDao
 import com.grappim.docuvault.data.db.BuildConfig
 import com.grappim.docuvault.data.db.DatabaseWrapperImpl
 import com.grappim.docuvault.data.db.DocuVaultDatabase
 import com.grappim.docuvault.data.db.converters.DateTimeConverter
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
-import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
-import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,17 +30,6 @@ class DatabaseModule {
         .addTypeConverter(dateTimeConverter)
         .createFromAsset("db/docuvault_prepoluate_${BuildConfig.BUILD_TYPE}.db")
         .build()
-
-    @[Provides Singleton]
-    fun provideCategoryDao(databaseWrapper: DatabaseWrapper): GroupsDao = databaseWrapper.groupsDao
-
-    @[Provides Singleton]
-    fun provideDocumentDao(databaseWrapper: DatabaseWrapper): DocumentsDao =
-        databaseWrapper.documentsDao
-
-    @[Provides Singleton]
-    fun provideBackupFilesDao(databaseWrapper: DatabaseWrapper): BackupFilesDao =
-        databaseWrapper.backupFilesDao
 }
 
 @[Module InstallIn(SingletonComponent::class)]

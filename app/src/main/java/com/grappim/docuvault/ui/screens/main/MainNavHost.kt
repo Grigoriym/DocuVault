@@ -42,7 +42,8 @@ fun MainNavHost(
             onDocumentClick = navController::navigateToDocDetails,
             onEditClicked = navController::navigateToDocManager,
             onDocumentDone = ::handleDocBackNavigation,
-            goBackFromDocManager = ::handleDocBackNavigation
+            goBackFromDocManager = ::handleDocBackNavigation,
+            onShowSnackbar = onShowSnackbar
         )
 
         /**

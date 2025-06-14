@@ -56,6 +56,8 @@ dependencies {
     implementation(projects.utils.dateTime)
     implementation(projects.utils.dateTimeApi)
     implementation(projects.utils.ui)
+    implementation(projects.utils.androidApi)
+    implementation(projects.utils.androidImpl)
 
     implementation(projects.data.db)
     implementation(projects.data.dbApi)
@@ -70,7 +72,6 @@ dependencies {
     implementation(projects.feature.docgroup.manager)
     implementation(projects.feature.docgroup.list)
     implementation(projects.feature.docgroup.details)
-    implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docgroup.repoImpl)
     implementation(projects.feature.docgroup.navigation)
@@ -81,12 +82,10 @@ dependencies {
     implementation(projects.feature.docs.manager)
     implementation(projects.feature.docs.list)
     implementation(projects.feature.docs.details)
-    implementation(projects.feature.docs.domain)
     implementation(projects.feature.docs.navigation)
     implementation(projects.feature.docs.repoApi)
     implementation(projects.feature.docs.repoImpl)
     implementation(projects.feature.docs.uiApi)
-    implementation(projects.feature.docs.uiImpl)
 
     implementation(projects.feature.settings.ui)
     implementation(projects.feature.settings.navigation)
@@ -105,7 +104,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
@@ -131,6 +129,6 @@ dependencies {
 }
 
 moduleGraphAssert {
-    maxHeight = 10
+    maxHeight = 6
     assertOnAnyBuild = true
 }

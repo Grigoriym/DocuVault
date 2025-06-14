@@ -1,7 +1,7 @@
 package com.grappim.docuvault.feature.docgroup.uiimpl
 
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.feature.docgroup.domain.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUIMapper
 import com.grappim.docuvault.uikit.utils.ColorUtils

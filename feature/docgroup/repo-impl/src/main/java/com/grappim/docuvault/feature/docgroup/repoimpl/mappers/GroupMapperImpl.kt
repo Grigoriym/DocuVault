@@ -3,10 +3,10 @@ package com.grappim.docuvault.feature.docgroup.repoimpl.mappers
 import com.grappim.docuvault.common.async.DefaultDispatcher
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
-import com.grappim.docuvault.feature.docgroup.domain.Group
-import com.grappim.docuvault.feature.docgroup.domain.GroupField
-import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
 import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupMapper
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupField
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupToCreate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

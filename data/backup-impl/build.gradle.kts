@@ -11,5 +11,6 @@ dependencies {
     implementation(projects.data.backupDb)
     implementation(projects.data.backupApi)
     implementation(projects.common.async)
-    implementation(projects.feature.docs.domain)
+    implementation(projects.feature.docs.repoApi)
+    implementation(projects.data.dbApi)
 }

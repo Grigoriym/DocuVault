@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.destinations.DocDetailsNavRoute
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
+import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
+import com.grappim.docuvault.utils.androidapi.intent.IntentGenerator
 import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +18,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DocumentDetailsViewModel @Inject constructor(
-    private val documentRepository: DocumentRepository,
     savedStateHandle: SavedStateHandle,
-    private val fileDataMapper: FileDataMapper
+    private val documentRepository: DocumentRepository,
+    private val fileDataMapper: FileDataMapper,
+    private val intentGenerator: IntentGenerator
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(
-        DocumentDetailsState(updateProduct = ::updateProduct)
+        DocumentDetailsState(
+            updateProduct = ::updateProduct,
+            onFileClicked = ::onFileClicked
+        )
     )
     val viewState = _viewState.asStateFlow()
 
@@ -41,6 +47,13 @@ class DocumentDetailsViewModel @Inject constructor(
                     files = fileDataMapper.toDocumentFileUiDataList(document.files)
                 )
             }
+        }
+    }
+
+    private fun onFileClicked(file: DocumentFileUI) {
+        val intent = intentGenerator.getOpenFileIntent(file.uri, file.mimeType)
+        _viewState.update {
+            it.copy(openImageIntent = intent)
         }
     }
 

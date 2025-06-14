@@ -3,9 +3,10 @@ package com.grappim.docuvault.testing
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupFieldEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
-import com.grappim.docuvault.feature.docgroup.domain.Group
-import com.grappim.docuvault.feature.docgroup.domain.GroupField
-import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupField
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupToCreate
+import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 
 fun getGroupWithFieldsEntity(): GroupWithFieldsEntity {
     val groupId = getRandomLong()
@@ -53,4 +54,12 @@ fun getGroupEntity(): GroupEntity = GroupEntity(
     groupId = getRandomLong(),
     name = getRandomString(),
     color = getRandomString()
+)
+
+fun getGroupUI(): GroupUI = GroupUI(
+    id = getRandomLong(),
+    name = getRandomString(),
+    fields = listOf(getGroupField(), getGroupField()),
+    color = getRandomColor(),
+    colorString = getRandomString()
 )

@@ -60,6 +60,7 @@ robolectric = "4.14.1"
 
 composeColorPicker = "0.7.0"
 junit = "4.13.2"
+materialVersion = "1.12.0"
 
 [libraries]
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
@@ -98,13 +99,10 @@ androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
-
 androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCore" }
@@ -117,9 +115,6 @@ androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "
 compose-color-picker-android = { module = "com.godaddy.android.colorpicker:compose-color-picker", version.ref = "composeColorPicker" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
-
-google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -146,6 +141,7 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

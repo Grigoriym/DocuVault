@@ -1,8 +1,8 @@
 package com.grappim.docuvault.data.backupimpl
 
 import com.grappim.docuvault.data.backupdb.BackupDocumentFileEntity
-import com.grappim.docuvault.data.backupdb.BackupFilesDao
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.data.dbapi.DatabaseWrapper
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -13,11 +13,11 @@ import kotlin.test.Test
 
 internal class BackupFilesRepositoryImplTest {
 
-    private val backupFilesDao = mockk<BackupFilesDao>()
+    private val databaseWrapper = mockk<DatabaseWrapper>()
     private val backupFileMapper = mockk<BackupFileMapper>()
 
     private val sut = BackupFilesRepositoryImpl(
-        backupFilesDao = backupFilesDao,
+        databaseWrapper = databaseWrapper,
         backupFileMapper = backupFileMapper
     )
 
@@ -73,12 +73,12 @@ internal class BackupFilesRepositoryImplTest {
                 files
             )
         } returns entities
-        coEvery { backupFilesDao.insert(entities) } just Runs
+        coEvery { databaseWrapper.backupFilesDao.insert(entities) } just Runs
 
         sut.insertFiles(documentId, files)
 
         coVerify { backupFileMapper.toBackupDocumentFileDataEntity(documentId, files) }
-        coVerify { backupFilesDao.insert(entities) }
+        coVerify { databaseWrapper.backupFilesDao.insert(entities) }
     }
 
     @Test
@@ -89,31 +89,33 @@ internal class BackupFilesRepositoryImplTest {
                 files
             )
         } returns entities
-        coEvery { backupFilesDao.delete(entities) } just Runs
+        coEvery { databaseWrapper.backupFilesDao.delete(entities) } just Runs
 
         sut.deleteFiles(documentId, files)
 
         coVerify { backupFileMapper.toBackupDocumentFileDataEntity(documentId, files) }
-        coVerify { backupFilesDao.delete(entities) }
+        coVerify { databaseWrapper.backupFilesDao.delete(entities) }
     }
 
     @Test
     fun `on deleteFilesByDocumentId, deletes files in dao`() = runTest {
-        coEvery { backupFilesDao.deleteFilesByDocumentId(documentId) } just Runs
+        coEvery { databaseWrapper.backupFilesDao.deleteFilesByDocumentId(documentId) } just Runs
 
         sut.deleteFilesByDocumentId(documentId)
 
-        coVerify { backupFilesDao.deleteFilesByDocumentId(documentId) }
+        coVerify { databaseWrapper.backupFilesDao.deleteFilesByDocumentId(documentId) }
     }
 
     @Test
     fun `on getAllByDocumentId, maps the files and returns files`() = runTest {
-        coEvery { backupFilesDao.getAllFilesByDocumentId(documentId) } returns entities
+        coEvery {
+            databaseWrapper.backupFilesDao.getAllFilesByDocumentId(documentId)
+        } returns entities
         coEvery { backupFileMapper.toDocumentFileData(entities) } returns files
 
         sut.getAllByDocumentId(documentId)
 
-        coVerify { backupFilesDao.getAllFilesByDocumentId(documentId) }
+        coVerify { databaseWrapper.backupFilesDao.getAllFilesByDocumentId(documentId) }
         coVerify { backupFileMapper.toDocumentFileData(entities) }
     }
 }

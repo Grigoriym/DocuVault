@@ -48,8 +48,6 @@ include(
     ":feature:docs:repo-impl",
     ":feature:docs:repo-api",
     ":feature:docs:navigation",
-    ":feature:docs:domain",
-    ":feature:docs:ui-impl",
     ":feature:docs:ui-api"
 )
 include(
@@ -60,7 +58,6 @@ include(
     ":feature:docgroup:navigation",
     ":feature:docgroup:repo-impl",
     ":feature:docgroup:repo-api",
-    ":feature:docgroup:domain",
     ":feature:docgroup:details",
     ":feature:docgroup:list"
 )
@@ -81,3 +78,5 @@ check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
     https://developer.android.com/build/jdks#jdk-config-in-studio
     """.trimIndent()
 }
+include(":utils:android-api")
+include(":utils:android-impl")

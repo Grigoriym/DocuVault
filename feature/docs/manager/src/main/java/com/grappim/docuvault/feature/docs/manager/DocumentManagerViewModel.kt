@@ -6,18 +6,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grappim.docuvault.core.navigation.destinations.DocManagerNavRoute
-import com.grappim.docuvault.data.backupapi.BackupFilesRepository
 import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUIMapper
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.Document
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.usecase.CancelDocumentChangesData
+import com.grappim.docuvault.feature.docs.repoapi.usecase.CancelEditDocumentChangesUseCase
+import com.grappim.docuvault.feature.docs.repoapi.usecase.EditDocumentFinalizeData
+import com.grappim.docuvault.feature.docs.repoapi.usecase.EditDocumentFinalizeUseCase
+import com.grappim.docuvault.feature.docs.repoapi.usecase.EditDocumentPreparationUseCase
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.filesapi.FilesPersistenceManager
 import com.grappim.docuvault.utils.filesapi.deletion.FileDeletionUtils
-import com.grappim.docuvault.utils.filesapi.docfilemanager.DocumentFileManager
 import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper
 import com.grappim.docuvault.utils.filesapi.models.CameraTakePictureData
 import com.grappim.docuvault.utils.filesapi.urimanager.FileUriManager
@@ -39,11 +41,12 @@ class DocumentManagerViewModel @Inject constructor(
     private val fileUriManager: FileUriManager,
     private val fileDeletionUtils: FileDeletionUtils,
     private val fileDataMapper: FileDataMapper,
-    private val documentFileManager: DocumentFileManager,
-    private val backupFilesRepository: BackupFilesRepository,
     private val filesPersistenceManager: FilesPersistenceManager,
     private val dataCleaner: DataCleaner,
     private val groupUIMapper: GroupUIMapper,
+    private val editDocumentPreparationUseCase: EditDocumentPreparationUseCase,
+    private val editDocumentFinalizeUseCase: EditDocumentFinalizeUseCase,
+    private val cancelEditDocumentChangesUseCase: CancelEditDocumentChangesUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(),
     SnackbarStateViewModel by SnackbarStateViewModelImpl() {
@@ -60,7 +63,8 @@ class DocumentManagerViewModel @Inject constructor(
             onDocumentDone = ::onDocumentDone,
             onQuit = ::onQuit,
             onForceQuit = ::onForceQuit,
-            onShowAlertDialog = ::onShowAlertDialog
+            onShowAlertDialog = ::onShowAlertDialog,
+            setDescription = ::setDescription
         )
     )
     val viewState = _viewState.asStateFlow()
@@ -104,10 +108,11 @@ class DocumentManagerViewModel @Inject constructor(
     private fun prepareDraftDocument() {
         viewModelScope.launch {
             val draftDoc = documentRepository.addDraftDocument()
+            val group = groupUIMapper.toGroupUI(draftDoc.group)
             _viewState.update {
                 it.copy(
                     draftDocument = draftDoc,
-                    selectedGroup = groupUIMapper.toGroupUI(draftDoc.group),
+                    selectedGroup = group,
                     bottomBarButtonText = NativeText.Resource(R.string.create),
                     alertDialogText = NativeText.Resource(R.string.if_quit_lose_data)
                 )
@@ -117,26 +122,20 @@ class DocumentManagerViewModel @Inject constructor(
 
     private fun prepareDocumentToEdit() {
         viewModelScope.launch {
-            val editDocument = documentRepository.getDocumentById(editDocumentIdNotNull)
-
-            documentFileManager.copyToBackupFolder(
-                documentFolderName = editDocument.documentFolderName
-            )
-
-            backupFilesRepository.insertFiles(
-                documentId = editDocumentIdNotNull,
-                files = editDocument.files
-            )
+            val preparedData = editDocumentPreparationUseCase.prepare(editDocumentIdNotNull)
+            val editDocument = preparedData.document
 
             val uiFiles = fileDataMapper.toDocumentFileUiDataList(editDocument.files)
+            val selectedGroup = groupUIMapper.toGroupUI(editDocument.group)
 
             _viewState.update {
                 it.copy(
                     files = uiFiles,
                     documentName = editDocument.name,
+                    documentDescription = editDocument.description,
                     isNewDocument = false,
                     editDocument = editDocument,
-                    selectedGroup = groupUIMapper.toGroupUI(editDocument.group),
+                    selectedGroup = selectedGroup,
                     bottomBarButtonText = NativeText.Resource(R.string.save),
                     alertDialogText = NativeText.Resource(R.string.if_quit_ensure_saved)
                 )
@@ -161,6 +160,12 @@ class DocumentManagerViewModel @Inject constructor(
     private fun setName(name: String) {
         _viewState.update {
             it.copy(documentName = name)
+        }
+    }
+
+    private fun setDescription(description: String) {
+        _viewState.update {
+            it.copy(documentDescription = description)
         }
     }
 
@@ -210,29 +215,6 @@ class DocumentManagerViewModel @Inject constructor(
         }
     }
 
-    private fun saveNewDocument() {
-        viewModelScope.launch {
-            val currentDraft = requireNotNull(_viewState.value.draftDocument)
-            val name = _viewState.value.documentName.trim()
-            val selectedGroup = requireNotNull(_viewState.value.selectedGroup)
-            val files = fileDataMapper.toDocumentFileDataList(_viewState.value.files)
-
-            documentRepository.addDocument(
-                CreateDocument(
-                    id = currentDraft.id,
-                    name = name,
-                    group = groupUIMapper.toGroup(selectedGroup),
-                    files = files,
-                    createdDate = currentDraft.date,
-                    documentFolderName = currentDraft.documentFolderName
-                )
-            )
-            _viewState.update {
-                it.copy(documentSaved = true)
-            }
-        }
-    }
-
     private fun onDocumentDone() {
         viewModelScope.launch {
             when {
@@ -255,6 +237,32 @@ class DocumentManagerViewModel @Inject constructor(
         }
     }
 
+    private fun saveNewDocument() {
+        viewModelScope.launch {
+            val currentDraft = requireNotNull(_viewState.value.draftDocument)
+            val name = _viewState.value.documentName.trim()
+            val description = _viewState.value.documentDescription
+            val selectedGroup = requireNotNull(_viewState.value.selectedGroup)
+            val files = fileDataMapper.toDocumentFileDataList(_viewState.value.files)
+            val group = groupUIMapper.toGroup(selectedGroup)
+
+            documentRepository.addDocument(
+                CreateDocument(
+                    id = currentDraft.id,
+                    name = name,
+                    description = description,
+                    group = group,
+                    files = files,
+                    createdDate = currentDraft.date,
+                    documentFolderName = currentDraft.documentFolderName
+                )
+            )
+            _viewState.update {
+                it.copy(documentSaved = true)
+            }
+        }
+    }
+
     private fun editDocument() {
         viewModelScope.launch {
             val name = _viewState.value.documentName.trim()
@@ -263,26 +271,18 @@ class DocumentManagerViewModel @Inject constructor(
                 .prepareEditedFilesToPersist(_viewState.value.files)
 
             val editProduct = requireNotNull(_viewState.value.editDocument)
-            val document = Document(
-                documentId = editDocumentIdNotNull,
-                name = name,
-                createdDate = editProduct.createdDate,
-                group = groupUIMapper.toGroup(group),
-                files = editedFiles,
-                documentFolderName = editProduct.documentFolderName
-            )
+            val docGroup = groupUIMapper.toGroup(group)
 
-            documentFileManager.moveFromTempToOriginalFolder(documentFolderName)
-            dataCleaner.deleteTempFolder(
-                documentFolderName = documentFolderName
+            editDocumentFinalizeUseCase.finalize(
+                data = EditDocumentFinalizeData(
+                    documentId = editDocumentIdNotNull,
+                    documentFolderName = editProduct.documentFolderName,
+                    editedFiles = editedFiles,
+                    documentName = name,
+                    createdDate = editProduct.createdDate,
+                    group = docGroup
+                )
             )
-
-            dataCleaner.deleteBackupFolder(
-                documentFolderName = documentFolderName
-            )
-            backupFilesRepository.deleteFilesByDocumentId(editDocumentIdNotNull)
-
-            documentRepository.updateDocumentWithFiles(document, editedFiles)
 
             _viewState.update {
                 it.copy(documentSaved = true)
@@ -320,14 +320,12 @@ class DocumentManagerViewModel @Inject constructor(
                     documentFolderName = draftDocument.documentFolderName
                 )
             } else {
-                val initialFiles = backupFilesRepository.getAllByDocumentId(editDocumentIdNotNull)
-                documentRepository.updateFilesInDocument(editDocumentIdNotNull, initialFiles)
-                documentFileManager.moveFromBackupToOriginalFolder(documentFolderName)
-
-                dataCleaner.deleteTempFolder(documentFolderName)
-                dataCleaner.deleteBackupFolder(documentFolderName)
-
-                backupFilesRepository.deleteFilesByDocumentId(editDocumentIdNotNull)
+                cancelEditDocumentChangesUseCase.cancel(
+                    data = CancelDocumentChangesData(
+                        documentId = editDocumentIdNotNull,
+                        documentFolderName = documentFolderName
+                    )
+                )
             }
             _viewState.update { it.copy(quitStatus = QuitStatus.Finish) }
         }

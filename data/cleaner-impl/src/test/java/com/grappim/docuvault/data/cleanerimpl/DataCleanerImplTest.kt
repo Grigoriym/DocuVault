@@ -4,7 +4,7 @@ import com.grappim.docuvault.data.cleanerapi.DataCleaner
 import com.grappim.docuvault.data.dbapi.DatabaseWrapper
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
-import com.grappim.docuvault.testing.getDocumentFileData
+import com.grappim.docuvault.testing.getDocumentFile
 import com.grappim.docuvault.testing.getRandomLong
 import com.grappim.docuvault.testing.getRandomString
 import com.grappim.docuvault.utils.filesapi.deletion.FileDeletionUtils
@@ -90,9 +90,9 @@ internal class DataCleanerImplTest {
         coEvery { documentRepository.deleteDocumentFile(docId, any()) } just Runs
 
         val list = listOf(
-            getDocumentFileData(),
-            getDocumentFileData(),
-            getDocumentFileData()
+            getDocumentFile(),
+            getDocumentFile(),
+            getDocumentFile()
         )
 
         sut.deleteDocumentFiles(

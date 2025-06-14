@@ -24,6 +24,7 @@ data class DocumentEntity(
     @PrimaryKey(autoGenerate = true)
     val documentId: Long = 0,
     val name: String,
+    val description: String = "",
     val createdDate: OffsetDateTime,
     val documentFolderName: String,
     val isCreated: Boolean = false,

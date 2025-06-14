@@ -1,6 +1,6 @@
 package com.grappim.docuvault.feature.docgroup.uiapi
 
-import com.grappim.docuvault.feature.docgroup.domain.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
 
 interface GroupUIMapper {
     suspend fun toGroupUIList(list: List<Group>): List<GroupUI>

@@ -1,6 +1,6 @@
 package com.grappim.docuvault.data.backupapi
 
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 
 interface BackupFilesRepository {
     suspend fun insertFiles(documentId: Long, files: List<DocumentFile>)

@@ -1,8 +1,8 @@
 package com.grappim.docuvault.feature.docs.repoapi.mappers
 
 import com.grappim.docuvault.feature.docs.db.model.DocumentFileEntity
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 
 interface DocumentFileMapper {
     suspend fun toFileDataEntity(createDocument: CreateDocument): List<DocumentFileEntity>
