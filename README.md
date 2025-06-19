@@ -1,6 +1,6 @@
 [![codecov](https://codecov.io/gh/Grigoriym/DocuVault/graph/badge.svg?token=9TCQ43NK9E)](https://codecov.io/gh/Grigoriym/DocuVault)
 
-1) save date in UTC
+1) save date in UTC 
 2) either two primary keys, or date as a primary key
 3) search
 4) https://developer.android.com/training/data-storage/use-cases?utm_source=lint&utm_medium=lint&utm_campaign=lint
