@@ -14,8 +14,9 @@ import com.grappim.docuvault.feature.docs.manager.DocumentManagerRoute
 fun NavGraphBuilder.docsScreen(
     onDocumentClick: (id: Long) -> Unit,
     onEditClicked: (documentId: Long) -> Unit,
-    onDocumentDone: (isNewProduct: Boolean) -> Unit,
-    goBackFromDocManager: (isNewProduct: Boolean) -> Unit
+    onDocumentDone: (isNewDoc: Boolean) -> Unit,
+    goBackFromDocManager: (isNewDoc: Boolean) -> Unit,
+    onShowSnackbar: suspend (String, String?) -> Boolean
 ) {
     composable<DocsListNavRoute> {
         DocsScreen(
@@ -40,7 +41,8 @@ fun NavGraphBuilder.docsScreen(
     composable<DocManagerNavRoute> {
         DocumentManagerRoute(
             onDocumentDone = onDocumentDone,
-            goBack = goBackFromDocManager
+            goBack = goBackFromDocManager,
+            onShowSnackbar = onShowSnackbar
         )
     }
 }

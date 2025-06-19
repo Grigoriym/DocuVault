@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e07dd1a22db4af2cf6a4c0bd79f25ce1",
+    "identityHash": "806d32c2813cfe71f8f59e1ba3cda6b6",
     "entities": [
       {
         "tableName": "group_table",
@@ -32,9 +32,7 @@
           "columnNames": [
             "groupId"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "group_field_table",
@@ -98,7 +96,7 @@
       },
       {
         "tableName": "document_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`documentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `createdDate` TEXT NOT NULL, `documentFolderName` TEXT NOT NULL, `isCreated` INTEGER NOT NULL, `groupId` INTEGER NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `group_table`(`groupId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`documentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `createdDate` TEXT NOT NULL, `documentFolderName` TEXT NOT NULL, `isCreated` INTEGER NOT NULL, `groupId` INTEGER NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `group_table`(`groupId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "documentId",
@@ -109,6 +107,12 @@
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -325,10 +329,9 @@
         ]
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e07dd1a22db4af2cf6a4c0bd79f25ce1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '806d32c2813cfe71f8f59e1ba3cda6b6')"
     ]
   }
 }

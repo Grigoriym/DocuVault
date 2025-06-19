@@ -1,11 +1,11 @@
 package com.grappim.docuvault.feature.docgroup.repoimpl
 
-import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
+import com.grappim.docuvault.data.dbapi.DatabaseWrapper
 import com.grappim.docuvault.feature.docgroup.db.model.GroupFieldEntity
-import com.grappim.docuvault.feature.docgroup.domain.GroupField
 import com.grappim.docuvault.feature.docgroup.repoapi.GroupRepository
 import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupFieldMapper
 import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupMapper
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupField
 import com.grappim.docuvault.testing.getGroup
 import com.grappim.docuvault.testing.getGroupEntity
 import com.grappim.docuvault.testing.getGroupToCreate
@@ -21,12 +21,12 @@ import kotlin.test.Test
 
 class GroupRepositoryImplTest {
 
-    private val groupsDao = mockk<GroupsDao>()
+    private val databaseWrapper = mockk<DatabaseWrapper>()
     private val groupMapper = mockk<GroupMapper>()
     private val groupFieldMapper = mockk<GroupFieldMapper>()
 
     private val sut: GroupRepository = GroupRepositoryImpl(
-        groupsDao = groupsDao,
+        databaseWrapper = databaseWrapper,
         groupMapper = groupMapper,
         groupFieldMapper = groupFieldMapper
     )
@@ -37,19 +37,19 @@ class GroupRepositoryImplTest {
         val groupEntity = getGroupEntity()
 
         coEvery { groupMapper.toGroupEntity(group) } returns groupEntity
-        coEvery { groupsDao.updateGroup(groupEntity) } just Runs
+        coEvery { databaseWrapper.groupsDao.updateGroup(groupEntity) } just Runs
 
         sut.updateGroup(group)
-        coVerify { groupsDao.updateGroup(any()) }
+        coVerify { databaseWrapper.groupsDao.updateGroup(any()) }
     }
 
     @Test
     fun `on deleteGroupById deletes the group`() = runTest {
         val groupId = getRandomLong()
-        coEvery { groupsDao.deleteGroupById(groupId) } just Runs
+        coEvery { databaseWrapper.groupsDao.deleteGroupById(groupId) } just Runs
 
         sut.deleteGroupById(groupId)
-        coVerify { groupsDao.deleteGroupById(groupId) }
+        coVerify { databaseWrapper.groupsDao.deleteGroupById(groupId) }
     }
 
     @Test
@@ -58,11 +58,11 @@ class GroupRepositoryImplTest {
         val groupEntity = getGroupWithFieldsEntity()
         val group = getGroup()
 
-        coEvery { groupsDao.getFullGroupById(groupId) } returns groupEntity
+        coEvery { databaseWrapper.groupsDao.getFullGroupById(groupId) } returns groupEntity
         coEvery { groupMapper.toGroup(groupEntity) } returns group
 
         sut.getGroupById(groupId)
-        coVerify { groupsDao.getFullGroupById(groupId) }
+        coVerify { databaseWrapper.groupsDao.getFullGroupById(groupId) }
         coVerify { groupMapper.toGroup(groupEntity) }
     }
 
@@ -83,12 +83,12 @@ class GroupRepositoryImplTest {
 
         coEvery { groupMapper.toGroupEntity(groupToCreate) } returns groupEntity
         coEvery { groupFieldMapper.toGroupFieldEntityList(groupToCreate.fields) } returns fieldsEntity
-        coEvery { groupsDao.insertGroupAndFields(groupEntity, fieldsEntity) } just Runs
+        coEvery { databaseWrapper.groupsDao.insertGroupAndFields(groupEntity, fieldsEntity) } just Runs
 
         sut.createGroup(groupToCreate)
 
         coVerify { groupMapper.toGroupEntity(groupToCreate) }
         coVerify { groupFieldMapper.toGroupFieldEntityList(groupToCreate.fields) }
-        coVerify { groupsDao.insertGroupAndFields(groupEntity, fieldsEntity) }
+        coVerify { databaseWrapper.groupsDao.insertGroupAndFields(groupEntity, fieldsEntity) }
     }
 }

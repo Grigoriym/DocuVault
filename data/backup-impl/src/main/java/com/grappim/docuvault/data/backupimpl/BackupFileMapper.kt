@@ -2,7 +2,7 @@ package com.grappim.docuvault.data.backupimpl
 
 import com.grappim.docuvault.common.async.IoDispatcher
 import com.grappim.docuvault.data.backupdb.BackupDocumentFileEntity
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

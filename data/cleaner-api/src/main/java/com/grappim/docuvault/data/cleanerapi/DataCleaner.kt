@@ -1,6 +1,6 @@
 package com.grappim.docuvault.data.cleanerapi
 
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 
 interface DataCleaner {
 

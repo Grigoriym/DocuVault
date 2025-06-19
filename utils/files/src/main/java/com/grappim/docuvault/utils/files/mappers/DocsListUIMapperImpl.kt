@@ -1,7 +1,7 @@
 package com.grappim.docuvault.utils.files.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.feature.docs.domain.Document
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
 import com.grappim.docuvault.feature.docs.uiapi.DocumentListUI
 import com.grappim.docuvault.uikit.utils.ColorUtils
 import com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
@@ -19,13 +19,12 @@ class DocsListUIMapperImpl @Inject constructor(
         withContext(ioDispatcher) {
             list.map { document: Document ->
                 val formattedDate = dateTimeUtils.formatToDemonstrate(document.createdDate)
-                val preview = document.files.firstOrNull()?.uriString ?: ""
                 DocumentListUI(
                     id = document.documentId.toString(),
                     name = document.name,
                     createdDate = formattedDate,
                     groupColor = colorUtils.toComposeColor(document.group.color),
-                    preview = preview
+                    preview = document.files.map { it.uriString }
                 )
             }
         }

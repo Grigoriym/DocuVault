@@ -2,14 +2,15 @@ package com.grappim.docuvault.feature.docs.manager
 
 import android.net.Uri
 import com.grappim.docuvault.feature.docgroup.uiapi.GroupUI
-import com.grappim.docuvault.feature.docs.domain.Document
-import com.grappim.docuvault.feature.docs.domain.DraftDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
+import com.grappim.docuvault.feature.docs.repoapi.models.DraftDocument
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.filesapi.models.CameraTakePictureData
 import com.grappim.docuvault.utils.ui.NativeText
 
 data class DocumentManagerState(
     val documentName: String = "",
+    val documentDescription: String = "",
     val isNewDocument: Boolean = true,
     val documentSaved: Boolean = false,
     val files: List<DocumentFileUI> = emptyList(),
@@ -25,6 +26,7 @@ data class DocumentManagerState(
 
     val onGroupSelected: (group: GroupUI) -> Unit,
     val setName: (name: String) -> Unit,
+    val setDescription: (description: String) -> Unit,
 
     val onAddImageFromGalleryClicked: (uri: Uri) -> Unit,
     val onAddCameraPictureClicked: (cameraTakePictureData: CameraTakePictureData) -> Unit,

@@ -2,8 +2,8 @@ package com.grappim.docuvault.feature.docgroup.repoimpl.mappers
 
 import com.grappim.docuvault.feature.docgroup.db.model.GroupEntity
 import com.grappim.docuvault.feature.docgroup.db.model.GroupWithFieldsEntity
-import com.grappim.docuvault.feature.docgroup.domain.Group
-import com.grappim.docuvault.feature.docgroup.domain.GroupField
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupField
 import com.grappim.docuvault.testing.getGroup
 import com.grappim.docuvault.testing.getGroupToCreate
 import com.grappim.docuvault.testing.getGroupWithFieldsEntity

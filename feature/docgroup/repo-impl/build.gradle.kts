@@ -9,7 +9,7 @@ android {
 
 dependencies {
     implementation(projects.common.async)
-    implementation(projects.feature.docgroup.domain)
     implementation(projects.feature.docgroup.repoApi)
     implementation(projects.feature.docgroup.db)
+    implementation(projects.data.dbApi)
 }

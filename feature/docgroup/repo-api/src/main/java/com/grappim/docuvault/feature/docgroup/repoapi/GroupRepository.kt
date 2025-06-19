@@ -1,7 +1,7 @@
 package com.grappim.docuvault.feature.docgroup.repoapi
 
-import com.grappim.docuvault.feature.docgroup.domain.Group
-import com.grappim.docuvault.feature.docgroup.domain.GroupToCreate
+import com.grappim.docuvault.feature.docgroup.repoapi.model.Group
+import com.grappim.docuvault.feature.docgroup.repoapi.model.GroupToCreate
 import kotlinx.coroutines.flow.Flow
 
 interface GroupRepository {

@@ -1,7 +1,7 @@
 package com.grappim.docuvault.utils.files.mappers
 
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
 import com.grappim.docuvault.feature.docs.uiapi.DocumentFileUI
 import com.grappim.docuvault.utils.files.UriParser
 import com.grappim.docuvault.utils.filesapi.mappers.FileDataMapper

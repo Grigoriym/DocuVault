@@ -1,17 +1,16 @@
 package com.grappim.docuvault.feature.docs.repoimpl
 
 import com.grappim.docuvault.common.async.IoDispatcher
-import com.grappim.docuvault.feature.docgroup.db.dao.GroupsDao
+import com.grappim.docuvault.data.dbapi.DatabaseWrapper
 import com.grappim.docuvault.feature.docgroup.repoapi.mappers.GroupMapper
-import com.grappim.docuvault.feature.docs.db.dao.DocumentsDao
 import com.grappim.docuvault.feature.docs.db.model.DocumentEntity
-import com.grappim.docuvault.feature.docs.domain.CreateDocument
-import com.grappim.docuvault.feature.docs.domain.Document
-import com.grappim.docuvault.feature.docs.domain.DocumentFile
-import com.grappim.docuvault.feature.docs.domain.DraftDocument
 import com.grappim.docuvault.feature.docs.repoapi.DocumentRepository
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentFileMapper
 import com.grappim.docuvault.feature.docs.repoapi.mappers.DocumentMapper
+import com.grappim.docuvault.feature.docs.repoapi.models.CreateDocument
+import com.grappim.docuvault.feature.docs.repoapi.models.Document
+import com.grappim.docuvault.feature.docs.repoapi.models.DocumentFile
+import com.grappim.docuvault.feature.docs.repoapi.models.DraftDocument
 import com.grappim.docuvault.utils.datetimeapi.DateTimeUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -24,31 +23,30 @@ import javax.inject.Singleton
 
 @Singleton
 class DocumentRepositoryImpl @Inject constructor(
-    private val documentsDao: DocumentsDao,
     private val dateTimeUtils: DateTimeUtils,
     private val documentMapper: DocumentMapper,
-    private val groupsDao: GroupsDao,
+    private val databaseWrapper: DatabaseWrapper,
     private val groupMapper: GroupMapper,
     private val documentFileMapper: DocumentFileMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : DocumentRepository {
 
     override suspend fun getDocumentById(id: Long): Document =
-        documentMapper.toDocument(documentsDao.getFullDocument(id))
+        documentMapper.toDocument(databaseWrapper.documentsDao.getFullDocument(id))
 
     override suspend fun deleteDocumentFile(documentId: Long, fileName: String) {
-        documentsDao.deleteDocumentFileByIdAndName(documentId, fileName)
+        databaseWrapper.documentsDao.deleteDocumentFileByIdAndName(documentId, fileName)
     }
 
     override suspend fun deleteDocumentById(documentId: Long) {
-        documentsDao.deleteDocumentAndFilesById(documentId)
+        databaseWrapper.documentsDao.deleteDocumentAndFilesById(documentId)
     }
 
     override suspend fun addDraftDocument(): DraftDocument = withContext(ioDispatcher) {
-        val defaultGroup = groupsDao.getFirstGroup()
+        val defaultGroup = databaseWrapper.groupsDao.getFirstGroup()
         val nowDate = dateTimeUtils.getDateTimeUTCNow()
         val folderDate = dateTimeUtils.formatToDocumentFolder(nowDate)
-        val id = documentsDao.insert(
+        val id = databaseWrapper.documentsDao.insert(
             DocumentEntity(
                 name = "",
                 documentFolderName = "",
@@ -57,7 +55,7 @@ class DocumentRepositoryImpl @Inject constructor(
             )
         )
         val folderName = "${id}_$folderDate"
-        documentsDao.updateProductFolderName(folderName, id)
+        databaseWrapper.documentsDao.updateProductFolderName(folderName, id)
         DraftDocument(
             id = id,
             date = nowDate,
@@ -66,26 +64,27 @@ class DocumentRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getAllDocumentsFlow(): Flow<List<Document>> = documentsDao.getFullDocumentsFlow()
-        .map { list -> documentMapper.toDocumentList(list) }
+    override fun getAllDocumentsFlow(): Flow<List<Document>> =
+        databaseWrapper.documentsDao.getFullDocumentsFlow()
+            .map { list -> documentMapper.toDocumentList(list) }
 
     override suspend fun addDocument(createDocument: CreateDocument) {
         val entity = documentMapper.toDocumentEntity(createDocument)
         val list = documentFileMapper.toFileDataEntity(createDocument)
-        documentsDao.updateDocumentAndFiles(
+        databaseWrapper.documentsDao.updateDocumentAndFiles(
             documentEntity = entity,
             list = list
         )
     }
 
     override suspend fun addDocument(document: Document) {
-        documentsDao.insert(documentMapper.toDocumentEntity(document))
+        databaseWrapper.documentsDao.insert(documentMapper.toDocumentEntity(document))
     }
 
     override suspend fun addDocuments(documents: List<Document>): Unit = withContext(ioDispatcher) {
         documents.map { document ->
             async {
-                documentsDao.insertDocumentAndFiles(
+                databaseWrapper.documentsDao.insertDocumentAndFiles(
                     documentEntity = documentMapper.toDocumentEntity(document),
                     list = documentFileMapper.toDocumentFileEntityList(
                         documentId = document.documentId,
@@ -97,7 +96,7 @@ class DocumentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removeDocumentById(id: Long) {
-        documentsDao.deleteDocumentById(id)
+        databaseWrapper.documentsDao.deleteDocumentById(id)
     }
 
     override suspend fun updateDocumentWithFiles(document: Document, files: List<DocumentFile>) {
@@ -106,16 +105,16 @@ class DocumentRepositoryImpl @Inject constructor(
             documentId = document.documentId,
             files = files
         )
-        documentsDao.updateDocumentAndFiles(entity, filesEntities)
+        databaseWrapper.documentsDao.updateDocumentAndFiles(entity, filesEntities)
     }
 
     override suspend fun updateFilesInDocument(documentId: Long, files: List<DocumentFile>) {
         val filesEntities = documentFileMapper.toDocumentFileEntityList(documentId, files)
-        documentsDao.upsertFiles(filesEntities)
+        databaseWrapper.documentsDao.upsertFiles(filesEntities)
     }
 
     override suspend fun getDocumentsByGroupId(groupId: Long): List<Document> {
-        val entities = documentsDao.getDocumentsByGroupId(groupId)
+        val entities = databaseWrapper.documentsDao.getDocumentsByGroupId(groupId)
         return documentMapper.toDocumentList(entities)
     }
 }
